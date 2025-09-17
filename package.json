@@ -1,0 +1,21 @@
+{
+  "name": "dac300-site",
+  "version": "1.0.0",
+  "description": "Basic static website for Cloudflare hosting",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server . -p 8080",
+    "build": "echo 'No build process needed for static site'",
+    "deploy": "echo 'Deploy to Cloudflare Pages'"
+  },
+  "keywords": [
+    "static",
+    "website",
+    "cloudflare"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
