@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npx http-server . -p 8080",
     "build": "echo 'No build process needed for static site'",
-    "deploy": "echo 'Deploy to Cloudflare Pages'"
+    "deploy": "echo 'Static files ready for Cloudflare Pages deployment'"
   },
   "keywords": [
     "static",
