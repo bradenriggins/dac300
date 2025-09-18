@@ -23,7 +23,7 @@
       --border:#e5e7eb;
     }
 
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";}
+    html,body{margin:0;padding:0;background:var(--card);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";}
     .wrap{max-width:980px;margin:32px auto;padding:0 16px 48px;}
 
     h1{font-size:clamp(1.4rem,2.2vw,1.9rem);margin:0 0 6px 0;color:var(--text);letter-spacing:.2px}
@@ -34,14 +34,14 @@
     .rule{border:0;border-top:2px solid var(--blue-2);margin:0 0 12px 0;padding-left:72px}
     .rule.orange{border-top-color:var(--accent-1)}
 
-    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:18px 18px}
+    .card{background:#ffffff;border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:18px 18px}
     .grid{display:grid;gap:14px;margin-top:14px}
 
     .meta{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 0}
     .badge{font-size:.85rem;background:rgba(1,84,158,.08);color:var(--blue-1);border:1px solid rgba(1,84,158,.22);padding:4px 8px;border-radius:999px}
 
     /* Details components (collapsible domains) */
-    details{border:1px solid var(--border);border-radius:12px;background:var(--card)}
+    details{border:1px solid var(--border);border-radius:12px;background:#f8fafc}
     details+details{margin-top:10px}
     summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:10px}
     summary::-webkit-details-marker{display:none}
@@ -71,9 +71,9 @@
     /* Toolbar */
     .toolbar{position:sticky;top:0;background:rgba(248,250,252,.7);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--border);z-index:5}
     .toolbar-inner{max-width:980px;margin:0 auto;padding:8px 16px;display:flex;flex-wrap:wrap;gap:8px}
-    .btn{appearance:none;border:1px solid var(--border);background:#fff;border-radius:999px;padding:8px 12px;font-weight:600;cursor:pointer}
+    .btn{appearance:none;border:1px solid var(--blue-1);background:var(--blue-1);color:#fff;border-radius:999px;padding:8px 12px;font-weight:600;cursor:pointer}
     .btn.primary{background:var(--blue-1);border-color:var(--blue-1);color:#fff}
-    .btn.ghost{background:transparent}
+    .btn.ghost{background:var(--blue-1);border-color:var(--blue-1);color:#fff}
 
     .progress{display:flex;align-items:center;gap:10px;margin-left:auto}
     .bar{width:140px;height:8px;border-radius:999px;background:#e9eff6;overflow:hidden}
@@ -104,14 +104,6 @@
 
   <div class="wrap" role="main">
     <div id="sr-status" class="sr-only" role="status" aria-live="polite"></div>
-    <header class="card">
-      <p class="subtitle">Use this self‑assessment to estimate readiness in <strong>Jurisprudence</strong>, <strong>Infection Control</strong>, and <strong>Radiology</strong> for the Texas RDA exam. Scores are private to you and saved in this browser. Your summary will generate a study focus list.</p>
-      <div class="meta">
-        <span class="badge">Estimated time: ~20 minutes</span>
-        <span class="badge">Saved locally</span>
-        <span class="badge">Accessible keyboard navigation</span>
-      </div>
-    </header>
 
     <div style="display:flex; justify-content:flex-end; align-items:center; gap:10px; margin:12px 0;">
       <button class="btn ghost" id="resetBtn" type="button">Reset</button>
@@ -420,7 +412,7 @@
     </div>
 
     <!-- Summary / Results -->
-    <section class="card summary" id="summary" aria-live="polite" hidden>
+    <section class="card summary" id="summary" aria-live="polite" hidden style="background:#f8fafc">
       <h2>Summary</h2>
       <hr class="rule" />
       <div id="stats" class="grid"></div>
