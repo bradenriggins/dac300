@@ -23,7 +23,7 @@
       --border:#e5e7eb;
     }
 
-    html,body{margin:0;padding:0;background:var(--card);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";}
     .wrap{max-width:980px;margin:32px auto;padding:0 16px 48px;}
 
     h1{font-size:clamp(1.4rem,2.2vw,1.9rem);margin:0 0 6px 0;color:var(--text);letter-spacing:.2px}
@@ -34,14 +34,14 @@
     .rule{border:0;border-top:2px solid var(--blue-2);margin:0 0 12px 0;padding-left:72px}
     .rule.orange{border-top-color:var(--accent-1)}
 
-    .card{background:#ffffff;border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:18px 18px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:18px 18px}
     .grid{display:grid;gap:14px;margin-top:14px}
 
     .meta{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 0}
     .badge{font-size:.85rem;background:rgba(1,84,158,.08);color:var(--blue-1);border:1px solid rgba(1,84,158,.22);padding:4px 8px;border-radius:999px}
 
     /* Details components (collapsible domains) */
-    details{border:1px solid var(--border);border-radius:12px;background:#f8fafc}
+    details{border:1px solid var(--border);border-radius:12px;background:var(--card)}
     details+details{margin-top:10px}
     summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:10px}
     summary::-webkit-details-marker{display:none}
@@ -105,19 +105,18 @@
   <div class="wrap" role="main">
     <div id="sr-status" class="sr-only" role="status" aria-live="polite"></div>
 
-    <div style="display:flex; justify-content:flex-end; align-items:center; gap:10px; margin:12px 0;">
-      <button class="btn ghost" id="resetBtn" type="button">Reset</button>
-      <div class="progress" aria-live="polite">
-        <div class="bar" aria-hidden="true"><span id="barFill"></span></div>
-        <div class="pct" id="pct">0%</div>
-      </div>
-    </div>
-
     <section class="grid" id="formRoot" aria-label="Texas RDA Self‑Assessment">
       <!-- Jurisprudence -->
       <details open>
-        <summary>
+        <summary style="display:flex; justify-content:space-between; align-items:center;">
           <span class="kicker">1) Jurisprudence</span>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button class="btn ghost" id="resetBtn" type="button" style="font-size:0.7rem; padding:2px 6px;">Reset</button>
+            <div class="progress" aria-live="polite">
+              <div class="bar" aria-hidden="true"><span id="barFill"></span></div>
+              <div class="pct" id="pct">0%</div>
+            </div>
+          </div>
         </summary>
         <hr class="summary-rule" />
         <div class="qs">
@@ -412,7 +411,7 @@
     </div>
 
     <!-- Summary / Results -->
-    <section class="card summary" id="summary" aria-live="polite" hidden style="background:#f8fafc">
+    <section class="card summary" id="summary" aria-live="polite" hidden>
       <h2>Summary</h2>
       <hr class="rule" />
       <div id="stats" class="grid"></div>
