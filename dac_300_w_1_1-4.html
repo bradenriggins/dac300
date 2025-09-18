@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>1.2 Readiness Self‑Assessment — Texas RDA Exam</title>
+  <style>
+    /* =========================
+       DAC 111–aligned visual system
+       (colors extracted from exemplar)
+       ========================= */
+    :root{
+      --blue-1:#01549e;      /* headings */
+      --blue-2:#507ABB;      /* dividers */
+      --accent-1:#be5510;    /* secondary hr / emphasis */
+      --accent-2:#cb6015;    
+      --teal:#0093b2;        /* highlights */
+      --note-bg:#fbeeb8;     /* note background */
+      --text:#0f172a;        
+      --muted:#4b5563;
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --border:#e5e7eb;
+    }
+
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";}
+    .wrap{max-width:980px;margin:32px auto;padding:0 16px 48px;}
+
+    h1{font-size:clamp(1.4rem,2.2vw,1.9rem);margin:0 0 6px 0;color:var(--text);letter-spacing:.2px}
+    .subtitle{color:var(--muted);margin:0 0 16px 0}
+
+    /* Section headings match DAC 111: H3 + colored divider */
+    h2{font-size:1.1rem;color:var(--blue-1);margin:24px 0 6px}
+    .rule{border:0;border-top:2px solid var(--blue-2);margin:0 0 12px 0;padding-left:72px}
+    .rule.orange{border-top-color:var(--accent-1)}
+
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.04);padding:18px 18px}
+    .grid{display:grid;gap:14px;margin-top:14px}
+
+    .meta{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 0}
+    .badge{font-size:.85rem;background:rgba(1,84,158,.08);color:var(--blue-1);border:1px solid rgba(1,84,158,.22);padding:4px 8px;border-radius:999px}
+
+    /* Details components (collapsible domains) */
+    details{border:1px solid var(--border);border-radius:12px;background:var(--card)}
+    details+details{margin-top:10px}
+    summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:10px}
+    summary::-webkit-details-marker{display:none}
+    .kicker{font-weight:600;color:var(--blue-1)}
+    .summary-rule{border:0;border-top:2px solid var(--accent-1);margin:0}
+    .summary-rule.orange{border-top-color:var(--accent-1)}
+
+    .qs{padding:12px 16px 16px 16px;border-top:1px solid var(--border);display:grid;gap:12px}
+    .q{display:grid;gap:6px}
+    .q label{font-weight:600}
+
+    /* Likert radios */
+    .likert{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .likert input{position:absolute;opacity:0;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+    .likert label{border:1px solid var(--border);padding:8px 10px;border-radius:10px;cursor:pointer;user-select:none}
+    .likert input:checked + label{border-color:var(--blue-1);box-shadow:0 0 0 3px rgba(1,84,158,.15)}
+    .likert input:focus-visible + label{outline:2px solid var(--blue-2);outline-offset:2px}
+    .pill{font-size:.82rem;color:var(--muted)}
+
+    textarea{width:100%;min-height:68px;border:1px solid var(--border);border-radius:10px;padding:10px;resize:vertical;font:inherit;box-sizing:border-box;max-width:100%}
+
+    /* Accessibility helpers */
+    .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+    .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip-link:focus{left:8px;top:8px;width:auto;height:auto;overflow:visible;background:#ffffff;color:#000;padding:8px 12px;border:1px solid var(--border);border-radius:8px;z-index:1000}
+
+    /* Toolbar */
+    .toolbar{position:sticky;top:0;background:rgba(248,250,252,.7);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--border);z-index:5}
+    .toolbar-inner{max-width:980px;margin:0 auto;padding:8px 16px;display:flex;flex-wrap:wrap;gap:8px}
+    .btn{appearance:none;border:1px solid var(--border);background:#fff;border-radius:999px;padding:8px 12px;font-weight:600;cursor:pointer}
+    .btn.primary{background:var(--blue-1);border-color:var(--blue-1);color:#fff}
+    .btn.ghost{background:transparent}
+
+    .progress{display:flex;align-items:center;gap:10px;margin-left:auto}
+    .bar{width:140px;height:8px;border-radius:999px;background:#e9eff6;overflow:hidden}
+    .bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--blue-2),var(--teal));width:0}
+    .pct{min-width:46px;text-align:right;font-variant-numeric:tabular-nums}
+
+    /* Summary */
+    .summary{margin-top:18px}
+    .summary .stat{display:grid;grid-template-columns:140px 1fr;gap:10px}
+    .scorebar{height:10px;background:#eef2f7;border-radius:999px;overflow:hidden}
+    .scorebar > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent-1),var(--teal));width:0}
+
+    .note{background:var(--note-bg);border:1px solid #f3df93;border-radius:12px;padding:10px 12px}
+
+    .footer{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px}
+
+    /* Responsive */
+    @media (max-width:640px){
+      .summary .stat{grid-template-columns:1fr}
+      .bar{width:120px}
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#formRoot">Skip to assessment</a>
+  </div>
+  </div>
+
+  <div class="wrap" role="main">
+    <div id="sr-status" class="sr-only" role="status" aria-live="polite"></div>
+    <header class="card">
+      <h1>Self-Assessment: Texas RDA Exam Readiness</h1>
+      <p class="subtitle">Use this self‑assessment to estimate readiness in <strong>Jurisprudence</strong>, <strong>Infection Control</strong>, and <strong>Radiology</strong> for the Texas RDA exam. Scores are private to you and saved in this browser. Your summary will generate a study focus list.</p>
+      <div class="meta">
+        <span class="badge">Estimated time: ~20 minutes</span>
+        <span class="badge">Saved locally</span>
+        <span class="badge">Accessible keyboard navigation</span>
+      </div>
+    </header>
+
+    <div style="display:flex; justify-content:flex-end; align-items:center; gap:10px; margin:12px 0;">
+      <button class="btn ghost" id="resetBtn" type="button">Reset</button>
+      <div class="progress" aria-live="polite">
+        <div class="bar" aria-hidden="true"><span id="barFill"></span></div>
+        <div class="pct" id="pct">0%</div>
+      </div>
+    </div>
+
+    <section class="grid" id="formRoot" aria-label="Texas RDA Self‑Assessment">
+      <!-- Jurisprudence -->
+      <details open>
+        <summary>
+          <span class="kicker">1) Jurisprudence</span>
+        </summary>
+        <hr class="summary-rule" />
+        <div class="qs">
+          <div class="q">
+            <label id="d1q1-label" for="d1q1-1">I understand the annual continuing-education requirements and renewal timelines for Texas RDA registration.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d1q1" id="d1q1-1" value="1"><label for="d1q1-1">1</label>
+              <input type="radio" name="d1q1" id="d1q1-2" value="2"><label for="d1q1-2">2</label>
+              <input type="radio" name="d1q1" id="d1q1-3" value="3"><label for="d1q1-3">3</label>
+              <input type="radio" name="d1q1" id="d1q1-4" value="4"><label for="d1q1-4">4</label>
+              <input type="radio" name="d1q1" id="d1q1-5" value="5"><label for="d1q1-5">5</label>
+              <span class="pill">1 = not ready · 5 = confident</span>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d1q2-label" for="d1q2-1">I can identify who may administer deep sedation/general anesthesia in a dental office and the permit/training requirements.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d1q2" id="d1q2-1" value="1"><label for="d1q2-1">1</label>
+              <input type="radio" name="d1q2" id="d1q2-2" value="2"><label for="d1q2-2">2</label>
+              <input type="radio" name="d1q2" id="d1q2-3" value="3"><label for="d1q2-3">3</label>
+              <input type="radio" name="d1q2" id="d1q2-4" value="4"><label for="d1q2-4">4</label>
+              <input type="radio" name="d1q2" id="d1q2-5" value="5"><label for="d1q2-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d1q3-label" for="d1q3-1">I understand the role of the State Board of Dental Examiners (SBDE) in adopting/enforcing rules to protect the public.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d1q3" id="d1q3-1" value="1"><label for="d1q3-1">1</label>
+              <input type="radio" name="d1q3" id="d1q3-2" value="2"><label for="d1q3-2">2</label>
+              <input type="radio" name="d1q3" id="d1q3-3" value="3"><label for="d1q3-3">3</label>
+              <input type="radio" name="d1q3" id="d1q3-4" value="4"><label for="d1q3-4">4</label>
+              <input type="radio" name="d1q3" id="d1q3-5" value="5"><label for="d1q3-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d1q4-label" for="d1q4-1">I can apply confidentiality/privilege concepts for dental records and patient information in practice scenarios.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d1q4" id="d1q4-1" value="1"><label for="d1q4-1">1</label>
+              <input type="radio" name="d1q4" id="d1q4-2" value="2"><label for="d1q4-2">2</label>
+              <input type="radio" name="d1q4" id="d1q4-3" value="3"><label for="d1q4-3">3</label>
+              <input type="radio" name="d1q4" id="d1q4-4" value="4"><label for="d1q4-4">4</label>
+              <input type="radio" name="d1q4" id="d1q4-5" value="5"><label for="d1q4-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d1q5-label" for="d1q5-1">I understand delegation/supervision rules for dental assistants in Texas (what can be delegated and by whom).</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d1q5" id="d1q5-1" value="1"><label for="d1q5-1">1</label>
+              <input type="radio" name="d1q5" id="d1q5-2" value="2"><label for="d1q5-2">2</label>
+              <input type="radio" name="d1q5" id="d1q5-3" value="3"><label for="d1q5-3">3</label>
+              <input type="radio" name="d1q5" id="d1q5-4" value="4"><label for="d1q5-4">4</label>
+              <input type="radio" name="d1q5" id="d1q5-5" value="5"><label for="d1q5-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d1q6-label" for="d1q6-1">I understand the conditions under which a dentist may delegate pit &amp; fissure sealant application to a qualified dental assistant.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d1q6" id="d1q6-1" value="1"><label for="d1q6-1">1</label>
+              <input type="radio" name="d1q6" id="d1q6-2" value="2"><label for="d1q6-2">2</label>
+              <input type="radio" name="d1q6" id="d1q6-3" value="3"><label for="d1q6-3">3</label>
+              <input type="radio" name="d1q6" id="d1q6-4" value="4"><label for="d1q6-4">4</label>
+              <input type="radio" name="d1q6" id="d1q6-5" value="5"><label for="d1q6-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d1q7-label" for="d1q7-1">I understand record retention requirements and renewal responsibilities for RDAs in Texas.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d1q7" id="d1q7-1" value="1"><label for="d1q7-1">1</label>
+              <input type="radio" name="d1q7" id="d1q7-2" value="2"><label for="d1q7-2">2</label>
+              <input type="radio" name="d1q7" id="d1q7-3" value="3"><label for="d1q7-3">3</label>
+              <input type="radio" name="d1q7" id="d1q7-4" value="4"><label for="d1q7-4">4</label>
+              <input type="radio" name="d1q7" id="d1q7-5" value="5"><label for="d1q7-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d1q8-label" for="d1q8-1">I can recognize unprofessional conduct and prohibited advertising/solicitation examples.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d1q8" id="d1q8-1" value="1"><label for="d1q8-1">1</label>
+              <input type="radio" name="d1q8" id="d1q8-2" value="2"><label for="d1q8-2">2</label>
+              <input type="radio" name="d1q8" id="d1q8-3" value="3"><label for="d1q8-3">3</label>
+              <input type="radio" name="d1q8" id="d1q8-4" value="4"><label for="d1q8-4">4</label>
+              <input type="radio" name="d1q8" id="d1q8-5" value="5"><label for="d1q8-5">5</label>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Infection Control -->
+      <details open>
+        <summary>
+          <span class="kicker">2) Infection Control</span>
+        </summary>
+        <hr class="summary-rule" />
+        <div class="qs">
+          <div class="q">
+            <label id="d2q1-label" for="d2q1-1">I can flush high-speed handpieces between patients for an appropriate duration.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d2q1" id="d2q1-1" value="1"><label for="d2q1-1">1</label>
+              <input type="radio" name="d2q1" id="d2q1-2" value="2"><label for="d2q1-2">2</label>
+              <input type="radio" name="d2q1" id="d2q1-3" value="3"><label for="d2q1-3">3</label>
+              <input type="radio" name="d2q1" id="d2q1-4" value="4"><label for="d2q1-4">4</label>
+              <input type="radio" name="d2q1" id="d2q1-5" value="5"><label for="d2q1-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d2q2-label" for="d2q2-1">I can select proper sharps container characteristics (color, labeling, puncture-resistant, closable).</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d2q2" id="d2q2-1" value="1"><label for="d2q2-1">1</label>
+              <input type="radio" name="d2q2" id="d2q2-2" value="2"><label for="d2q2-2">2</label>
+              <input type="radio" name="d2q2" id="d2q2-3" value="3"><label for="d2q2-3">3</label>
+              <input type="radio" name="d2q2" id="d2q2-4" value="4"><label for="d2q2-4">4</label>
+              <input type="radio" name="d2q2" id="d2q2-5" value="5"><label for="d2q2-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d2q3-label" for="d2q3-1">I can use one-handed scoop or approved recapping device to prevent needlesticks.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d2q3" id="d2q3-1" value="1"><label for="d2q3-1">1</label>
+              <input type="radio" name="d2q3" id="d2q3-2" value="2"><label for="d2q3-2">2</label>
+              <input type="radio" name="d2q3" id="d2q3-3" value="3"><label for="d2q3-3">3</label>
+              <input type="radio" name="d2q3" id="d2q3-4" value="4"><label for="d2q3-4">4</label>
+              <input type="radio" name="d2q3" id="d2q3-5" value="5"><label for="d2q3-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d2q4-label" for="d2q4-1">I avoid topping off bulk soap dispensers to prevent contamination and follow hand hygiene best practices.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d2q4" id="d2q4-1" value="1"><label for="d2q4-1">1</label>
+              <input type="radio" name="d2q4" id="d2q4-2" value="2"><label for="d2q4-2">2</label>
+              <input type="radio" name="d2q4" id="d2q4-3" value="3"><label for="d2q4-3">3</label>
+              <input type="radio" name="d2q4" id="d2q4-4" value="4"><label for="d2q4-4">4</label>
+              <input type="radio" name="d2q4" id="d2q4-5" value="5"><label for="d2q4-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d2q5-label" for="d2q5-1">I can select appropriate sterilization methods (steam, chemical vapor, dry heat) and indicators for different instruments.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d2q5" id="d2q5-1" value="1"><label for="d2q5-1">1</label>
+              <input type="radio" name="d2q5" id="d2q5-2" value="2"><label for="d2q5-2">2</label>
+              <input type="radio" name="d2q5" id="d2q5-3" value="3"><label for="d2q5-3">3</label>
+              <input type="radio" name="d2q5" id="d2q5-4" value="4"><label for="d2q5-4">4</label>
+              <input type="radio" name="d2q5" id="d2q5-5" value="5"><label for="d2q5-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d2q6-label" for="d2q6-1">I can avoid common sterilization failures (improper wrapping/overloading, inadequate cycle parameters).</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d2q6" id="d2q6-1" value="1"><label for="d2q6-1">1</label>
+              <input type="radio" name="d2q6" id="d2q6-2" value="2"><label for="d2q6-2">2</label>
+              <input type="radio" name="d2q6" id="d2q6-3" value="3"><label for="d2q6-3">3</label>
+              <input type="radio" name="d2q6" id="d2q6-4" value="4"><label for="d2q6-4">4</label>
+              <input type="radio" name="d2q6" id="d2q6-5" value="5"><label for="d2q6-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d2q7-label" for="d2q7-1">I can differentiate disinfection vs. sterilization and apply the unit-dose concept.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d2q7" id="d2q7-1" value="1"><label for="d2q7-1">1</label>
+              <input type="radio" name="d2q7" id="d2q7-2" value="2"><label for="d2q7-2">2</label>
+              <input type="radio" name="d2q7" id="d2q7-3" value="3"><label for="d2q7-3">3</label>
+              <input type="radio" name="d2q7" id="d2q7-4" value="4"><label for="d2q7-4">4</label>
+              <input type="radio" name="d2q7" id="d2q7-5" value="5"><label for="d2q7-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d2q8-label" for="d2q8-1">I can use adequate ventilation for chemical vapor sterilization and a hub-clamping device for needle removal.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d2q8" id="d2q8-1" value="1"><label for="d2q8-1">1</label>
+              <input type="radio" name="d2q8" id="d2q8-2" value="2"><label for="d2q8-2">2</label>
+              <input type="radio" name="d2q8" id="d2q8-3" value="3"><label for="d2q8-3">3</label>
+              <input type="radio" name="d2q8" id="d2q8-4" value="4"><label for="d2q8-4">4</label>
+              <input type="radio" name="d2q8" id="d2q8-5" value="5"><label for="d2q8-5">5</label>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Radiology -->
+      <details open>
+        <summary>
+          <span class="kicker">3) Radiology</span>
+        </summary>
+        <hr class="summary-rule" />
+        <div class="qs">
+          <div class="q">
+            <label id="d3q1-label" for="d3q1-1">I can explain how X-rays are produced at the anode/target and the role of kVp, mA, and exposure time.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d3q1" id="d3q1-1" value="1"><label for="d3q1-1">1</label>
+              <input type="radio" name="d3q1" id="d3q1-2" value="2"><label for="d3q1-2">2</label>
+              <input type="radio" name="d3q1" id="d3q1-3" value="3"><label for="d3q1-3">3</label>
+              <input type="radio" name="d3q1" id="d3q1-4" value="4"><label for="d3q1-4">4</label>
+              <input type="radio" name="d3q1" id="d3q1-5" value="5"><label for="d3q1-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d3q2-label" for="d3q2-1">I can differentiate panoramic beam geometry (narrow slit) from intraoral exposures and select appropriate techniques.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d3q2" id="d3q2-1" value="1"><label for="d3q2-1">1</label>
+              <input type="radio" name="d3q2" id="d3q2-2" value="2"><label for="d3q2-2">2</label>
+              <input type="radio" name="d3q2" id="d3q2-3" value="3"><label for="d3q2-3">3</label>
+              <input type="radio" name="d3q2" id="d3q2-4" value="4"><label for="d3q2-4">4</label>
+              <input type="radio" name="d3q2" id="d3q2-5" value="5"><label for="d3q2-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d3q3-label" for="d3q3-1">I can choose correct receptor/views for occlusal, bitewing, periapical, and panoramic imaging.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d3q3" id="d3q3-1" value="1"><label for="d3q3-1">1</label>
+              <input type="radio" name="d3q3" id="d3q3-2" value="2"><label for="d3q3-2">2</label>
+              <input type="radio" name="d3q3" id="d3q3-3" value="3"><label for="d3q3-3">3</label>
+              <input type="radio" name="d3q3" id="d3q3-4" value="4"><label for="d3q3-4">4</label>
+              <input type="radio" name="d3q3" id="d3q3-5" value="5"><label for="d3q3-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d3q4-label" for="d3q4-1">I can identify and correct common errors (cone-cut, overlapping, elongation/foreshortening).</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d3q4" id="d3q4-1" value="1"><label for="d3q4-1">1</label>
+              <input type="radio" name="d3q4" id="d3q4-2" value="2"><label for="d3q4-2">2</label>
+              <input type="radio" name="d3q4" id="d3q4-3" value="3"><label for="d3q4-3">3</label>
+              <input type="radio" name="d3q4" id="d3q4-4" value="4"><label for="d3q4-4">4</label>
+              <input type="radio" name="d3q4" id="d3q4-5" value="5"><label for="d3q4-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d3q5-label" for="d3q5-1">I can distinguish radiopaque vs. radiolucent structures on images (e.g., enamel vs. pulp; sinus/foramen appearances).</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d3q5" id="d3q5-1" value="1"><label for="d3q5-1">1</label>
+              <input type="radio" name="d3q5" id="d3q5-2" value="2"><label for="d3q5-2">2</label>
+              <input type="radio" name="d3q5" id="d3q5-3" value="3"><label for="d3q5-3">3</label>
+              <input type="radio" name="d3q5" id="d3q5-4" value="4"><label for="d3q5-4">4</label>
+              <input type="radio" name="d3q5" id="d3q5-5" value="5"><label for="d3q5-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d3q6-label" for="d3q6-1">I can apply manual processing parameters and the time-temperature concept correctly.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d3q6" id="d3q6-1" value="1"><label for="d3q6-1">1</label>
+              <input type="radio" name="d3q6" id="d3q6-2" value="2"><label for="d3q6-2">2</label>
+              <input type="radio" name="d3q6" id="d3q6-3" value="3"><label for="d3q6-3">3</label>
+              <input type="radio" name="d3q6" id="d3q6-4" value="4"><label for="d3q6-4">4</label>
+              <input type="radio" name="d3q6" id="d3q6-5" value="5"><label for="d3q6-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d3q7-label" for="d3q7-1">I understand wavelength, contrast, and image quality relationships.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d3q7" id="d3q7-1" value="1"><label for="d3q7-1">1</label>
+              <input type="radio" name="d3q7" id="d3q7-2" value="2"><label for="d3q7-2">2</label>
+              <input type="radio" name="d3q7" id="d3q7-3" value="3"><label for="d3q7-3">3</label>
+              <input type="radio" name="d3q7" id="d3q7-4" value="4"><label for="d3q7-4">4</label>
+              <input type="radio" name="d3q7" id="d3q7-5" value="5"><label for="d3q7-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d3q8-label" for="d3q8-1">I can apply ALARA, appropriate filtration (aluminum filter), and thyroid-collar use when indicated.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d3q8" id="d3q8-1" value="1"><label for="d3q8-1">1</label>
+              <input type="radio" name="d3q8" id="d3q8-2" value="2"><label for="d3q8-2">2</label>
+              <input type="radio" name="d3q8" id="d3q8-3" value="3"><label for="d3q8-3">3</label>
+              <input type="radio" name="d3q8" id="d3q8-4" value="4"><label for="d3q8-4">4</label>
+              <input type="radio" name="d3q8" id="d3q8-5" value="5"><label for="d3q8-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d3q9-label" for="d3q9-1">I follow operator protection practices (distance/barrier; never hold the film or tubehead).</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d3q9" id="d3q9-1" value="1"><label for="d3q9-1">1</label>
+              <input type="radio" name="d3q9" id="d3q9-2" value="2"><label for="d3q9-2">2</label>
+              <input type="radio" name="d3q9" id="d3q9-3" value="3"><label for="d3q9-3">3</label>
+              <input type="radio" name="d3q9" id="d3q9-4" value="4"><label for="d3q9-4">4</label>
+              <input type="radio" name="d3q9" id="d3q9-5" value="5"><label for="d3q9-5">5</label>
+            </div>
+          </div>
+          <div class="q">
+            <label id="d3q10-label" for="d3q10-1">I understand digital imaging system advantages and can recognize common processing/handling artifacts.</label>
+            <div class="likert" role="radiogroup" aria-label="Confidence from 1 (not ready) to 5 (confident)">
+              <input type="radio" name="d3q10" id="d3q10-1" value="1"><label for="d3q10-1">1</label>
+              <input type="radio" name="d3q10" id="d3q10-2" value="2"><label for="d3q10-2">2</label>
+              <input type="radio" name="d3q10" id="d3q10-3" value="3"><label for="d3q10-3">3</label>
+              <input type="radio" name="d3q10" id="d3q10-4" value="4"><label for="d3q10-4">4</label>
+              <input type="radio" name="d3q10" id="d3q10-5" value="5"><label for="d3q10-5">5</label>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- Bottom action: duplicate View Summary to avoid scrolling up -->
+    <div class="footer" style="justify-content:center">
+      <button class="btn primary" id="viewSummaryBtnBottom" type="button" aria-controls="summary" style="font-size:1.1rem; padding:12px 24px;">View Summary</button>
+    </div>
+
+    <!-- Summary / Results -->
+    <section class="card summary" id="summary" aria-live="polite" hidden>
+      <h2>Summary</h2>
+      <hr class="rule" />
+      <div id="stats" class="grid"></div>
+      <div class="note" style="margin-top:12px">
+        <strong>Tip:</strong> Focus first on domains with average scores below 3.0. Build short, targeted practice blocks alongside externship tasks.
+      </div>
+      <div id="plan" style="margin-top:10px"></div>
+    </section>
+
+  </div>
+
+  <script>
+    /* =========================
+       State & persistence
+       ========================= */
+    const KEY = 'dac300-tx-rda-12-v2';
+    const domains = [
+      { id:'d1', name:'Jurisprudence' },
+      { id:'d2', name:'Infection Control' },
+      { id:'d3', name:'Radiology' }
+    ];
+    const qCounts = { d1: 8, d2: 8, d3: 10 };
+
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+    function save(){
+      const data = {};
+      domains.forEach(d => {
+        data[d.id] = {
+          q: Array.from({length: qCounts[d.id]}, (_,i)=>i+1).map(n => {
+            const v = $$(`input[name="${d.id}q${n}"]:checked`)[0]?.value || '';
+            return v;
+          }),
+          n: $(`#${d.id}n`)?.value || ''
+        };
+      });
+      localStorage.setItem(KEY, JSON.stringify(data));
+      return data;
+    }
+
+    function load(){
+      try{
+        const data = JSON.parse(localStorage.getItem(KEY) || '{}');
+        domains.forEach(d => {
+          if(!data[d.id]) return;
+          (data[d.id].q||[]).forEach((v,idx)=>{
+            if(v){
+              const r = document.getElementById(`${d.id}q${idx+1}-${v}`);
+              if(r) r.checked = true;
+            }
+          })
+          if(data[d.id].n && document.getElementById(`${d.id}n`)){
+            document.getElementById(`${d.id}n`).value = data[d.id].n;
+          }
+        });
+      }catch(e){}
+    }
+
+    function calc(){
+      const stats = [];
+      let answered = 0, total = 0;
+      domains.forEach(d => {
+        const vals = [];
+        Array.from({length: qCounts[d.id]}, (_,i)=>i+1).forEach(n => {
+          const el = $$(`input[name="${d.id}q${n}"]:checked`)[0];
+          if(el){
+            vals.push(Number(el.value));
+            answered++;
+          }
+          total++;
+        })
+        const avg = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length) : 0;
+        stats.push({ id:d.id, name:d.name, avg:avg });
+      });
+      return { stats, answered, total };
+    }
+
+    function renderProgress(){
+      const {answered,total} = calc();
+      const pctRaw = total ? Math.round((answered/total)*100) : 0;
+      const pct = Math.max(0, Math.min(100, pctRaw));
+      $('#pct').textContent = pct + '%';
+      $('#barFill').style.width = pct + '%';
+    }
+
+    function band(avg){
+      if(avg === 0) return {label:'No data', color:'#cbd5e1'};
+      if(avg < 2.5) return {label:'Focus', color: getComputedStyle(document.documentElement).getPropertyValue('--accent-1') };
+      if(avg < 3.5) return {label:'Reinforce', color: getComputedStyle(document.documentElement).getPropertyValue('--blue-2') };
+      return {label:'Strength', color: getComputedStyle(document.documentElement).getPropertyValue('--teal') };
+    }
+
+    function renderSummary(){
+      const {stats} = calc();
+      const box = $('#stats');
+      box.innerHTML = '';
+      stats.forEach(s => {
+        const b = band(s.avg);
+        const pct = Math.round((s.avg/5)*100);
+        const row = document.createElement('div');
+        row.className = 'card';
+        row.innerHTML = `
+          <div class="stat">
+            <div><strong>${s.name}</strong><div class="pill">${s.avg ? s.avg.toFixed(2)+'/5 · '+b.label : '—'}</div></div>
+            <div>
+              <div class="scorebar"><span style="width:${pct}%"></span></div>
+            </div>
+          </div>
+        `;
+        box.appendChild(row);
+      });
+      $('#summary').hidden = false;
+      
+      // Auto-generate study focus
+      genPlan();
+      
+      // Add Export button next to the "Suggested Study Focus" heading
+      const planEl = $('#plan');
+      if(planEl && planEl.innerHTML.trim() !== '') {
+        // Find the h2 heading and modify it to include the export button
+        const h2Element = planEl.querySelector('h2');
+        if(h2Element) {
+          const headerDiv = document.createElement('div');
+          headerDiv.style.display = 'flex';
+          headerDiv.style.alignItems = 'center';
+          headerDiv.style.gap = '12px';
+          headerDiv.style.marginBottom = '6px';
+          
+          const newH2 = document.createElement('h2');
+          newH2.textContent = 'Suggested Study Focus';
+          newH2.style.margin = '0';
+          
+          const exportBtn = document.createElement('button');
+          exportBtn.className = 'btn primary';
+          exportBtn.type = 'button';
+          exportBtn.id = 'exportBtn';
+          exportBtn.textContent = 'Export Study Focus';
+          exportBtn.style.fontSize = '0.65rem';
+          exportBtn.style.padding = '3px 6px';
+          
+          headerDiv.appendChild(newH2);
+          headerDiv.appendChild(exportBtn);
+          
+          // Replace the h2 with our new header div
+          h2Element.parentNode.replaceChild(headerDiv, h2Element);
+          
+          // Add event listener for export button
+          exportBtn.addEventListener('click', exportStudyFocusRTF);
+          exportBtn.addEventListener('click', ()=>{ $('#sr-status').textContent='Study focus exported to RTF'; });
+        }
+      }
+      
+      window.scrollTo({top: $('#summary').offsetTop - 12, behavior:'smooth'});
+    }
+
+    function genPlan(){
+      const data = JSON.parse(localStorage.getItem(KEY) || '{}');
+      const planEl = $('#plan');
+      const results = [];
+
+      // Build per-domain detail with question-level scores and texts
+      domains.forEach(d => {
+        const scores = [];
+        const qTotal = qCounts[d.id];
+        for(let i=1;i<=qTotal;i++){
+          const val = Number(data[d.id]?.q?.[i-1] || 0);
+          const labelEl = document.getElementById(`${d.id}q${i}-label`);
+          const text = labelEl ? labelEl.textContent.trim() : `Question ${i}`;
+          if(val>0){ scores.push({ i, val, text }); }
+        }
+        const avg = scores.length ? scores.reduce((a,b)=>a+b.val,0)/scores.length : 0;
+        // sort low→high to surface weakest items first
+        scores.sort((a,b)=> (a.val-b.val) || (a.i-b.i));
+        results.push({ id:d.id, name:d.name, avg, scores, answered: scores.length, total:qTotal });
+      });
+
+      // Filter out domains with no answers
+      const answeredDomains = results.filter(r=>r.answered>0);
+      if(!answeredDomains.length){
+        planEl.innerHTML = '<p class="subtitle">Answer a few items to generate a personalized focus list.</p>';
+        return;
+      }
+
+      // Sort domains by average (lowest first)
+      answeredDomains.sort((a,b)=> (a.avg-b.avg));
+
+      // Build HTML: top 3 domains (or fewer), include their 2–3 lowest items
+      const blocks = answeredDomains.slice(0,3).map((d,idx)=>{
+        const take = Math.min(3, d.scores.length);
+        const items = d.scores.slice(0,take).map(s=>`<li>${s.text} <span class="pill">(${s.val}/5)</span></li>`).join('');
+        const avgPct = d.avg ? d.avg.toFixed(2) : '—';
+        // tailored nudges by domain
+        const nudge = d.id==='d2' ? 'Pair each item with a quick operatory routine to reinforce infection‑control habits.'
+                    : d.id==='d3' ? 'Schedule two short imaging practice blocks (positioning + error‑fix drills).'
+                    : 'Review Texas rules in context (scope, delegation, records) and jot two scenario examples.';
+        return `
+          <div class="card">
+            <h3 style="color: var(--blue-1); margin:0 0 6px">${idx+1}. ${d.name}</h3>
+            <hr class="rule orange" />
+            <p class="pill">Average: ${avgPct}/5 · Answered ${d.answered}/${d.total}</p>
+            <ol>${items}</ol>
+            <p class="subtitle" style="margin-top:6px">${nudge}</p>
+          </div>
+        `;
+      }).join('');
+
+      // Also surface the single lowest items overall (optional, up to 5)
+      const all = [];
+      results.forEach(d=> d.scores.forEach(s=> all.push({domain:d.name, id:d.id, ...s})));
+      all.sort((a,b)=> (a.val-b.val) || (a.id.localeCompare(b.id)) || (a.i-b.i));
+      const bottom = all.slice(0, Math.min(5, all.length));
+      const bottomList = bottom.length ? `<div class="card"><h3 style="color: var(--blue-1); margin:0 0 6px">Lowest Items Overall</h3><hr class="rule orange" /><ul>` +
+        bottom.map(x=>`<li><strong>${x.domain}</strong>: ${x.text} <span class="pill">(${x.val}/5)</span></li>`).join('') + '</ul></div>' : '';
+
+      planEl.innerHTML = `
+        <h2>Suggested Study Focus</h2>
+        <hr class="rule orange" />
+        <div class="grid">${blocks}${bottomList}</div>
+      `;
+    }
+
+    function toCSV(){
+      const data = JSON.parse(localStorage.getItem(KEY) || '{}');
+      const {stats} = calc();
+      const rows = [['Domain','Question','Score','Notes']];
+      domains.forEach(d=>{
+        Array.from({length: qCounts[d.id]}, (_,i)=>i+1).forEach(n=>{
+          const score = data[d.id]?.q?.[n-1] || '';
+          rows.push([d.name, `Q${n}`, score, (data[d.id]?.n||'').replace(/\n/g,' ') ]);
+        })
+      })
+      rows.push([]);
+      stats.forEach(s=>rows.push(['Average', s.name, s.avg ? s.avg.toFixed(2) : '', '']))
+      return rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');
+    }
+
+    function downloadCSV(){
+      const csv = toCSV();
+      const blob = new Blob([csv], {type:'text/csv'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'DAC300_W1_Texas_RDA_SelfAssessment.csv';
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+
+    function exportStudyFocusRTF(){
+      const planEl = $('#plan');
+      if(!planEl || planEl.innerHTML.trim() === '') {
+        alert('Please generate a study focus first.');
+        return;
+      }
+
+      // Create RTF content with proper formatting
+      let rtfContent = `{\\rtf1\\ansi\\deff0 {\\fonttbl {\\f0 Times New Roman;}}`;
+      rtfContent += `\\f0\\fs24 `;
+      
+      // Title
+      rtfContent += `{\\b\\fs28 Texas RDA Exam - Suggested Study Focus}\\par\\par`;
+      
+      // Get the current date
+      const today = new Date().toLocaleDateString();
+      rtfContent += `Generated: ${today}\\par\\par`;
+
+      // Parse the plan content
+      const data = JSON.parse(localStorage.getItem(KEY) || '{}');
+      const results = [];
+      
+      domains.forEach(d => {
+        const scores = [];
+        const qTotal = qCounts[d.id];
+        for(let i=1;i<=qTotal;i++){
+          const val = Number(data[d.id]?.q?.[i-1] || 0);
+          const labelEl = document.getElementById(`${d.id}q${i}-label`);
+          const text = labelEl ? labelEl.textContent.trim() : `Question ${i}`;
+          if(val>0){ scores.push({ i, val, text }); }
+        }
+        const avg = scores.length ? scores.reduce((a,b)=>a+b.val,0)/scores.length : 0;
+        scores.sort((a,b)=> (a.val-b.val) || (a.i-b.i));
+        results.push({ id:d.id, name:d.name, avg, scores, answered: scores.length, total:qTotal });
+      });
+
+      const answeredDomains = results.filter(r=>r.answered>0);
+      if(!answeredDomains.length) return;
+
+      answeredDomains.sort((a,b)=> (a.avg-b.avg));
+
+      // Add priority domains
+      answeredDomains.slice(0,3).forEach((d,idx)=>{
+        rtfContent += `{\\b\\fs26 ${idx+1}. ${d.name}}\\par`;
+        rtfContent += `Average Score: ${d.avg.toFixed(2)}/5 \\u8226? Answered ${d.answered}/${d.total}\\par\\par`;
+        
+        const take = Math.min(3, d.scores.length);
+        rtfContent += `{\\b Focus Areas:}\\par`;
+        d.scores.slice(0,take).forEach((s,i)=>{
+          rtfContent += `${i+1}. ${s.text} (${s.val}/5)\\par`;
+        });
+        
+        // Add study suggestions
+        const nudge = d.id==='d2' ? 'Pair each item with a quick operatory routine to reinforce infection-control habits.'
+                    : d.id==='d3' ? 'Schedule two short imaging practice blocks (positioning + error-fix drills).'
+                    : 'Review Texas rules in context (scope, delegation, records) and jot two scenario examples.';
+        rtfContent += `\\par{\\i Study Suggestion: ${nudge}}\\par\\par`;
+      });
+
+      // Add lowest items overall
+      const all = [];
+      results.forEach(d=> d.scores.forEach(s=> all.push({domain:d.name, id:d.id, ...s})));
+      all.sort((a,b)=> (a.val-b.val) || (a.id.localeCompare(b.id)) || (a.i-b.i));
+      const bottom = all.slice(0, Math.min(5, all.length));
+      
+      if(bottom.length) {
+        rtfContent += `{\\b\\fs26 Lowest Scoring Items Overall}\\par\\par`;
+        bottom.forEach((x,i)=>{
+          rtfContent += `${i+1}. {\\b ${x.domain}:} ${x.text} (${x.val}/5)\\par`;
+        });
+        rtfContent += `\\par`;
+      }
+
+      rtfContent += `}`;
+
+      // Create and download RTF file
+      const blob = new Blob([rtfContent], {type:'application/rtf'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Texas_RDA_Study_Focus.rtf';
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+
+    function copySummary(){
+      const {stats} = calc();
+      const lines = stats.map(s=>`${s.name}: ${s.avg ? s.avg.toFixed(2)+'/5' : '—'}`);
+      const txt = 'Texas RDA Self‑Assessment\n' + lines.join('\n');
+      navigator.clipboard.writeText(txt).then(()=>{
+        const old = $('#copyBtn').textContent; $('#copyBtn').textContent='Copied!'; setTimeout(()=>$('#copyBtn').textContent=old,1000);
+      }).catch(()=>{});
+    }
+
+    function resetAll(){
+      localStorage.removeItem(KEY);
+      $$('input[type=radio]').forEach(r=>r.checked=false);
+      $$('textarea').forEach(t=>t.value='');
+      renderProgress();
+      $('#summary').hidden = true;
+      $('#plan').innerHTML='';
+    }
+
+    // Listeners
+    document.addEventListener('change', () => { save(); renderProgress(); });
+    document.addEventListener('input', () => { save(); });
+    const viewSummaryBtnBottom = document.getElementById('viewSummaryBtnBottom');
+    if(viewSummaryBtnBottom){ viewSummaryBtnBottom.addEventListener('click', renderSummary); }
+    $('#resetBtn').addEventListener('click', resetAll);
+    $('#resetBtn').addEventListener('click', ()=>{ $('#sr-status').textContent='Selections cleared'; });
+
+    // A11y enhancements: bind radiogroups to their question text and hints
+    function enhanceA11y(){
+      document.querySelectorAll('.q').forEach(q => {
+        const lab = q.querySelector('label[id$="-label"]');
+        const rg = q.querySelector('.likert[role="radiogroup"]');
+        const hint = q.querySelector('.pill');
+        if(lab && rg){ rg.setAttribute('aria-labelledby', lab.id); }
+        if(hint && rg){ 
+          if(!hint.id){ 
+            hint.id = lab.id.replace('-label', '-hint'); 
+          }
+          rg.setAttribute('aria-describedby', hint.id); 
+        }
+      });
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      load();
+      renderProgress();
+      enhanceA11y();
+    });
+
+  </script>
+</body>
+</html> 
