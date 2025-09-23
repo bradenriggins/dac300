@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DAC 300 – 1.4 RYG Micro‑Plan</title>
+  <title>DAC 300 - 1.4 RYG Micro-Plan</title>
   <style>
     :root{
       --blue:#01549e; --blue2:#507ABB; --teal:#0093b2; --orange:#cb6015; --bg:#f7f9fc; --ink:#1d2939; --muted:#667085; --card:#ffffff;
@@ -47,10 +47,10 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>1.4 RYG Micro‑Plan</h1>
-    <p class="subtitle">This tool reads your self‑assessment results and helps you set one focused action for a lower area, one maintenance action, and one quick check‑in. It should take about 6–10 minutes.</p>
+    <h1>1.4 RYG Micro-Plan</h1>
+    <p class="subtitle">This tool reads your self-assessment results and helps you set one focused action for a lower area, one maintenance action, and one quick check-in. It should take about 6-10 minutes.</p>
 
-    <div id="status" class="banner">Checking for your self‑assessment results…</div>
+    <div id="status" class="banner">Checking for your self-assessment results...</div>
     
     <!-- Fallback content for debugging -->
     <div class="banner warn" style="margin-top: 10px;">
@@ -104,10 +104,10 @@
 
       <div class="card" id="greenCard" aria-labelledby="greenHdr">
         <h2 id="greenHdr">
-          <span>Quick check‑in <span class="pill green">Green</span></span>
+          <span>Quick check-in <span class="pill green">Green</span></span>
           <span class="domain" id="greenDomain">—</span>
         </h2>
-        <p class="hint" id="greenHint">Confirm confidence with a 30‑second check.</p>
+        <p class="hint" id="greenHint">Confirm confidence with a 30-second check.</p>
         <div class="chips" id="greenTasks"></div>
         <div class="chips" aria-label="Time frame" id="greenTime">
           <button class="chip" data-time="this">This week</button>
@@ -201,21 +201,21 @@
         case 'policy':
           add(`Write two “if…then” examples that apply ${kp} in practice.`);
           add(`List the 3 decision points that determine compliance for ${kp}.`);
-          add(`Create a one‑line reminder for ${kp} and place it where you review notes.`);
+          add(`Create a one-line reminder for ${kp} and place it where you review notes.`);
           break;
         case 'infection':
           add(`Outline 4 steps to meet ${kp} without missing a step.`);
-          add(`Make a 6‑item visual checklist focused on ${kp}.`);
+          add(`Make a 6-item visual checklist focused on ${kp}.`);
           add(`Do one minute of recall: list supplies needed to complete ${kp}.`);
           break;
         case 'radiology':
-          add(`Write a 4‑step positioning note to prevent errors related to ${kp}.`);
+          add(`Write a 4-step positioning note to prevent errors related to ${kp}.`);
           add(`List 3 causes of retakes tied to ${kp} and one prevention.`);
           add(`Describe one setup adjustment that improves ${kp}.`);
           break;
         case 'terminology':
           add(`Create 10 term→example pairs including one for ${kp}.`);
-          add(`Write two plain‑language definitions related to ${kp}.`);
+          add(`Write two plain-language definitions related to ${kp}.`);
           add(`Draft three quick questions that use ${kp} in context.`);
           break;
         case 'calculation':
@@ -224,12 +224,12 @@
           add(`Create a tiny reference line for ${kp} (inputs → output).`);
           break;
         case 'procedure':
-          add(`Draft a 4‑step mini‑checklist to complete ${kp}.`);
-          add(`Write two error‑proofing tips specific to ${kp}.`);
+          add(`Draft a 4-step mini-checklist to complete ${kp}.`);
+          add(`Write two error-proofing tips specific to ${kp}.`);
           add(`Record the sequence keywords for ${kp} in order.`);
           break;
         default:
-          add(`Write a 3‑step action you will execute for ${kp}.`);
+          add(`Write a 3-step action you will execute for ${kp}.`);
           add(`Note two examples that demonstrate correct ${kp}.`);
           add(`List one mistake to avoid when addressing ${kp}.`);
       }
@@ -239,8 +239,8 @@
         ideas[0] = ideas[0] || `Write two “if…then” examples that apply ${kp}.`;
       } else if(dn.includes('infection')){
         ideas[0] = ideas[0] || `Outline 4 steps to meet ${kp} without missing a step.`;
-      } else if(dn.includes('radiolog') || dn.includes('x‑ray') || dn.includes('xray')){
-        ideas[0] = ideas[0] || `Write a 4‑step positioning note to prevent errors related to ${kp}.`;
+      } else if(dn.includes('radiolog') || dn.includes('x-ray') || dn.includes('xray')){
+        ideas[0] = ideas[0] || `Write a 4-step positioning note to prevent errors related to ${kp}.`;
       }
 
       return ideas.slice(0,3);
@@ -256,14 +256,14 @@
       } else if(dn.includes('infection')){
         ideas.push('Run a short checklist on surface barriers and instrument flow.');
         ideas.push('Write two reminders for hand hygiene timing.');
-      } else if(dn.includes('radiolog') || dn.includes('x‑ray') || dn.includes('xray')){
+      } else if(dn.includes('radiolog') || dn.includes('x-ray') || dn.includes('xray')){
         ideas.push('Check one positioning cue and one exposure setting note.');
         ideas.push('List two artifact causes you will prevent this week.');
       } else {
         ideas.push('Write one maintenance step you will repeat consistently.');
         ideas.push('Summarize one concept in 20 words to confirm understanding.');
       }
-      // De‑duplicate and cap at 3
+      // De-duplicate and cap at 3
       const seen = new Set();
       return ideas.filter(s=>{ if(!s||seen.has(s)) return false; seen.add(s); return true; }).slice(0,3);
     }
@@ -271,7 +271,7 @@
     function greenIdeas(domain){
       const dn = (domain?.name||'').toLowerCase();
       if(dn.includes('juris')) return [ 'State one rule accurately in 10 words.', 'Spot one documentation detail that shows the rule in action.' , 'Explain one “why” behind a rule in plain words.' ];
-      if(dn.includes('infection')) return [ 'Name two checkpoints that confirm clean→sterile flow.', 'Identify one place where cross‑contamination could occur and how to prevent it.', 'State one timing cue for hand hygiene.' ];
+      if(dn.includes('infection')) return [ 'Name two checkpoints that confirm clean->sterile flow.', 'Identify one place where cross-contamination could occur and how to prevent it.', 'State one timing cue for hand hygiene.' ];
       if(dn.includes('radiolog') || dn.includes('x‑ray') || dn.includes('xray')) return [ 'Name one positioning cue you rely on.', 'State one setting you check before exposure and why.', 'Describe one common artifact and how you avoid it.' ];
       return [ 'Say one sentence that proves understanding.', 'Note one example you can recognize quickly.', 'Name one pitfall you avoid.' ];
     }
@@ -339,7 +339,7 @@
       options.forEach(opt=>{
         const b = el('button',{className:'chip', type:'button'}); b.textContent = opt; b.setAttribute('aria-pressed','false');
         b.addEventListener('click',()=>{
-          // toggle single‑select behavior within this container
+          // toggle single-select behavior within this container
           container.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
           b.setAttribute('aria-pressed','true');
           onSelect(opt);
@@ -520,7 +520,7 @@
       // Status banner
       const ts = state.raw.timestamp ? new Date(state.raw.timestamp) : null;
       $('#status').className = 'banner good';
-      $('#status').textContent = 'Results found' + (ts? ` from ${ts.toLocaleString()}`:'') + '. Pre‑filled your plan below.';
+      $('#status').textContent = 'Results found' + (ts? ` from ${ts.toLocaleString()}`:'') + '. Pre-filled your plan below.';
 
       render();
     }
