@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DAC 300 - 1.4 RYG Micro-Plan</title>
+  <title>DAC 300 - RYG (Red, Yellow, Green) Micro-Plan</title>
   <style>
     :root{
       --blue:#01549e; --blue2:#507ABB; --teal:#0093b2; --orange:#cb6015; --bg:#f7f9fc; --ink:#1d2939; --muted:#667085; --card:#ffffff;
@@ -105,7 +105,7 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>1.4 RYG Micro-Plan</h1>
+    <h1>RYG (Red, Yellow, Green) Micro-Plan</h1>
     <p class="subtitle">This tool reads your self-assessment results and helps you set one focused action for a lower area, one maintenance action, and one quick check-in. It should take about 6-10 minutes.</p>
 
     <div id="status" class="banner">Checking for your self-assessment results...</div>
@@ -127,7 +127,7 @@
     <section class="grid" id="plan" hidden>
       <div class="card" id="redCard" aria-labelledby="redHdr">
         <h2 id="redHdr">
-          <span>Focus area <span class="pill red">Red</span></span>
+          <span>Focus Area <span class="pill red">Red</span></span>
           <span class="domain" id="redDomain">—</span>
         </h2>
         <p class="hint" id="redHint">Select a specific low item to target first.</p>
@@ -157,7 +157,7 @@
 
       <div class="card" id="greenCard" aria-labelledby="greenHdr">
         <h2 id="greenHdr">
-          <span>Quick check-in <span class="pill green">Green</span></span>
+          <span>Quick Check-In <span class="pill green">Green</span></span>
           <span class="domain" id="greenDomain">—</span>
         </h2>
         <p class="hint" id="greenHint">Confirm confidence with a 30-second check.</p>
@@ -174,11 +174,9 @@
       <h2>Submission</h2>
       <div class="actions">
         <button id="generate" class="primary">Generate submission</button>
-        <button id="copy" disabled>Copy</button>
-        <button id="download" disabled>Download .txt</button>
+        <button id="download" disabled>Export</button>
       </div>
       <pre id="output" aria-live="polite" aria-atomic="true"></pre>
-      <div class="footer" id="scormStatus">SCORM: Not connected</div>
     </section>
   </div>
 
@@ -203,7 +201,6 @@
         yellow:{ task:null, time:null },
         green:{ task:null, time:null }
       },
-      scorm:{ api:null, initialized:false }
     };
 
     // ====== Utils ======
@@ -304,17 +301,17 @@
       const ideas = [];
       if(suggested){ ideas.push(suggested); }
       if(dn.includes('juris')){
-        ideas.push('Review two scenarios and state the correct rule in one line each.');
-        ideas.push('Create a quick “allowed vs not allowed” pair for one task.');
+        ideas.push('Review case scenarios and identify correct regulatory applications.');
+        ideas.push('Compare allowed vs prohibited practices for one procedure.');
       } else if(dn.includes('infection')){
-        ideas.push('Run a short checklist on surface barriers and instrument flow.');
-        ideas.push('Write two reminders for hand hygiene timing.');
+        ideas.push('Review surface barrier protocols and instrument processing steps.');
+        ideas.push('Study hand hygiene timing requirements and applications.');
       } else if(dn.includes('radiolog') || dn.includes('x-ray') || dn.includes('xray')){
-        ideas.push('Check one positioning cue and one exposure setting note.');
-        ideas.push('List two artifact causes you will prevent this week.');
+        ideas.push('Review positioning techniques and exposure setting principles.');
+        ideas.push('Study common artifact causes and prevention strategies.');
       } else {
-        ideas.push('Write one maintenance step you will repeat consistently.');
-        ideas.push('Summarize one concept in 20 words to confirm understanding.');
+        ideas.push('Review key maintenance principles and best practices.');
+        ideas.push('Study core concepts and summarize main points.');
       }
       // De-duplicate and cap at 3
       const seen = new Set();
@@ -323,10 +320,10 @@
 
     function greenIdeas(domain){
       const dn = (domain?.name||'').toLowerCase();
-      if(dn.includes('juris')) return [ 'State one rule accurately in 10 words.', 'Spot one documentation detail that shows the rule in action.' , 'Explain one “why” behind a rule in plain words.' ];
-      if(dn.includes('infection')) return [ 'Name two checkpoints that confirm clean->sterile flow.', 'Identify one place where cross-contamination could occur and how to prevent it.', 'State one timing cue for hand hygiene.' ];
-      if(dn.includes('radiolog') || dn.includes('x‑ray') || dn.includes('xray')) return [ 'Name one positioning cue you rely on.', 'State one setting you check before exposure and why.', 'Describe one common artifact and how you avoid it.' ];
-      return [ 'Say one sentence that proves understanding.', 'Note one example you can recognize quickly.', 'Name one pitfall you avoid.' ];
+      if(dn.includes('juris')) return [ 'Review key regulatory principles and their applications.', 'Study documentation requirements and compliance examples.' , 'Analyze the rationale behind important regulations.' ];
+      if(dn.includes('infection')) return [ 'Review sterilization workflow checkpoints and protocols.', 'Study cross-contamination prevention strategies and examples.', 'Review hand hygiene protocols and timing requirements.' ];
+      if(dn.includes('radiolog') || dn.includes('x‑ray') || dn.includes('xray')) return [ 'Review positioning techniques and anatomical landmarks.', 'Study exposure factors and their clinical applications.', 'Review common artifacts and prevention strategies.' ];
+      return [ 'Review core concepts and key principles.', 'Study practical examples and case scenarios.', 'Analyze common challenges and solutions.' ];
     }
 
     // ====== Rendering ======
@@ -541,29 +538,6 @@
       return ready;
     }
 
-    // ====== SCORM (minimal 1.2) ======
-    function findAPI(win){
-      let w = win; let tries=0; const limit=10;
-      while(w && tries++ < limit){ try{ if(w.API) return w.API; }catch(e){} if(w.parent && w.parent!==w) w = w.parent; else break; }
-      try{ if(window.opener && window.opener.API) return window.opener.API; }catch(e){}
-      return null;
-    }
-    function scormInit(){
-      const api = findAPI(window);
-      if(api){
-        state.scorm.api = api;
-        try{ api.LMSInitialize(""); state.scorm.initialized = true; $('#scormStatus').textContent = 'SCORM: Connected'; }
-        catch(e){ $('#scormStatus').textContent = 'SCORM: Connection error'; }
-      }
-    }
-    function scormComplete(){
-      if(!state.scorm.api || !state.scorm.initialized) return;
-      try{
-        state.scorm.api.LMSSetValue('cmi.core.lesson_status','completed');
-        state.scorm.api.LMSCommit("");
-        $('#scormStatus').textContent = 'SCORM: Marked completed';
-      }catch(e){ $('#scormStatus').textContent = 'SCORM: Could not set completion'; }
-    }
 
     // ====== Wire up controls ======
     $('#tryPaste').addEventListener('click', ()=>{
@@ -586,16 +560,14 @@
     $('#generate').addEventListener('click', ()=>{
       const txt = buildSubmission();
       $('#output').textContent = txt;
-      $('#copy').disabled = false; $('#download').disabled = false;
-      scormComplete();
-    });
-    $('#copy').addEventListener('click', async ()=>{
-      try{ await navigator.clipboard.writeText($('#output').textContent); $('#copy').textContent='Copied'; setTimeout(()=>$('#copy').textContent='Copy',1200);}catch(e){ /* ignore */ }
+      $('#download').disabled = false;
     });
     $('#download').addEventListener('click', ()=>{
-      const blob = new Blob([$('#output').textContent||''], {type:'text/plain'});
+      const content = $('#output').textContent || '';
+      const rtfContent = `{\\rtf1\\ansi\\deff0 {\\fonttbl {\\f0 Times New Roman;}}\\f0\\fs24 ${content.replace(/\n/g, '\\par ')}}`;
+      const blob = new Blob([rtfContent], {type:'application/rtf'});
       const url = URL.createObjectURL(blob);
-      const a = el('a',{href:url, download:'DAC300_W1_1-4_Plan.txt'}); document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 0);
+      const a = el('a',{href:url, download:'RYG_Micro_Plan.rtf'}); document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 0);
     });
 
     // ====== Lifecycle ======
@@ -615,7 +587,6 @@
     }
 
     // Start
-    scormInit();
     const fromLocal = tryLoadFromLocal();
     if(fromLocal){ state.raw = fromLocal; afterLoad(); }
     else {
