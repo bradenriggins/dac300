@@ -31,7 +31,7 @@
     .item label{display:flex; gap:12px; align-items:flex-start; cursor:pointer; line-height:1.5}
     .item input{margin-top:4px; flex-shrink:0}
     .chips{display:flex; flex-wrap:wrap; gap:12px; margin:16px 0; align-items:stretch}
-    .chip{border:1px solid #d0d5dd; background:#fff; padding:12px 16px; border-radius:999px; cursor:pointer; user-select:none; font-size:0.9rem; line-height:1.4; word-wrap:break-word; max-width:100%; text-align:center; min-height:44px; display:flex; align-items:center; justify-content:center}
+    .chip{border:1px solid #d0d5dd; background:#fff; padding:12px 16px; border-radius:999px; cursor:pointer; user-select:none; font-size:0.9rem; line-height:1.4; word-wrap:break-word; max-width:100%; text-align:center; min-height:44px; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease}
     .chip[aria-pressed="true"]{border-color:var(--blue); box-shadow:0 0 0 3px var(--ring)}
     .hint{font-size:.9rem; color:var(--muted); line-height:1.5; margin-bottom:12px}
     .actions{margin:20px 0; display:flex; gap:12px; flex-wrap:wrap; align-items:center}
@@ -63,6 +63,40 @@
       hyphens:auto; 
       word-break:break-word;
       white-space:normal;
+    }
+    
+    /* Differentiate content chips from time chips */
+    .chips[aria-label="Time frame"] {
+      justify-content:center;
+      margin-top:auto;
+      padding-top:16px;
+    }
+    
+    .chips[aria-label="Time frame"] .chip {
+      font-size:0.8rem;
+      padding:8px 16px;
+      min-height:36px;
+      background:#f8f9fa;
+      border-color:#dee2e6;
+      color:#495057;
+      min-width:80px;
+    }
+    
+    .chips[aria-label="Time frame"] .chip[aria-pressed="true"] {
+      background:var(--blue);
+      color:white;
+      border-color:var(--blue);
+    }
+    
+    /* Make cards equal height */
+    .grid .card {
+      display:flex;
+      flex-direction:column;
+      min-height:400px;
+    }
+    
+    .card .chips:not([aria-label="Time frame"]) {
+      flex-grow:1;
     }
   </style>
 </head>
@@ -303,7 +337,7 @@
       redItemsWrap.innerHTML = '';
       const items = (red.lowestItems && red.lowestItems.length) ? red.lowestItems.slice(0,2) : [];
       if(items.length===0){
-        redItemsWrap.append(el('div',{className:'item'},[text('No specific low items found. You can still choose an action below.')]));
+        redItemsWrap.append(el('div',{className:'item',style:'text-align:center; font-style:italic; color:var(--muted); padding:20px;'},[text('All items in this domain scored similarly. Choose a general improvement action below.')]));
         $('#redHint').textContent = 'Choose one targeted action that will improve this area.';
       } else {
         items.forEach((it,idx)=>{
