@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DAC 300 – 1.4 RYG Micro‑Plan</title>
+  <style>
+    :root{
+      --blue:#01549e; --blue2:#507ABB; --teal:#0093b2; --orange:#cb6015; --bg:#f7f9fc; --ink:#1d2939; --muted:#667085; --card:#ffffff;
+      --ring: rgba(1,84,158,.35);
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--bg)}
+    .wrap{max-width:980px; margin:32px auto; padding:0 16px}
+    h1{font-size:1.6rem; margin:0 0 12px; color:var(--blue)}
+    .subtitle{color:var(--muted); margin:0 0 16px}
+    .banner{border:1px solid #d0d5dd; background:#fff; padding:12px 14px; border-radius:12px; display:flex; gap:8px; align-items:center; box-shadow:0 1px 2px rgba(0,0,0,.03)}
+    .banner.good{border-color:#B7E4C7; background:#F1FAF5}
+    .banner.warn{border-color:#ffe1b3; background:#fff9ed}
+    .grid{display:grid; grid-template-columns:1fr; gap:14px; margin-top:16px}
+    @media(min-width:860px){ .grid{grid-template-columns:repeat(3,1fr)} }
+    .card{background:var(--card); border:1px solid #e5e7eb; border-radius:14px; padding:14px; box-shadow:0 1px 2px rgba(0,0,0,.04)}
+    .card h2{font-size:1.1rem; margin:.1rem 0 .6rem; display:flex; justify-content:space-between; align-items:center}
+    .pill{font-size:.75rem; line-height:1; padding:6px 8px; border-radius:999px; border:1px solid #e5e7eb; color:var(--muted); background:#fafafa}
+    .pill.red{border-color:#ffd1d1; background:#fff5f5; color:#b42318}
+    .pill.yellow{border-color:#ffe1b3; background:#fff9ed; color:#b76e00}
+    .pill.green{border-color:#c5e5c7; background:#f2fbf3; color:#157f3a}
+    .muted{color:var(--muted)}
+    .domain{font-weight:600; color:var(--blue)}
+    .item{border:1px solid #e5e7eb; border-radius:12px; padding:10px; margin-bottom:8px; background:#fcfdff}
+    .item label{display:flex; gap:8px; align-items:flex-start; cursor:pointer}
+    .item input{margin-top:3px}
+    .chips{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0}
+    .chip{border:1px solid #d0d5dd; background:#fff; padding:8px 10px; border-radius:999px; cursor:pointer; user-select:none}
+    .chip[aria-pressed="true"]{border-color:var(--blue); box-shadow:0 0 0 3px var(--ring)}
+    .hint{font-size:.85rem; color:var(--muted)}
+    .actions{margin:18px 0; display:flex; gap:10px; flex-wrap:wrap}
+    button{appearance:none; border:1px solid #d0d5dd; background:#fff; color:var(--ink); padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:600}
+    button.primary{background:var(--blue); color:#fff; border-color:var(--blue)}
+    button:disabled{opacity:.5; cursor:not-allowed}
+    pre{background:#0b1020; color:#e7eaf3; padding:14px; border-radius:12px; overflow:auto; max-height:240px}
+    .import{margin-top:16px}
+    textarea{width:100%; min-height:120px; padding:10px; border:1px solid #d0d5dd; border-radius:12px; resize:vertical}
+    .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
+    .footer{margin-top:10px; color:var(--muted); font-size:.85rem}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>1.4 RYG Micro‑Plan</h1>
+    <p class="subtitle">This tool reads your self‑assessment results and helps you set one focused action for a lower area, one maintenance action, and one quick check‑in. It should take about 6–10 minutes.</p>
+
+    <div id="status" class="banner">Checking for your self‑assessment results…</div>
+
+    <section class="import card" id="importCard" hidden>
+      <h2>Import results <span class="pill">fallback</span></h2>
+      <p class="hint">If your results are not detected automatically, paste the text from <strong>Copy Results</strong> or upload the CSV you exported from the summary page.</p>
+      <div style="margin-top:8px">
+        <label for="paste" class="sr-only">Paste results</label>
+        <textarea id="paste" placeholder="Paste copied results or JSON here…"></textarea>
+        <div class="actions">
+          <button id="tryPaste" class="primary">Use pasted text</button>
+          <input id="csv" type="file" accept=".csv,text/csv,application/csv" />
+        </div>
+      </div>
+    </section>
+
+    <section class="grid" id="plan" hidden>
+      <div class="card" id="redCard" aria-labelledby="redHdr">
+        <h2 id="redHdr">
+          <span>Focus area <span class="pill red">Red</span></span>
+          <span class="domain" id="redDomain">—</span>
+        </h2>
+        <p class="hint" id="redHint">Select a specific low item to target first.</p>
+        <div id="redItems"></div>
+        <div class="hint" id="redItemMsg" style="margin-top:-4px"></div>
+        <div class="chips" id="redTasks"></div>
+        <div class="chips" aria-label="Time frame" id="redTime">
+          <button class="chip" data-time="this">This week</button>
+          <button class="chip" data-time="next">Next week</button>
+          <button class="chip" data-time="later">Later</button>
+        </div>
+      </div>
+
+      <div class="card" id="yellowCard" aria-labelledby="yellowHdr">
+        <h2 id="yellowHdr">
+          <span>Maintenance <span class="pill yellow">Yellow</span></span>
+          <span class="domain" id="yellowDomain">—</span>
+        </h2>
+        <p class="hint" id="yellowHint">Keep progress moving with one short action.</p>
+        <div class="chips" id="yellowTasks"></div>
+        <div class="chips" aria-label="Time frame" id="yellowTime">
+          <button class="chip" data-time="this">This week</button>
+          <button class="chip" data-time="next">Next week</button>
+          <button class="chip" data-time="later">Later</button>
+        </div>
+      </div>
+
+      <div class="card" id="greenCard" aria-labelledby="greenHdr">
+        <h2 id="greenHdr">
+          <span>Quick check‑in <span class="pill green">Green</span></span>
+          <span class="domain" id="greenDomain">—</span>
+        </h2>
+        <p class="hint" id="greenHint">Confirm confidence with a 30‑second check.</p>
+        <div class="chips" id="greenTasks"></div>
+        <div class="chips" aria-label="Time frame" id="greenTime">
+          <button class="chip" data-time="this">This week</button>
+          <button class="chip" data-time="next">Next week</button>
+          <button class="chip" data-time="later">Later</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="submitCard" hidden>
+      <h2>Submission</h2>
+      <div class="actions">
+        <button id="generate" class="primary">Generate submission</button>
+        <button id="copy" disabled>Copy</button>
+        <button id="download" disabled>Download .txt</button>
+      </div>
+      <pre id="output" aria-live="polite" aria-atomic="true"></pre>
+      <div class="footer" id="scormStatus">SCORM: Not connected</div>
+    </section>
+  </div>
+
+  <script>
+  (function(){
+    "use strict";
+
+    // ====== Storage keys (try summary first, then legacy) ======
+    const SUMMARY_KEYS = [
+      'dac300:v1:tx-rda:w1:assessment:summary'
+    ];
+    const RESPONSE_KEYS = [
+      'dac300:v1:tx-rda:w1:assessment:responses',
+      'dac300-tx-rda-12-v2'
+    ];
+
+    const state = {
+      raw:null,         // raw parsed summary
+      ryg:null,         // { red, yellow, green }
+      selections:{      // user choices
+        red:{ itemIndex:null, task:null, time:null },
+        yellow:{ task:null, time:null },
+        green:{ task:null, time:null }
+      },
+      scorm:{ api:null, initialized:false }
+    };
+
+    // ====== Utils ======
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+    function el(tag, props={}, children=[]) { const n=document.createElement(tag); Object.assign(n, props); children.forEach(c=>n.append(c)); return n; }
+    function text(s){ return document.createTextNode(String(s)); }
+    function safeParse(s){ try{ return JSON.parse(s); }catch(e){ return null; } }
+    function clamp(n,lo,hi){ return Math.max(lo, Math.min(hi, n)); }
+
+    function keyphrase(txt){
+      if(!txt) return 'this item';
+      const words = String(txt).replace(/\s+/g,' ').trim().split(' ');
+      return '“' + words.slice(0, Math.min(6, words.length)).join(' ') + (words.length>6?'…':'”');
+    }
+
+    function classify(domains){
+      if(!domains || !domains.length) return null;
+      const sorted = [...domains].sort((a,b)=>a.avg-b.avg);
+      const red = sorted[0];
+      const green = sorted[sorted.length-1];
+      let yellow = sorted.find(d=> d!==red && d!==green) || sorted[1] || red;
+      return { red, yellow, green };
+    }
+
+    // ====== Suggestion engines ======
+    function detectType(text){
+      if(!text) return 'general';
+      const t = text.toLowerCase();
+      if(/rule|law|delegation|scope|record|documentation|consent|ethic|report/i.test(t)) return 'policy';
+      if(/steril|disinfect|asepsis|ppe|barrier|hand hygiene|spore|biohazard|waste/i.test(t)) return 'infection';
+      if(/radiograph|exposure|position|film|sensor|cone|pid|scatter|shield|artifact|developer|fixer|beam/i.test(t)) return 'radiology';
+      if(/term|define|definition|glossary|vocab|abbrev/i.test(t)) return 'terminology';
+      if(/calculate|dosage|time|speed|kvp|ma|ratio|percent|conversion|math|formula/i.test(t)) return 'calculation';
+      if(/sequence|steps|procedure|process|order|checklist/i.test(t)) return 'procedure';
+      return 'general';
+    }
+
+    function taskIdeasForItem(itemText, domainName){
+      const kp = keyphrase(itemText);
+      const type = detectType(itemText);
+      const dn = (domainName||'').toLowerCase();
+      const ideas = [];
+      const add=(s)=>ideas.push(s);
+
+      // Tailored by detected type first
+      switch(type){
+        case 'policy':
+          add(`Write two “if…then” examples that apply ${kp} in practice.`);
+          add(`List the 3 decision points that determine compliance for ${kp}.`);
+          add(`Create a one‑line reminder for ${kp} and place it where you review notes.`);
+          break;
+        case 'infection':
+          add(`Outline 4 steps to meet ${kp} without missing a step.`);
+          add(`Make a 6‑item visual checklist focused on ${kp}.`);
+          add(`Do one minute of recall: list supplies needed to complete ${kp}.`);
+          break;
+        case 'radiology':
+          add(`Write a 4‑step positioning note to prevent errors related to ${kp}.`);
+          add(`List 3 causes of retakes tied to ${kp} and one prevention.`);
+          add(`Describe one setup adjustment that improves ${kp}.`);
+          break;
+        case 'terminology':
+          add(`Create 10 term→example pairs including one for ${kp}.`);
+          add(`Write two plain‑language definitions related to ${kp}.`);
+          add(`Draft three quick questions that use ${kp} in context.`);
+          break;
+        case 'calculation':
+          add(`Solve two sample problems related to ${kp} and show work.`);
+          add(`Write the formula used for ${kp} with one common pitfall.`);
+          add(`Create a tiny reference line for ${kp} (inputs → output).`);
+          break;
+        case 'procedure':
+          add(`Draft a 4‑step mini‑checklist to complete ${kp}.`);
+          add(`Write two error‑proofing tips specific to ${kp}.`);
+          add(`Record the sequence keywords for ${kp} in order.`);
+          break;
+        default:
+          add(`Write a 3‑step action you will execute for ${kp}.`);
+          add(`Note two examples that demonstrate correct ${kp}.`);
+          add(`List one mistake to avoid when addressing ${kp}.`);
+      }
+
+      // Light domain flavoring
+      if(dn.includes('juris')){
+        ideas[0] = ideas[0] || `Write two “if…then” examples that apply ${kp}.`;
+      } else if(dn.includes('infection')){
+        ideas[0] = ideas[0] || `Outline 4 steps to meet ${kp} without missing a step.`;
+      } else if(dn.includes('radiolog') || dn.includes('x‑ray') || dn.includes('xray')){
+        ideas[0] = ideas[0] || `Write a 4‑step positioning note to prevent errors related to ${kp}.`;
+      }
+
+      return ideas.slice(0,3);
+    }
+
+    function maintenanceIdeas(domain, suggested){
+      const dn = (domain?.name||'').toLowerCase();
+      const ideas = [];
+      if(suggested){ ideas.push(suggested); }
+      if(dn.includes('juris')){
+        ideas.push('Review two scenarios and state the correct rule in one line each.');
+        ideas.push('Create a quick “allowed vs not allowed” pair for one task.');
+      } else if(dn.includes('infection')){
+        ideas.push('Run a short checklist on surface barriers and instrument flow.');
+        ideas.push('Write two reminders for hand hygiene timing.');
+      } else if(dn.includes('radiolog') || dn.includes('x‑ray') || dn.includes('xray')){
+        ideas.push('Check one positioning cue and one exposure setting note.');
+        ideas.push('List two artifact causes you will prevent this week.');
+      } else {
+        ideas.push('Write one maintenance step you will repeat consistently.');
+        ideas.push('Summarize one concept in 20 words to confirm understanding.');
+      }
+      // De‑duplicate and cap at 3
+      const seen = new Set();
+      return ideas.filter(s=>{ if(!s||seen.has(s)) return false; seen.add(s); return true; }).slice(0,3);
+    }
+
+    function greenIdeas(domain){
+      const dn = (domain?.name||'').toLowerCase();
+      if(dn.includes('juris')) return [ 'State one rule accurately in 10 words.', 'Spot one documentation detail that shows the rule in action.' , 'Explain one “why” behind a rule in plain words.' ];
+      if(dn.includes('infection')) return [ 'Name two checkpoints that confirm clean→sterile flow.', 'Identify one place where cross‑contamination could occur and how to prevent it.', 'State one timing cue for hand hygiene.' ];
+      if(dn.includes('radiolog') || dn.includes('x‑ray') || dn.includes('xray')) return [ 'Name one positioning cue you rely on.', 'State one setting you check before exposure and why.', 'Describe one common artifact and how you avoid it.' ];
+      return [ 'Say one sentence that proves understanding.', 'Note one example you can recognize quickly.', 'Name one pitfall you avoid.' ];
+    }
+
+    // ====== Rendering ======
+    function render(){
+      if(!state.raw){ return; }
+      const { red, yellow, green } = state.ryg;
+
+      // Red card
+      $('#redDomain').textContent = red.name + (Number.isFinite(red.avg) ? ` (avg ${red.avg.toFixed(2)})` : '');
+      const redItemsWrap = $('#redItems');
+      redItemsWrap.innerHTML = '';
+      const items = (red.lowestItems && red.lowestItems.length) ? red.lowestItems.slice(0,2) : [];
+      if(items.length===0){
+        redItemsWrap.append(el('div',{className:'item'},[text('No specific low items found. You can still choose an action below.')]));
+        $('#redHint').textContent = 'Choose one targeted action that will improve this area.';
+      } else {
+        items.forEach((it,idx)=>{
+          const id = 'redItem_'+idx;
+          const row = el('div',{className:'item'});
+          const lab = el('label',{htmlFor:id});
+          const radio = el('input',{type:'radio', name:'redItem', id});
+          radio.addEventListener('change',()=>{ state.selections.red.itemIndex = idx; refreshRedTasks(); });
+          const textWrap = el('div',{},[ el('div',{style:'font-weight:600'},[ text(it.text||`Item ${idx+1}`) ]), el('div',{className:'hint'},[ text(`Score: ${it.score ?? '—'}`) ]) ]);
+          lab.append(radio, textWrap);
+          row.append(lab);
+          redItemsWrap.append(row);
+        });
+        $('#redHint').textContent = 'Select one item to target first.';
+      }
+      refreshRedTasks();
+
+      // Yellow card
+      $('#yellowDomain').textContent = yellow.name + (Number.isFinite(yellow.avg) ? ` (avg ${yellow.avg.toFixed(2)})` : '');
+      const yIdeas = maintenanceIdeas(yellow, yellow.suggestion);
+      renderChips($('#yellowTasks'), yIdeas, (val)=>{ state.selections.yellow.task = val; });
+
+      // Green card
+      $('#greenDomain').textContent = green.name + (Number.isFinite(green.avg) ? ` (avg ${green.avg.toFixed(2)})` : '');
+      const gIdeas = greenIdeas(green);
+      renderChips($('#greenTasks'), gIdeas, (val)=>{ state.selections.green.task = val; });
+
+      // Time chips (all three sections)
+      bindTimeChips('#redTime','red');
+      bindTimeChips('#yellowTime','yellow');
+      bindTimeChips('#greenTime','green');
+
+      // Reveal plan + submission
+      $('#plan').hidden = false;
+      $('#submitCard').hidden = false;
+    }
+
+    function refreshRedTasks(){
+      const { red } = state.ryg;
+      const idx = state.selections.red.itemIndex ?? 0;
+      const it = (red.lowestItems && red.lowestItems[idx]) ? red.lowestItems[idx] : { text:'' };
+      const ideas = taskIdeasForItem(it.text || '', red.name);
+      $('#redItemMsg').textContent = it.text ? `Targeting: ${keyphrase(it.text)}` : '';
+      renderChips($('#redTasks'), ideas, (val)=>{ state.selections.red.task = val; });
+    }
+
+    function renderChips(container, options, onSelect){
+      container.innerHTML = '';
+      options.forEach(opt=>{
+        const b = el('button',{className:'chip', type:'button'}); b.textContent = opt; b.setAttribute('aria-pressed','false');
+        b.addEventListener('click',()=>{
+          // toggle single‑select behavior within this container
+          container.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
+          b.setAttribute('aria-pressed','true');
+          onSelect(opt);
+          checkCompletionReady();
+        });
+        container.append(b);
+      });
+    }
+
+    function bindTimeChips(sel, key){
+      const wrap = $(sel);
+      wrap.querySelectorAll('.chip').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          wrap.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
+          btn.setAttribute('aria-pressed','true');
+          state.selections[key].time = btn.dataset.time; // 'this'|'next'|'later'
+          checkCompletionReady();
+        });
+      });
+    }
+
+    // ====== Input / import paths ======
+    function tryLoadFromLocal(){
+      for(const k of SUMMARY_KEYS){
+        const raw = localStorage.getItem(k);
+        const parsed = raw && safeParse(raw);
+        if(parsed && parsed.domains && parsed.domains.length){
+          return normalizeSummary(parsed);
+        }
+      }
+      // Optional: attempt to read responses and synthesize (best effort)
+      for(const k of RESPONSE_KEYS){
+        const raw = localStorage.getItem(k);
+        const parsed = raw && safeParse(raw);
+        if(parsed){
+          // We do not know the item texts here; ask the learner to paste results if summary is unavailable.
+          return null;
+        }
+      }
+      return null;
+    }
+
+    function normalizeSummary(s){
+      // Expect: { schema, domains:[{id,name,avg,lowestItems:[{text,score}], suggestion?}], lowestItemsOverall? }
+      const out = { schema: s.schema||'v1', timestamp: s.timestamp||null, domains: [] };
+      const domains = Array.isArray(s.domains) ? s.domains : [];
+      out.domains = domains.map(d=>({
+        id: d.id||d.domainId||d.name||'d',
+        name: d.name||String(d.id||'Domain'),
+        avg: typeof d.avg==='number'? d.avg : (typeof d.average==='number'? d.average : NaN),
+        lowestItems: Array.isArray(d.lowestItems)? d.lowestItems.map(li=>({ text: String(li.text||'').trim(), score: Number(li.score)||NaN })) : [],
+        suggestion: d.suggestion || null
+      }));
+      return out;
+    }
+
+    // Paste / CSV import
+    function tryUsePasted(text){
+      if(!text||!text.trim()) return null;
+      // 1) JSON path
+      const js = safeParse(text);
+      if(js && js.domains){ return normalizeSummary(js); }
+      // 2) CSV path (very tolerant)
+      if(/,/.test(text)){
+        try{
+          const lines = text.trim().split(/\r?\n/).filter(Boolean);
+          const head = lines.shift();
+          const cols = head.split(',').map(s=>s.trim().toLowerCase());
+          const dNameIdx = cols.findIndex(c=>/domain/.test(c));
+          const avgIdx = cols.findIndex(c=>/avg|average/.test(c));
+          const itemIdx = cols.findIndex(c=>/item|text|question/.test(c));
+          const scoreIdx = cols.findIndex(c=>/score|value/.test(c));
+          const map = new Map();
+          for(const line of lines){
+            const parts = line.split(',');
+            const dName = (parts[dNameIdx]||'Domain').trim();
+            const avg = avgIdx>=0 ? Number(parts[avgIdx]) : NaN;
+            const itText = itemIdx>=0 ? parts[itemIdx] : '';
+            const itScore = scoreIdx>=0 ? Number(parts[scoreIdx]) : NaN;
+            if(!map.has(dName)) map.set(dName,{ name:dName, avg:isNaN(avg)? NaN:avg, lowestItems:[] });
+            if(itText){ map.get(dName).lowestItems.push({ text: itText, score: itScore }); }
+          }
+          const domains = Array.from(map.values());
+          if(domains.length){ return normalizeSummary({ schema:'csv', domains }); }
+        }catch(e){ /* fallthrough */ }
+      }
+      return null;
+    }
+
+    // ====== Submission formatting ======
+    function humanTime(code){
+      return code==='this' ? 'This week' : code==='next' ? 'Next week' : code==='later' ? 'Later' : '';
+    }
+
+    function buildSubmission(){
+      const { red, yellow, green } = state.ryg;
+      const sel = state.selections;
+      const redItem = (red.lowestItems||[])[ sel.red.itemIndex ?? 0 ];
+      const lines = [];
+      lines.push(`Red: ${red.name} → ${redItem && redItem.text ? '“'+redItem.text+'”' : 'specific focus'} → ${sel.red.task} → ${humanTime(sel.red.time)}`);
+      lines.push(`Yellow: ${yellow.name} → ${sel.yellow.task} → ${humanTime(sel.yellow.time)}`);
+      lines.push(`Green: ${green.name} → ${sel.green.task} → ${humanTime(sel.green.time)}`);
+      return lines.join("\n");
+    }
+
+    function checkCompletionReady(){
+      const s = state.selections;
+      const ready = s.red.task && s.red.time && (s.red.itemIndex!==null || true) && s.yellow.task && s.yellow.time && s.green.task && s.green.time;
+      $('#generate').disabled = !ready;
+      return ready;
+    }
+
+    // ====== SCORM (minimal 1.2) ======
+    function findAPI(win){
+      let w = win; let tries=0; const limit=10;
+      while(w && tries++ < limit){ try{ if(w.API) return w.API; }catch(e){} if(w.parent && w.parent!==w) w = w.parent; else break; }
+      try{ if(window.opener && window.opener.API) return window.opener.API; }catch(e){}
+      return null;
+    }
+    function scormInit(){
+      const api = findAPI(window);
+      if(api){
+        state.scorm.api = api;
+        try{ api.LMSInitialize(""); state.scorm.initialized = true; $('#scormStatus').textContent = 'SCORM: Connected'; }
+        catch(e){ $('#scormStatus').textContent = 'SCORM: Connection error'; }
+      }
+    }
+    function scormComplete(){
+      if(!state.scorm.api || !state.scorm.initialized) return;
+      try{
+        state.scorm.api.LMSSetValue('cmi.core.lesson_status','completed');
+        state.scorm.api.LMSCommit("");
+        $('#scormStatus').textContent = 'SCORM: Marked completed';
+      }catch(e){ $('#scormStatus').textContent = 'SCORM: Could not set completion'; }
+    }
+
+    // ====== Wire up controls ======
+    $('#tryPaste').addEventListener('click', ()=>{
+      const val = $('#paste').value;
+      const parsed = tryUsePasted(val);
+      if(parsed){ state.raw = parsed; afterLoad(); }
+      else { alert('Sorry, that did not look like results I can read. Try JSON or CSV from your summary page.'); }
+    });
+    $('#csv').addEventListener('change', (e)=>{
+      const f = e.target.files && e.target.files[0]; if(!f) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const parsed = tryUsePasted(String(reader.result||''));
+        if(parsed){ state.raw = parsed; afterLoad(); }
+        else { alert('Could not parse that CSV. Please export the summary CSV and try again.'); }
+      };
+      reader.readAsText(f);
+    });
+
+    $('#generate').addEventListener('click', ()=>{
+      const txt = buildSubmission();
+      $('#output').textContent = txt;
+      $('#copy').disabled = false; $('#download').disabled = false;
+      scormComplete();
+    });
+    $('#copy').addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText($('#output').textContent); $('#copy').textContent='Copied'; setTimeout(()=>$('#copy').textContent='Copy',1200);}catch(e){ /* ignore */ }
+    });
+    $('#download').addEventListener('click', ()=>{
+      const blob = new Blob([$('#output').textContent||''], {type:'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = el('a',{href:url, download:'DAC300_W1_1-4_Plan.txt'}); document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 0);
+    });
+
+    // ====== Lifecycle ======
+    function afterLoad(){
+      // Build RYG
+      const d = state.raw.domains || [];
+      if(!d.length){ $('#status').className='banner warn'; $('#status').textContent='Results detected but no domains were found. Use the fallback below.'; $('#importCard').hidden=false; return; }
+      state.ryg = classify(d);
+      if(!state.ryg){ $('#status').className='banner warn'; $('#status').textContent='Could not classify results. Use the fallback below.'; $('#importCard').hidden=false; return; }
+
+      // Status banner
+      const ts = state.raw.timestamp ? new Date(state.raw.timestamp) : null;
+      $('#status').className = 'banner good';
+      $('#status').textContent = 'Results found' + (ts? ` from ${ts.toLocaleString()}`:'') + '. Pre‑filled your plan below.';
+
+      render();
+    }
+
+    // Start
+    scormInit();
+    const fromLocal = tryLoadFromLocal();
+    if(fromLocal){ state.raw = fromLocal; afterLoad(); }
+    else {
+      $('#status').className='banner warn';
+      $('#status').textContent='No saved results were found on this device. Paste your summary or upload the CSV below.';
+      $('#importCard').hidden=false;
+    }
+
+  })();
+  </script>
+</body>
+</html>
