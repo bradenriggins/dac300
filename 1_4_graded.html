@@ -347,10 +347,7 @@
       const redItemsWrap = $('#redItems');
       redItemsWrap.innerHTML = '';
       const items = (red.lowestItems && red.lowestItems.length) ? red.lowestItems.slice(0,2) : [];
-      if(items.length===0){
-        redItemsWrap.append(el('div',{style:'text-align:center; font-style:italic; color:var(--muted); font-size:0.85rem; margin:0 0 12px; padding:8px 0; line-height:1.3;'},[text('All items in this domain scored similarly. Choose a general improvement action below.')]));
-        $('#redHint').textContent = 'Choose one targeted action that will improve this area.';
-      } else {
+      if(items.length > 0){
         items.forEach((it,idx)=>{
           const id = 'redItem_'+idx;
           const row = el('div',{className:'item'});
@@ -363,6 +360,8 @@
           redItemsWrap.append(row);
         });
         $('#redHint').textContent = 'Select one item to target first.';
+      } else {
+        $('#redHint').textContent = 'Select a specific low item to target first.';
       }
       refreshRedTasks();
 
