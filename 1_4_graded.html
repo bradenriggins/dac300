@@ -30,8 +30,9 @@
     .item{border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:12px; background:#fcfdff}
     .item label{display:flex; gap:12px; align-items:flex-start; cursor:pointer; line-height:1.5}
     .item input{margin-top:4px; flex-shrink:0}
-    .chips{display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; align-items:stretch}
-    .chip{border:1px solid #d0d5dd; background:#fff; padding:8px 12px; border-radius:999px; cursor:pointer; user-select:none; font-size:0.85rem; line-height:1.3; word-wrap:break-word; max-width:100%; text-align:center; min-height:36px; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease}
+    .chips{display:grid; grid-template-columns:1fr; gap:6px; margin:12px 0}
+    .chips[aria-label="Time frame"]{display:flex; flex-wrap:wrap; gap:8px; justify-content:center}
+    .chip{border:1px solid #d0d5dd; background:#fff; padding:8px 12px; border-radius:8px; cursor:pointer; user-select:none; font-size:0.8rem; line-height:1.2; text-align:center; min-height:32px; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease; width:100%; box-sizing:border-box; hyphens:none; word-break:normal}
     .chip[aria-pressed="true"]{border-color:var(--blue); box-shadow:0 0 0 3px var(--ring)}
     .hint{font-size:.9rem; color:var(--muted); line-height:1.5; margin-bottom:12px}
     .actions{margin:20px 0; display:flex; gap:12px; flex-wrap:wrap; align-items:center}
@@ -60,26 +61,28 @@
     
     /* Better chip wrapping */
     .chip{
-      hyphens:auto; 
-      word-break:break-word;
+      hyphens:none;
+      word-break:normal;
       white-space:normal;
+      overflow-wrap:break-word;
     }
     
     /* Differentiate content chips from time chips */
     .chips[aria-label="Time frame"] {
-      justify-content:center;
       margin-top:auto;
-      padding-top:16px;
+      padding-top:12px;
     }
     
     .chips[aria-label="Time frame"] .chip {
       font-size:0.75rem;
       padding:6px 12px;
-      min-height:32px;
+      min-height:28px;
       background:#f8f9fa;
       border-color:#dee2e6;
       color:#495057;
       min-width:70px;
+      border-radius:999px;
+      width:auto;
     }
     
     .chips[aria-label="Time frame"] .chip[aria-pressed="true"] {
