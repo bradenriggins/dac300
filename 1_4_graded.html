@@ -19,8 +19,9 @@
     .banner.warn{border-color:#ffe1b3; background:#fff9ed}
     .grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:16px}
     @media(min-width:768px){ .grid{grid-template-columns:repeat(3,1fr)} }
-    .card{background:var(--card); border:1px solid #e5e7eb; border-radius:14px; padding:16px; box-shadow:0 1px 2px rgba(0,0,0,.04); margin-bottom:12px}
-    .card h2{font-size:1.1rem; margin:0 0 12px; display:flex; justify-content:space-between; align-items:center; line-height:1.4; flex-wrap:wrap; gap:8px}
+    .card{background:var(--card); border:1px solid #e5e7eb; border-radius:14px; padding:16px; box-shadow:0 1px 2px rgba(0,0,0,.04); margin-bottom:12px; position:relative}
+    .card-badge{position:absolute; top:8px; left:8px; width:20px; height:20px; border-radius:50%; background:var(--blue); color:white; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:600; z-index:1}
+    .card h2{font-size:1.1rem; margin:0 0 6px; display:flex; justify-content:space-between; align-items:center; line-height:1.4; flex-wrap:wrap; gap:8px}
     .pill{font-size:.75rem; line-height:1; padding:6px 8px; border-radius:999px; border:1px solid #e5e7eb; color:var(--muted); background:#fafafa}
     .pill.red{border-color:#ffd1d1; background:#fff5f5; color:#b42318}
     .pill.yellow{border-color:#ffe1b3; background:#fff9ed; color:#b76e00}
@@ -67,10 +68,18 @@
       overflow-wrap:break-word;
     }
     
+    /* Floating horizontal rule */
+    .chip-divider {
+      width:50%;
+      height:1px;
+      background:#e5e7eb;
+      margin:16px auto 12px;
+      flex-shrink:0;
+    }
+    
     /* Differentiate content chips from time chips */
     .chips[aria-label="Time frame"] {
       margin-top:auto;
-      padding-top:12px;
     }
     
     .chips[aria-label="Time frame"] .chip {
@@ -126,6 +135,7 @@
 
     <section class="grid" id="plan" hidden>
       <div class="card" id="redCard" aria-labelledby="redHdr">
+        <div class="card-badge">1</div>
         <h2 id="redHdr">
           <span>Focus Area <span class="pill red">Red</span></span>
           <span class="domain" id="redDomain">—</span>
@@ -134,6 +144,7 @@
         <div id="redItems"></div>
         <div class="hint" id="redItemMsg" style="margin-top:-4px"></div>
         <div class="chips" id="redTasks"></div>
+        <div class="chip-divider"></div>
         <div class="chips" aria-label="Time frame" id="redTime">
           <button class="chip" data-time="this">This week</button>
           <button class="chip" data-time="next">Next week</button>
@@ -142,12 +153,14 @@
       </div>
 
       <div class="card" id="yellowCard" aria-labelledby="yellowHdr">
+        <div class="card-badge">2</div>
         <h2 id="yellowHdr">
           <span>Maintenance <span class="pill yellow">Yellow</span></span>
           <span class="domain" id="yellowDomain">—</span>
         </h2>
         <p class="hint" id="yellowHint">Keep progress moving with one short action.</p>
         <div class="chips" id="yellowTasks"></div>
+        <div class="chip-divider"></div>
         <div class="chips" aria-label="Time frame" id="yellowTime">
           <button class="chip" data-time="this">This week</button>
           <button class="chip" data-time="next">Next week</button>
@@ -156,12 +169,14 @@
       </div>
 
       <div class="card" id="greenCard" aria-labelledby="greenHdr">
+        <div class="card-badge">3</div>
         <h2 id="greenHdr">
           <span>Quick Check-In <span class="pill green">Green</span></span>
           <span class="domain" id="greenDomain">—</span>
         </h2>
         <p class="hint" id="greenHint">Confirm confidence with a 30-second check.</p>
         <div class="chips" id="greenTasks"></div>
+        <div class="chip-divider"></div>
         <div class="chips" aria-label="Time frame" id="greenTime">
           <button class="chip" data-time="this">This week</button>
           <button class="chip" data-time="next">Next week</button>
@@ -581,7 +596,7 @@
       // Status banner
       const ts = state.raw.timestamp ? new Date(state.raw.timestamp) : null;
       $('#status').className = 'banner good';
-      $('#status').textContent = 'Results found' + (ts? ` from ${ts.toLocaleString()}`:'') + '. Pre-filled your plan below.';
+      $('#status').textContent = 'Results found' + (ts? ` from ${ts.toLocaleString()}`:'') + '. Your personalized study plan has been generated below.';
 
       render();
     }
