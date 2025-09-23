@@ -348,6 +348,8 @@
       redItemsWrap.innerHTML = '';
       const items = (red.lowestItems && red.lowestItems.length) ? red.lowestItems.slice(0,2) : [];
       if(items.length > 0){
+        redItemsWrap.style.display = 'block';
+        $('#redItemMsg').style.display = 'block';
         items.forEach((it,idx)=>{
           const id = 'redItem_'+idx;
           const row = el('div',{className:'item'});
@@ -362,6 +364,8 @@
         $('#redHint').textContent = 'Select one item to target first.';
       } else {
         $('#redHint').textContent = 'Select a specific low item to target first.';
+        redItemsWrap.style.display = 'none';
+        $('#redItemMsg').style.display = 'none';
       }
       refreshRedTasks();
 
