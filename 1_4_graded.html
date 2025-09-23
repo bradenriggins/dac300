@@ -348,7 +348,7 @@
       redItemsWrap.innerHTML = '';
       const items = (red.lowestItems && red.lowestItems.length) ? red.lowestItems.slice(0,2) : [];
       if(items.length===0){
-        redItemsWrap.append(el('div',{className:'item',style:'text-align:center; font-style:italic; color:var(--muted); font-size:0.9rem; padding:12px 16px;'},[text('All items in this domain scored similarly. Choose a general improvement action below.')]));
+        redItemsWrap.append(el('div',{style:'text-align:center; font-style:italic; color:var(--muted); font-size:0.85rem; margin:0 0 12px; padding:8px 0; line-height:1.3;'},[text('All items in this domain scored similarly. Choose a general improvement action below.')]));
         $('#redHint').textContent = 'Choose one targeted action that will improve this area.';
       } else {
         items.forEach((it,idx)=>{
