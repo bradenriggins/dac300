@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>1.2 Readiness Self‑Assessment — Texas RDA Exam</title>
+  <title>1.2 Readiness Self-Assessment - Texas RDA Exam</title>
   <style>
     /* =========================
        DAC 111–aligned visual system
@@ -99,8 +99,6 @@
 </head>
 <body>
   <a class="skip-link" href="#formRoot">Skip to assessment</a>
-  </div>
-  </div>
 
   <div class="wrap" role="main">
     <div id="sr-status" class="sr-only" role="status" aria-live="polite"></div>
@@ -540,7 +538,7 @@
         row.className = 'card';
         row.innerHTML = `
           <div class="stat">
-            <div><strong>${s.name}</strong><div class="pill">${s.avg ? s.avg.toFixed(2)+'/5 · '+b.label : '—'}</div></div>
+            <div><strong>${s.name}</strong><div class="pill">${s.avg ? s.avg.toFixed(2)+'/5 · '+b.label : '--'}</div></div>
             <div>
               <div class="scorebar"><span style="width:${pct}%"></span></div>
             </div>
@@ -592,51 +590,7 @@
       window.scrollTo({top: $('#summary').offsetTop - 12, behavior:'smooth'});
     }
 
-    function genP
-      // Persist a compact cross-iframe summary for 1.4
-      try{
-        const summary = {
-          schema: SCHEMA_VERSION,
-          courseId: COURSE_ID,
-          week: WEEK_ID,
-          examId: EXAM_ID,
-          tool: 'assessment',
-          timestamp: new Date().toISOString(),
-          domains: answeredDomains.map(d => ({
-            id: d.id,
-            name: d.name,
-            avg: Number((d.avg||0).toFixed(2)),
-            answered: d.answered,
-            total: d.total,
-            band: band(d.avg).label
-          })),
-          priority: answeredDomains.slice(0,3).map(d => ({
-            id: d.id,
-            name: d.name,
-            avg: Number((d.avg||0).toFixed(2)),
-            suggestion: (d.id==='d2' 
-              ? 'Pair each item with a quick operatory routine to reinforce infection‑control habits.'
-              : d.id==='d3' 
-                ? 'Schedule two short imaging practice blocks (positioning + error‑fix drills).'
-                : 'Review Texas rules in context (scope, delegation, records) and jot two scenario examples.'
-            ),
-            lowestItems: d.scores.slice(0, Math.min(3, d.scores.length)).map(s => ({
-              index: s.i,
-              text: s.text,
-              score: s.val
-            }))
-          })),
-          lowestItemsOverall: bottom.map(x => ({
-            domainId: x.id,
-            domain: x.domain,
-            index: x.i,
-            text: x.text,
-            score: x.val
-          }))
-        };
-        localStorage.setItem(KEY_SUMMARY, JSON.stringify(summary));
-      }catch(e){}
-lan(){
+    function genPlan(){
       const data = JSON.parse(localStorage.getItem(KEY_RESPONSES) || '{}');
       const planEl = $('#plan');
       const results = [];
@@ -667,14 +621,14 @@ lan(){
       // Sort domains by average (lowest first)
       answeredDomains.sort((a,b)=> (a.avg-b.avg));
 
-      // Build HTML: top 3 domains (or fewer), include their 2–3 lowest items
+      // Build HTML: top 3 domains (or fewer), include their 2-3 lowest items
       const blocks = answeredDomains.slice(0,3).map((d,idx)=>{
         const take = Math.min(3, d.scores.length);
         const items = d.scores.slice(0,take).map(s=>`<li>${s.text} <span class="pill">(${s.val}/5)</span></li>`).join('');
-        const avgPct = d.avg ? d.avg.toFixed(2) : '—';
+        const avgPct = d.avg ? d.avg.toFixed(2) : '--';
         // tailored nudges by domain
-        const nudge = d.id==='d2' ? 'Pair each item with a quick operatory routine to reinforce infection‑control habits.'
-                    : d.id==='d3' ? 'Schedule two short imaging practice blocks (positioning + error‑fix drills).'
+        const nudge = d.id==='d2' ? 'Pair each item with a quick operatory routine to reinforce infection-control habits.'
+                    : d.id==='d3' ? 'Schedule two short imaging practice blocks (positioning + error-fix drills).'
                     : 'Review Texas rules in context (scope, delegation, records) and jot two scenario examples.';
         return `
           <div class="card">
@@ -700,6 +654,50 @@ lan(){
         <hr class="rule orange" />
         <div class="grid">${blocks}${bottomList}</div>
       `;
+      
+      // Persist a compact cross-iframe summary for 1.4
+      try{
+        const summary = {
+          schema: SCHEMA_VERSION,
+          courseId: COURSE_ID,
+          week: WEEK_ID,
+          examId: EXAM_ID,
+          tool: 'assessment',
+          timestamp: new Date().toISOString(),
+          domains: answeredDomains.map(d => ({
+            id: d.id,
+            name: d.name,
+            avg: Number((d.avg||0).toFixed(2)),
+            answered: d.answered,
+            total: d.total,
+            band: band(d.avg).label
+          })),
+          priority: answeredDomains.slice(0,3).map(d => ({
+            id: d.id,
+            name: d.name,
+            avg: Number((d.avg||0).toFixed(2)),
+            suggestion: (d.id==='d2' 
+              ? 'Pair each item with a quick operatory routine to reinforce infection-control habits.'
+              : d.id==='d3' 
+                ? 'Schedule two short imaging practice blocks (positioning + error-fix drills).'
+                : 'Review Texas rules in context (scope, delegation, records) and jot two scenario examples.'
+            ),
+            lowestItems: d.scores.slice(0, Math.min(3, d.scores.length)).map(s => ({
+              index: s.i,
+              text: s.text,
+              score: s.val
+            }))
+          })),
+          lowestItemsOverall: bottom.map(x => ({
+            domainId: x.id,
+            domain: x.domain,
+            index: x.i,
+            text: x.text,
+            score: x.val
+          }))
+        };
+        localStorage.setItem(KEY_SUMMARY, JSON.stringify(summary));
+      }catch(e){}
     }
 
     function toCSV(){
@@ -811,8 +809,8 @@ lan(){
 
     function copySummary(){
       const {stats} = calc();
-      const lines = stats.map(s=>`${s.name}: ${s.avg ? s.avg.toFixed(2)+'/5' : '—'}`);
-      const txt = 'Texas RDA Self‑Assessment\n' + lines.join('\n');
+      const lines = stats.map(s=>`${s.name}: ${s.avg ? s.avg.toFixed(2)+'/5' : '--'}`);
+      const txt = 'Texas RDA Self-Assessment\n' + lines.join('\n');
       navigator.clipboard.writeText(txt).then(()=>{
         const old = $('#copyBtn').textContent; $('#copyBtn').textContent='Copied!'; setTimeout(()=>$('#copyBtn').textContent=old,1000);
       }).catch(()=>{});
