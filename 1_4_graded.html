@@ -11,7 +11,7 @@
     }
     *{box-sizing:border-box}
     body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--bg); min-height:100vh}
-    .wrap{max-width:100%; margin:0; padding:20px; box-sizing:border-box}
+    .wrap{max-width:100%; margin:0; padding:20px 20px 8px; box-sizing:border-box}
     h1{font-size:1.5rem; margin:0 0 12px; color:var(--blue); line-height:1.3}
     .subtitle{color:var(--muted); margin:0 0 16px; font-size:1rem; line-height:1.4}
     .banner{border:1px solid #d0d5dd; background:#fff; padding:12px 16px; border-radius:12px; display:block; margin-bottom:16px; box-shadow:0 1px 2px rgba(0,0,0,.03); line-height:1.4}
@@ -20,6 +20,7 @@
     .grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:16px}
     @media(min-width:768px){ .grid{grid-template-columns:repeat(3,1fr)} }
     .card{background:var(--card); border:1px solid #e5e7eb; border-radius:14px; padding:16px; box-shadow:0 1px 2px rgba(0,0,0,.04); margin-bottom:12px}
+    #submitCard{margin-bottom:0}
     .card h2{font-size:1.1rem; margin:0 0 6px; display:flex; justify-content:space-between; align-items:center; line-height:1.4; flex-wrap:wrap; gap:8px}
     .pill{font-size:.75rem; line-height:1; padding:6px 8px; border-radius:999px; border:1px solid #e5e7eb; color:var(--muted); background:#fafafa}
     .pill.red{border-color:#ffd1d1; background:#fff5f5; color:#b42318}
@@ -47,7 +48,7 @@
     
     /* Responsive improvements for iframe/mobile */
     @media (max-width: 767px) {
-      .wrap{padding:16px}
+      .wrap{padding:16px 16px 8px}
       .grid{grid-template-columns:1fr; gap:16px}
       .card{padding:16px}
       .chip{padding:10px 14px; font-size:0.85rem; min-height:64px}
