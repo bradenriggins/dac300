@@ -184,7 +184,7 @@
     <section class="card" id="submitCard" hidden>
       <h2>Submission</h2>
       <div class="actions">
-        <button id="generate" class="primary">Generate submission</button>
+        <button id="generate" class="primary" disabled>Generate submission</button>
         <button id="download" disabled>Export</button>
       </div>
       <pre id="output" aria-live="polite" aria-atomic="true"></pre>
@@ -387,6 +387,8 @@
       // Reveal plan + submission
       $('#plan').hidden = false;
       $('#submitCard').hidden = false;
+      // Check if button should be enabled
+      checkCompletionReady();
     }
 
     function refreshRedTasks(){
