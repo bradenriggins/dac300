@@ -187,7 +187,9 @@
         <button id="generate" class="primary" disabled>Generate submission</button>
         <button id="download" disabled>Export</button>
       </div>
-      <pre id="output" aria-live="polite" aria-atomic="true"></pre>
+      <div id="successMessage" style="display:none; margin-top:16px; padding:12px; background:#f2fbf3; border:1px solid #c5e5c7; border-radius:8px; color:#157f3a; font-size:0.9rem;" aria-live="polite" aria-atomic="true">
+        Your micro-plan has been submitted. You will receive full credit! Click "Export" if you'd like to save your micro-plan to your device.
+      </div>
     </section>
   </div>
 
@@ -575,11 +577,14 @@
 
     $('#generate').addEventListener('click', ()=>{
       const txt = buildSubmission();
-      $('#output').textContent = txt;
+      // Store the content for download but don't display it
+      $('#generate').dataset.submissionContent = txt;
+      // Show success message
+      $('#successMessage').style.display = 'block';
       $('#download').disabled = false;
     });
     $('#download').addEventListener('click', ()=>{
-      const content = $('#output').textContent || '';
+      const content = $('#generate').dataset.submissionContent || '';
       const rtfContent = `{\\rtf1\\ansi\\deff0 {\\fonttbl {\\f0 Times New Roman;}}\\f0\\fs24 ${content.replace(/\n/g, '\\par ')}}`;
       const blob = new Blob([rtfContent], {type:'application/rtf'});
       const url = URL.createObjectURL(blob);
