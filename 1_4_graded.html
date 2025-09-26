@@ -183,13 +183,15 @@
     </section>
 
     <section class="card" id="submitCard" hidden>
-      <h2>Submission</h2>
+      <h2>Create Your Plan</h2>
       <div class="actions">
-        <button id="generate" class="primary" disabled>Generate submission</button>
-        <button id="download" disabled>Export</button>
+        <button id="generate" class="primary" disabled>Create My Plan</button>
+        <button id="download" disabled>Export Plan</button>
       </div>
-      <div id="successMessage" style="display:none; margin-top:16px; padding:12px; background:#f2fbf3; border:1px solid #c5e5c7; border-radius:8px; color:#157f3a; font-size:0.9rem;" aria-live="polite" aria-atomic="true">
-        Your micro-plan has been submitted. You will receive full credit! Click "Export" if you'd like to save your micro-plan to your device.
+      <div id="planDisplay" style="display:none; margin-top:16px; padding:16px; background:#fff; border:1px solid #e5e7eb; border-radius:12px; font-size:0.95rem;" aria-live="polite" aria-atomic="true">
+        <h3 style="margin:0 0 16px 0; color:var(--blue); font-size:1.1rem; border-bottom:1px solid #e5e7eb; padding-bottom:8px;">Your Personal Micro-Plan</h3>
+        <div id="planContent"></div>
+        <p style="margin:16px 0 0 0; padding-top:12px; border-top:1px solid #e5e7eb; color:var(--muted); font-size:0.85rem;">Use "Export Plan" to save this to your device for easy reference.</p>
       </div>
     </section>
   </div>
@@ -544,10 +546,54 @@
       const sel = state.selections;
       const redItem = (red.lowestItems||[])[ sel.red.itemIndex ?? 0 ];
       const lines = [];
-      lines.push(`Red: ${red.name} → ${redItem && redItem.text ? '“'+redItem.text+'”' : 'specific focus'} → ${sel.red.task} → ${humanTime(sel.red.time)}`);
+      lines.push(`Red: ${red.name} → ${redItem && redItem.text ? '"'+redItem.text+'"' : 'specific focus'} → ${sel.red.task} → ${humanTime(sel.red.time)}`);
       lines.push(`Yellow: ${yellow.name} → ${sel.yellow.task} → ${humanTime(sel.yellow.time)}`);
       lines.push(`Green: ${green.name} → ${sel.green.task} → ${humanTime(sel.green.time)}`);
       return lines.join("\n");
+    }
+    
+    function displayFormattedPlan(){
+      const { red, yellow, green } = state.ryg;
+      const sel = state.selections;
+      const redItem = (red.lowestItems||[])[ sel.red.itemIndex ?? 0 ];
+      
+      const planHtml = `
+        <div style="margin-bottom:16px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <span class="pill red" style="font-weight:600;">Red - Focus Area</span>
+            <span style="color:var(--blue); font-weight:600;">${red.name}</span>
+          </div>
+          <div style="margin-left:16px; color:var(--ink);">
+            <div style="margin-bottom:4px;"><strong>Target:</strong> ${redItem && redItem.text ? redItem.text : 'Specific focus area'}</div>
+            <div style="margin-bottom:4px;"><strong>Action:</strong> ${sel.red.task}</div>
+            <div><strong>Timeline:</strong> ${humanTime(sel.red.time)}</div>
+          </div>
+        </div>
+        
+        <div style="margin-bottom:16px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <span class="pill yellow" style="font-weight:600;">Yellow - Maintenance</span>
+            <span style="color:var(--blue); font-weight:600;">${yellow.name}</span>
+          </div>
+          <div style="margin-left:16px; color:var(--ink);">
+            <div style="margin-bottom:4px;"><strong>Action:</strong> ${sel.yellow.task}</div>
+            <div><strong>Timeline:</strong> ${humanTime(sel.yellow.time)}</div>
+          </div>
+        </div>
+        
+        <div>
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <span class="pill green" style="font-weight:600;">Green - Quick Check-In</span>
+            <span style="color:var(--blue); font-weight:600;">${green.name}</span>
+          </div>
+          <div style="margin-left:16px; color:var(--ink);">
+            <div style="margin-bottom:4px;"><strong>Action:</strong> ${sel.green.task}</div>
+            <div><strong>Timeline:</strong> ${humanTime(sel.green.time)}</div>
+          </div>
+        </div>
+      `;
+      
+      $('#planContent').innerHTML = planHtml;
     }
 
     function checkCompletionReady(){
@@ -578,15 +624,17 @@
 
     $('#generate').addEventListener('click', ()=>{
       const txt = buildSubmission();
-      // Store the content for download but don't display it
+      // Store the content for download
       $('#generate').dataset.submissionContent = txt;
-      // Show success message
-      $('#successMessage').style.display = 'block';
+      // Display the formatted plan
+      displayFormattedPlan();
+      // Show plan display
+      $('#planDisplay').style.display = 'block';
       $('#download').disabled = false;
     });
     $('#download').addEventListener('click', ()=>{
       const content = $('#generate').dataset.submissionContent || '';
-      const rtfContent = `{\\rtf1\\ansi\\deff0 {\\fonttbl {\\f0 Times New Roman;}}\\f0\\fs24 ${content.replace(/\n/g, '\\par ')}}`;
+      const rtfContent = `{\\rtf1\\ansi\\deff0 {\\fonttbl {\\f0 Times New Roman;}}\\f0\\fs24\\b Personal Micro-Plan\\b0\\par\\par ${content.replace(/\n/g, '\\par ')}}`;
       const blob = new Blob([rtfContent], {type:'application/rtf'});
       const url = URL.createObjectURL(blob);
       const a = el('a',{href:url, download:'RYG_Micro_Plan.rtf'}); document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 0);
