@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Externship Alignment: Practice Opportunities Tracker</title>
+  <style>
+    :root {
+      --blue-primary: #01549e;
+      --blue-secondary: #507ABB;
+      --orange-1: #be5510;
+      --orange-2: #cb6015;
+      --teal: #0093b2;
+      --highlight: #fbeeb8;
+      --bg: #f8fafc;
+      --text: #1b2838;
+      --muted: #6b7a90;
+      --card: #ffffff;
+      --ring: #e1e8f5;
+      --green: #146c2e;
+      --green-bg: #dcfce7;
+      --yellow-bg: #fef9c3;
+      --red-bg: #fee2e2;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    h2 {
+      color: var(--blue-primary);
+      font-size: 1.5rem;
+      margin: 0 0 8px 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0 0 16px 0;
+    }
+
+    hr.divider {
+      border: none;
+      border-top: 2px solid var(--blue-secondary);
+      margin: 16px 0;
+    }
+
+    hr.divider.orange {
+      border-top-color: var(--orange-1);
+    }
+
+    .intro-card {
+      background: linear-gradient(135deg, var(--blue-primary), var(--teal));
+      color: white;
+      padding: 20px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+    }
+
+    .intro-card h3 {
+      margin: 0 0 8px 0;
+      color: white;
+    }
+
+    .intro-card p {
+      margin: 0;
+      opacity: 0.95;
+    }
+
+    /* Domain sections */
+    .domain-section {
+      margin-bottom: 24px;
+    }
+
+    .domain-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--ring);
+      border-radius: 14px 14px 0 0;
+      border-bottom: 3px solid var(--blue-primary);
+    }
+
+    .domain-header.jurisprudence {
+      border-bottom-color: var(--orange-1);
+    }
+
+    .domain-header.infection {
+      border-bottom-color: var(--teal);
+    }
+
+    .domain-header.radiology {
+      border-bottom-color: var(--blue-primary);
+    }
+
+    .domain-header h3 {
+      margin: 0;
+      color: var(--blue-primary);
+      font-size: 1.1rem;
+    }
+
+    .domain-badge {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--green-bg);
+      color: var(--green);
+      font-weight: 600;
+      margin-left: auto;
+    }
+
+    .opportunity-list {
+      background: var(--card);
+      border: 1px solid var(--ring);
+      border-top: none;
+      border-radius: 0 0 14px 14px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .opportunity-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: start;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--ring);
+    }
+
+    .opportunity-item:last-child {
+      border-bottom: none;
+    }
+
+    .checkbox-wrap {
+      padding-top: 2px;
+    }
+
+    .checkbox-wrap input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: var(--blue-primary);
+    }
+
+    .opportunity-content h4 {
+      margin: 0 0 4px 0;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .opportunity-content p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .opportunity-item.completed .opportunity-content h4 {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    .opportunity-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .mini-tag {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(1, 84, 158, 0.08);
+      color: var(--blue-primary);
+    }
+
+    .mini-tag.observe { background: #e0f2fe; color: #0369a1; }
+    .mini-tag.practice { background: #dcfce7; color: #166534; }
+    .mini-tag.ask { background: #fef9c3; color: #854d0e; }
+
+    /* Notes section */
+    .notes-btn {
+      appearance: none;
+      border: 1px solid var(--ring);
+      background: var(--bg);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .notes-btn:hover {
+      border-color: var(--blue-secondary);
+      color: var(--blue-primary);
+    }
+
+    .notes-area {
+      display: none;
+      margin-top: 8px;
+    }
+
+    .notes-area.show {
+      display: block;
+    }
+
+    .notes-area textarea {
+      width: 100%;
+      min-height: 60px;
+      border: 1px solid var(--ring);
+      border-radius: 8px;
+      padding: 8px;
+      font: inherit;
+      font-size: 0.85rem;
+      resize: vertical;
+    }
+
+    /* Progress bar */
+    .progress-section {
+      background: var(--card);
+      border: 1px solid var(--ring);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .progress-header h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--blue-primary);
+    }
+
+    .progress-pct {
+      font-weight: 700;
+      color: var(--blue-primary);
+    }
+
+    .progress-bar {
+      height: 12px;
+      background: var(--ring);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue-secondary), var(--teal));
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    .progress-domains {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .progress-domain {
+      text-align: center;
+      padding: 10px;
+      background: var(--bg);
+      border-radius: 10px;
+    }
+
+    .progress-domain .count {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--blue-primary);
+    }
+
+    .progress-domain .label {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* Tip box */
+    .tip-box {
+      background: var(--highlight);
+      border: 1px solid #eadca2;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 16px 0;
+    }
+
+    .tip-box strong {
+      color: var(--orange-1);
+    }
+
+    /* Actions */
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--ring);
+      background: var(--blue-primary);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn.secondary {
+      background: var(--card);
+      color: var(--text);
+    }
+
+    .btn.secondary:hover {
+      border-color: var(--blue-secondary);
+    }
+
+    /* Footer */
+    .footer-note {
+      margin-top: 20px;
+      padding: 14px;
+      background: var(--card);
+      border: 1px solid var(--ring);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 640px) {
+      .progress-domains {
+        grid-template-columns: 1fr;
+      }
+      .opportunity-item {
+        grid-template-columns: auto 1fr;
+      }
+      .notes-btn {
+        grid-column: 2;
+        justify-self: start;
+        margin-top: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>Externship Practice Opportunities</h2>
+    <p class="subtitle">Connect your clinical experience with exam preparation</p>
+
+    <hr class="divider">
+
+    <div class="intro-card">
+      <h3>Make the Most of Your Externship</h3>
+      <p>Your externship is the perfect opportunity to see exam concepts in action. Use this tracker to identify practice opportunities and build confidence through real-world experience. Check off items as you observe or practice them during your externship.</p>
+    </div>
+
+    <!-- Progress Section -->
+    <div class="progress-section">
+      <div class="progress-header">
+        <h3>Your Progress</h3>
+        <span class="progress-pct" id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+      <div class="progress-domains">
+        <div class="progress-domain">
+          <div class="count" id="jurCount">0/5</div>
+          <div class="label">Jurisprudence</div>
+        </div>
+        <div class="progress-domain">
+          <div class="count" id="infCount">0/6</div>
+          <div class="label">Infection Control</div>
+        </div>
+        <div class="progress-domain">
+          <div class="count" id="radCount">0/5</div>
+          <div class="label">Radiology</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>How to Use:</strong> Check the box when you've observed or practiced each skill. Click "Add Notes" to record specific examples or questions to follow up on.
+    </div>
+
+    <!-- Jurisprudence Section -->
+    <div class="domain-section" data-domain="jur">
+      <div class="domain-header jurisprudence">
+        <h3>Jurisprudence Opportunities</h3>
+        <span class="domain-badge" id="jurBadge">0 of 5</span>
+      </div>
+      <ul class="opportunity-list">
+        <li class="opportunity-item" data-id="jur1">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="jur1" aria-label="Observe scope of practice boundaries">
+          </div>
+          <div class="opportunity-content">
+            <h4>Observe Scope of Practice Boundaries</h4>
+            <p>Watch how tasks are delegated. Notice what the dentist does vs. what the DA does.</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag observe">Observe</span>
+              <span class="mini-tag ask">Ask Questions</span>
+            </div>
+            <div class="notes-area" id="notes-jur1">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('jur1')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="jur2">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="jur2" aria-label="Review patient consent processes">
+          </div>
+          <div class="opportunity-content">
+            <h4>Review Patient Consent Processes</h4>
+            <p>How does the office obtain and document informed consent?</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag observe">Observe</span>
+            </div>
+            <div class="notes-area" id="notes-jur2">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('jur2')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="jur3">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="jur3" aria-label="Observe record keeping practices">
+          </div>
+          <div class="opportunity-content">
+            <h4>Observe Record Keeping Practices</h4>
+            <p>How are patient records maintained? What information is documented?</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag observe">Observe</span>
+              <span class="mini-tag ask">Ask Questions</span>
+            </div>
+            <div class="notes-area" id="notes-jur3">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('jur3')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="jur4">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="jur4" aria-label="Ask about HIPAA compliance">
+          </div>
+          <div class="opportunity-content">
+            <h4>Ask About HIPAA Compliance</h4>
+            <p>How does the office protect patient privacy? What are the confidentiality protocols?</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag ask">Ask Questions</span>
+            </div>
+            <div class="notes-area" id="notes-jur4">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('jur4')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="jur5">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="jur5" aria-label="Learn about CE requirements">
+          </div>
+          <div class="opportunity-content">
+            <h4>Learn About CE Requirements</h4>
+            <p>Ask staff how they track and complete continuing education requirements.</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag ask">Ask Questions</span>
+            </div>
+            <div class="notes-area" id="notes-jur5">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('jur5')">Add Notes</button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Infection Control Section -->
+    <div class="domain-section" data-domain="inf">
+      <div class="domain-header infection">
+        <h3>Infection Control Opportunities</h3>
+        <span class="domain-badge" id="infBadge">0 of 6</span>
+      </div>
+      <ul class="opportunity-list">
+        <li class="opportunity-item" data-id="inf1">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="inf1" aria-label="Practice PPE donning and doffing">
+          </div>
+          <div class="opportunity-content">
+            <h4>Practice PPE Donning and Doffing</h4>
+            <p>Follow the correct sequence: Gown → Mask → Eyewear → Gloves (reverse for removal).</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag practice">Hands-On Practice</span>
+            </div>
+            <div class="notes-area" id="notes-inf1">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('inf1')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="inf2">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="inf2" aria-label="Walk through instrument sterilization">
+          </div>
+          <div class="opportunity-content">
+            <h4>Walk Through Instrument Sterilization</h4>
+            <p>Follow instruments from transport → cleaning → packaging → sterilization → storage.</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag practice">Hands-On Practice</span>
+              <span class="mini-tag observe">Observe</span>
+            </div>
+            <div class="notes-area" id="notes-inf2">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('inf2')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="inf3">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="inf3" aria-label="Observe operatory turnover">
+          </div>
+          <div class="opportunity-content">
+            <h4>Observe Operatory Turnover</h4>
+            <p>Watch how surfaces are disinfected and barriers are changed between patients.</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag observe">Observe</span>
+              <span class="mini-tag practice">Hands-On Practice</span>
+            </div>
+            <div class="notes-area" id="notes-inf3">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('inf3')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="inf4">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="inf4" aria-label="Review sharps handling protocol">
+          </div>
+          <div class="opportunity-content">
+            <h4>Review Sharps Handling Protocol</h4>
+            <p>Observe sharps container placement and needle recapping techniques.</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag observe">Observe</span>
+              <span class="mini-tag ask">Ask Questions</span>
+            </div>
+            <div class="notes-area" id="notes-inf4">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('inf4')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="inf5">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="inf5" aria-label="Check sterilization monitoring">
+          </div>
+          <div class="opportunity-content">
+            <h4>Check Sterilization Monitoring</h4>
+            <p>How does the office verify sterilization? Ask about biological and chemical indicators.</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag ask">Ask Questions</span>
+              <span class="mini-tag observe">Observe</span>
+            </div>
+            <div class="notes-area" id="notes-inf5">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('inf5')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="inf6">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="inf6" aria-label="Practice hand hygiene technique">
+          </div>
+          <div class="opportunity-content">
+            <h4>Practice Hand Hygiene Technique</h4>
+            <p>Review proper handwashing vs. hand sanitizer use. When is each appropriate?</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag practice">Hands-On Practice</span>
+            </div>
+            <div class="notes-area" id="notes-inf6">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('inf6')">Add Notes</button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Radiology Section -->
+    <div class="domain-section" data-domain="rad">
+      <div class="domain-header radiology">
+        <h3>Radiology Opportunities</h3>
+        <span class="domain-badge" id="radBadge">0 of 5</span>
+      </div>
+      <ul class="opportunity-list">
+        <li class="opportunity-item" data-id="rad1">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="rad1" aria-label="Observe patient positioning">
+          </div>
+          <div class="opportunity-content">
+            <h4>Observe Patient Positioning</h4>
+            <p>Watch how patients are positioned for different types of radiographs (BW, PA, Pano).</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag observe">Observe</span>
+            </div>
+            <div class="notes-area" id="notes-rad1">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('rad1')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="rad2">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="rad2" aria-label="Review radiation safety practices">
+          </div>
+          <div class="opportunity-content">
+            <h4>Review Radiation Safety Practices</h4>
+            <p>Observe lead apron use, thyroid collar placement, and operator positioning.</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag observe">Observe</span>
+              <span class="mini-tag ask">Ask Questions</span>
+            </div>
+            <div class="notes-area" id="notes-rad2">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('rad2')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="rad3">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="rad3" aria-label="Explore digital imaging software">
+          </div>
+          <div class="opportunity-content">
+            <h4>Explore Digital Imaging Software</h4>
+            <p>Ask for a tour of the digital imaging system. How are images captured, stored, adjusted?</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag ask">Ask Questions</span>
+              <span class="mini-tag observe">Observe</span>
+            </div>
+            <div class="notes-area" id="notes-rad3">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('rad3')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="rad4">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="rad4" aria-label="Identify anatomical landmarks">
+          </div>
+          <div class="opportunity-content">
+            <h4>Identify Anatomical Landmarks</h4>
+            <p>Review radiographs with staff. Can you identify enamel, dentin, pulp, bone, sinuses?</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag practice">Hands-On Practice</span>
+              <span class="mini-tag ask">Ask Questions</span>
+            </div>
+            <div class="notes-area" id="notes-rad4">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('rad4')">Add Notes</button>
+        </li>
+        <li class="opportunity-item" data-id="rad5">
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="rad5" aria-label="Learn about common errors">
+          </div>
+          <div class="opportunity-content">
+            <h4>Learn About Common Errors</h4>
+            <p>Ask to see examples of retakes. What caused the error? How was it corrected?</p>
+            <div class="opportunity-tags">
+              <span class="mini-tag ask">Ask Questions</span>
+              <span class="mini-tag observe">Observe</span>
+            </div>
+            <div class="notes-area" id="notes-rad5">
+              <textarea placeholder="Your notes..."></textarea>
+            </div>
+          </div>
+          <button class="notes-btn" onclick="toggleNotes('rad5')">Add Notes</button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="actions">
+      <button class="btn" id="exportBtn">Export Progress</button>
+      <button class="btn secondary" id="resetBtn">Reset All</button>
+    </div>
+
+    <div class="footer-note">
+      <strong>Remember:</strong> Your externship supervisor is a valuable resource. Don't hesitate to ask questions! Most dental professionals are happy to explain what they're doing and why. Your curiosity shows professionalism and eagerness to learn.
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'dac300:v1:tx-rda:w1:externship:tracker';
+
+    const counts = {
+      jur: { total: 5, checked: 0 },
+      inf: { total: 6, checked: 0 },
+      rad: { total: 5, checked: 0 }
+    };
+
+    function toggleNotes(id) {
+      const area = document.getElementById('notes-' + id);
+      area.classList.toggle('show');
+      postHeight();
+    }
+
+    function updateProgress() {
+      let total = 0;
+      let checked = 0;
+
+      Object.keys(counts).forEach(domain => {
+        counts[domain].checked = 0;
+      });
+
+      document.querySelectorAll('.opportunity-item input[type="checkbox"]').forEach(cb => {
+        total++;
+        if (cb.checked) {
+          checked++;
+          const id = cb.id;
+          if (id.startsWith('jur')) counts.jur.checked++;
+          else if (id.startsWith('inf')) counts.inf.checked++;
+          else if (id.startsWith('rad')) counts.rad.checked++;
+
+          cb.closest('.opportunity-item').classList.add('completed');
+        } else {
+          cb.closest('.opportunity-item').classList.remove('completed');
+        }
+      });
+
+      const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+      document.getElementById('progressPct').textContent = pct + '%';
+      document.getElementById('progressFill').style.width = pct + '%';
+
+      document.getElementById('jurCount').textContent = counts.jur.checked + '/' + counts.jur.total;
+      document.getElementById('infCount').textContent = counts.inf.checked + '/' + counts.inf.total;
+      document.getElementById('radCount').textContent = counts.rad.checked + '/' + counts.rad.total;
+
+      document.getElementById('jurBadge').textContent = counts.jur.checked + ' of ' + counts.jur.total;
+      document.getElementById('infBadge').textContent = counts.inf.checked + ' of ' + counts.inf.total;
+      document.getElementById('radBadge').textContent = counts.rad.checked + ' of ' + counts.rad.total;
+    }
+
+    function save() {
+      const data = {
+        checked: [],
+        notes: {}
+      };
+
+      document.querySelectorAll('.opportunity-item input[type="checkbox"]').forEach(cb => {
+        if (cb.checked) data.checked.push(cb.id);
+      });
+
+      document.querySelectorAll('.notes-area textarea').forEach(ta => {
+        const id = ta.closest('.notes-area').id.replace('notes-', '');
+        if (ta.value.trim()) data.notes[id] = ta.value;
+      });
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+        if (data.checked) {
+          data.checked.forEach(id => {
+            const cb = document.getElementById(id);
+            if (cb) cb.checked = true;
+          });
+        }
+
+        if (data.notes) {
+          Object.keys(data.notes).forEach(id => {
+            const ta = document.querySelector('#notes-' + id + ' textarea');
+            if (ta) ta.value = data.notes[id];
+          });
+        }
+
+        updateProgress();
+      } catch (e) {
+        console.warn('Failed to load progress', e);
+      }
+    }
+
+    function exportProgress() {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      let text = 'EXTERNSHIP PRACTICE OPPORTUNITIES TRACKER\n';
+      text += 'Generated: ' + new Date().toLocaleDateString() + '\n\n';
+
+      ['jur', 'inf', 'rad'].forEach(domain => {
+        const name = domain === 'jur' ? 'Jurisprudence' : domain === 'inf' ? 'Infection Control' : 'Radiology';
+        text += '=== ' + name.toUpperCase() + ' ===\n';
+        text += 'Completed: ' + counts[domain].checked + ' of ' + counts[domain].total + '\n\n';
+
+        document.querySelectorAll('[data-id^="' + domain + '"]').forEach(item => {
+          const cb = item.querySelector('input[type="checkbox"]');
+          const title = item.querySelector('h4').textContent;
+          const status = cb.checked ? '[X]' : '[ ]';
+          text += status + ' ' + title + '\n';
+
+          const noteId = item.dataset.id;
+          if (data.notes && data.notes[noteId]) {
+            text += '    Notes: ' + data.notes[noteId] + '\n';
+          }
+        });
+        text += '\n';
+      });
+
+      const blob = new Blob([text], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Externship_Practice_Tracker.txt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function resetAll() {
+      if (confirm('Reset all progress and notes? This cannot be undone.')) {
+        localStorage.removeItem(STORAGE_KEY);
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        document.querySelectorAll('.notes-area textarea').forEach(ta => ta.value = '');
+        document.querySelectorAll('.notes-area').forEach(area => area.classList.remove('show'));
+        updateProgress();
+      }
+    }
+
+    // Event listeners
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        updateProgress();
+        save();
+      });
+    });
+
+    document.querySelectorAll('.notes-area textarea').forEach(ta => {
+      ta.addEventListener('input', save);
+    });
+
+    document.getElementById('exportBtn').addEventListener('click', exportProgress);
+    document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+    // Auto-resize for iframe
+    function postHeight() {
+      if (window.parent !== window) {
+        const h = document.body.scrollHeight;
+        window.parent.postMessage({ type: 'resize', height: h }, '*');
+      }
+    }
+
+    window.addEventListener('load', () => {
+      load();
+      postHeight();
+    });
+    window.addEventListener('resize', postHeight);
+  </script>
+</body>
+</html>

@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resource Hub: Certification Domains & Study Aids</title>
+  <style>
+    :root {
+      --blue-primary: #01549e;
+      --blue-secondary: #507ABB;
+      --orange-1: #be5510;
+      --orange-2: #cb6015;
+      --teal: #0093b2;
+      --highlight: #fbeeb8;
+      --bg: #f8fafc;
+      --text: #1b2838;
+      --muted: #6b7a90;
+      --card: #ffffff;
+      --ring: #e1e8f5;
+      --green: #146c2e;
+      --green-bg: #dcfce7;
+      --yellow-bg: #fef9c3;
+      --red-bg: #fee2e2;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    h2 {
+      color: var(--blue-primary);
+      font-size: 1.5rem;
+      margin: 0 0 8px 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0 0 16px 0;
+    }
+
+    hr.divider {
+      border: none;
+      border-top: 2px solid var(--blue-secondary);
+      margin: 16px 0;
+    }
+
+    hr.divider.orange {
+      border-top-color: var(--orange-1);
+    }
+
+    /* Tab Navigation */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 2px solid var(--ring);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      appearance: none;
+      border: none;
+      background: transparent;
+      padding: 12px 20px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+    }
+
+    .tab:hover {
+      color: var(--blue-primary);
+    }
+
+    .tab[aria-selected="true"] {
+      color: var(--blue-primary);
+      border-bottom-color: var(--blue-primary);
+    }
+
+    .tab:focus {
+      outline: 2px solid var(--blue-secondary);
+      outline-offset: 2px;
+    }
+
+    /* Tab Panels */
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--ring);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .card h3 {
+      color: var(--blue-primary);
+      margin: 0 0 8px 0;
+      font-size: 1.15rem;
+    }
+
+    .card h4 {
+      color: var(--orange-1);
+      margin: 14px 0 8px 0;
+      font-size: 1rem;
+    }
+
+    .card p {
+      margin: 0 0 10px 0;
+    }
+
+    .card ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .card li {
+      margin-bottom: 6px;
+    }
+
+    /* Resource Links */
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .resource-link {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      background: var(--card);
+      border: 1px solid var(--ring);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .resource-link:hover {
+      border-color: var(--blue-secondary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .resource-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--blue-secondary), var(--teal));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .resource-info h4 {
+      margin: 0 0 4px 0;
+      color: var(--blue-primary);
+      font-size: 0.95rem;
+    }
+
+    .resource-info p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Domain Progress Cards */
+    .domain-card {
+      border-left: 4px solid var(--blue-primary);
+    }
+
+    .domain-card.jurisprudence {
+      border-left-color: var(--orange-1);
+    }
+
+    .domain-card.infection {
+      border-left-color: var(--teal);
+    }
+
+    .domain-card.radiology {
+      border-left-color: var(--blue-primary);
+    }
+
+    /* Tags */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(1, 84, 158, 0.08);
+      color: var(--blue-primary);
+      border: 1px solid rgba(1, 84, 158, 0.15);
+    }
+
+    .tag.orange {
+      background: rgba(190, 85, 16, 0.08);
+      color: var(--orange-1);
+      border-color: rgba(190, 85, 16, 0.15);
+    }
+
+    .tag.teal {
+      background: rgba(0, 147, 178, 0.08);
+      color: var(--teal);
+      border-color: rgba(0, 147, 178, 0.15);
+    }
+
+    /* Tip Box */
+    .tip-box {
+      background: var(--highlight);
+      border: 1px solid #eadca2;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 16px 0;
+    }
+
+    .tip-box strong {
+      color: var(--orange-1);
+    }
+
+    /* Score integration */
+    .score-banner {
+      background: linear-gradient(135deg, var(--blue-primary), var(--teal));
+      color: white;
+      padding: 16px 20px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .score-banner h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: white;
+    }
+
+    .score-item {
+      text-align: center;
+    }
+
+    .score-item .value {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .score-item .label {
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    .no-scores {
+      background: var(--yellow-bg);
+      border: 1px solid #fde68a;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+
+    /* Accordion */
+    details {
+      border: 1px solid var(--ring);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      background: var(--card);
+    }
+
+    summary {
+      padding: 14px 16px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--blue-primary);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "+";
+      font-size: 1.2rem;
+      color: var(--muted);
+    }
+
+    details[open] summary::after {
+      content: "−";
+    }
+
+    .details-content {
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--ring);
+    }
+
+    /* Footer */
+    .footer-note {
+      margin-top: 20px;
+      padding: 14px;
+      background: var(--card);
+      border: 1px solid var(--ring);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 640px) {
+      .tabs {
+        gap: 2px;
+      }
+      .tab {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+      }
+      .score-banner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>Certification Domains & Study Aids</h2>
+    <p class="subtitle">Your comprehensive resource center for Texas RDA exam preparation</p>
+
+    <hr class="divider">
+
+    <!-- Score Integration Banner -->
+    <div id="scoreBanner"></div>
+
+    <!-- Tab Navigation -->
+    <div class="tabs" role="tablist" aria-label="Resource categories">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="panel-domains" id="tab-domains">Exam Domains</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="panel-study" id="tab-study">Study Resources</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="panel-practice" id="tab-practice">Practice & Review</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="panel-official" id="tab-official">Official Resources</button>
+    </div>
+
+    <!-- Panel: Exam Domains -->
+    <div class="panel active" id="panel-domains" role="tabpanel" aria-labelledby="tab-domains">
+      <div class="tip-box">
+        <strong>Tip:</strong> The Texas RDA exam covers three main domains. Focus your study time based on your self-assessment results from the previous activity.
+      </div>
+
+      <div class="card domain-card jurisprudence">
+        <h3>1. Jurisprudence (Texas Dental Practice Act)</h3>
+        <p>Understanding Texas dental laws, regulations, and ethical standards is essential for legal practice as an RDA.</p>
+        <h4>Key Topics</h4>
+        <ul>
+          <li>State Board of Dental Examiners (SBDE) role and authority</li>
+          <li>Scope of practice for dental assistants</li>
+          <li>Delegation and supervision requirements</li>
+          <li>Patient confidentiality and record keeping</li>
+          <li>CE requirements and license renewal</li>
+          <li>Unprofessional conduct and disciplinary actions</li>
+        </ul>
+        <div class="tags">
+          <span class="tag orange">Laws & Regulations</span>
+          <span class="tag orange">Ethics</span>
+          <span class="tag orange">Scope of Practice</span>
+        </div>
+      </div>
+
+      <div class="card domain-card infection">
+        <h3>2. Infection Control</h3>
+        <p>Protecting patients and healthcare workers through proper infection prevention protocols is a core competency.</p>
+        <h4>Key Topics</h4>
+        <ul>
+          <li>Standard precautions and PPE selection</li>
+          <li>Hand hygiene protocols</li>
+          <li>Instrument processing and sterilization</li>
+          <li>Surface disinfection and barriers</li>
+          <li>Sharps safety and waste management</li>
+          <li>Waterline maintenance</li>
+        </ul>
+        <div class="tags">
+          <span class="tag teal">PPE</span>
+          <span class="tag teal">Sterilization</span>
+          <span class="tag teal">OSHA</span>
+        </div>
+      </div>
+
+      <div class="card domain-card radiology">
+        <h3>3. Radiology</h3>
+        <p>Producing diagnostic quality radiographs while minimizing radiation exposure requires technical skill and safety knowledge.</p>
+        <h4>Key Topics</h4>
+        <ul>
+          <li>X-ray production and image formation</li>
+          <li>Intraoral and extraoral techniques</li>
+          <li>Digital imaging systems</li>
+          <li>Image quality and error correction</li>
+          <li>Radiation safety and ALARA principle</li>
+          <li>Anatomical landmarks interpretation</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">Technique</span>
+          <span class="tag">Safety</span>
+          <span class="tag">Digital Imaging</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Study Resources -->
+    <div class="panel" id="panel-study" role="tabpanel" aria-labelledby="tab-study">
+      <div class="tip-box">
+        <strong>Study Strategy:</strong> Use multiple resource types—read, watch, quiz yourself, and practice hands-on when possible.
+      </div>
+
+      <h3 style="color: var(--blue-primary); margin-bottom: 14px;">Recommended Study Materials</h3>
+
+      <details open>
+        <summary>Textbook Resources</summary>
+        <div class="details-content">
+          <p><strong>Dental Assisting: A Comprehensive Approach (7th Edition)</strong></p>
+          <ul>
+            <li>Chapter 10: Microbiology (foundational for infection control)</li>
+            <li>Chapters 11-13: Infection Control procedures</li>
+            <li>Chapter 22: Dental Radiography basics</li>
+            <li>Chapters 23-26: Radiographic techniques</li>
+            <li>Chapter 3: Ethics and Jurisprudence</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Online Learning Platforms</summary>
+        <div class="details-content">
+          <div class="resource-grid">
+            <a href="https://www.dentalcare.com/" target="_blank" class="resource-link">
+              <div class="resource-icon">📚</div>
+              <div class="resource-info">
+                <h4>Colgate Dental Care</h4>
+                <p>Free CE courses on infection control and clinical topics</p>
+              </div>
+            </a>
+            <a href="https://www.cdc.gov/oralhealth/infectioncontrol/" target="_blank" class="resource-link">
+              <div class="resource-icon">🏥</div>
+              <div class="resource-info">
+                <h4>CDC Oral Health</h4>
+                <p>Official infection control guidelines and resources</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Video Learning</summary>
+        <div class="details-content">
+          <p>Visual learning can reinforce complex procedures and concepts:</p>
+          <ul>
+            <li><strong>YouTube:</strong> Search for "dental radiology techniques" or "infection control dental office"</li>
+            <li><strong>Manufacturer Videos:</strong> Many equipment manufacturers provide training videos</li>
+            <li><strong>Course Genially Presentations:</strong> Review the interactive presentations in your lessons</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Flashcard Sets</summary>
+        <div class="details-content">
+          <p>Quizlet sets are embedded throughout your course lessons. Use them for:</p>
+          <ul>
+            <li>Terminology review (Match and Learn modes)</li>
+            <li>Self-testing (Test mode)</li>
+            <li>Quick review sessions (Flashcard mode)</li>
+          </ul>
+          <p><em>Tip: Create your own cards for terms you find challenging!</em></p>
+        </div>
+      </details>
+    </div>
+
+    <!-- Panel: Practice & Review -->
+    <div class="panel" id="panel-practice" role="tabpanel" aria-labelledby="tab-practice">
+      <div class="tip-box">
+        <strong>Practice Makes Progress:</strong> Active recall and spaced repetition are the most effective study methods.
+      </div>
+
+      <h3 style="color: var(--blue-primary); margin-bottom: 14px;">Practice Strategies</h3>
+
+      <div class="card">
+        <h3>Self-Testing Techniques</h3>
+        <ul>
+          <li><strong>Teach-back method:</strong> Explain concepts aloud as if teaching someone else</li>
+          <li><strong>Practice questions:</strong> Work through end-of-chapter questions</li>
+          <li><strong>Scenario-based thinking:</strong> "What would I do if..."</li>
+          <li><strong>Timed quizzes:</strong> Build speed and confidence under time pressure</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Hands-On Practice (During Externship)</h3>
+        <ul>
+          <li><strong>Infection Control:</strong> Practice PPE donning/doffing sequence daily</li>
+          <li><strong>Sterilization:</strong> Walk through instrument processing steps</li>
+          <li><strong>Radiology:</strong> Observe and practice positioning techniques</li>
+          <li><strong>Documentation:</strong> Review how records are maintained</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Weekly Review Schedule</h3>
+        <p>Consider this study pattern:</p>
+        <ul>
+          <li><strong>Monday-Wednesday:</strong> Focus on one domain (e.g., Jurisprudence)</li>
+          <li><strong>Thursday-Friday:</strong> Focus on second domain (e.g., Infection Control)</li>
+          <li><strong>Weekend:</strong> Mixed review and practice questions</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Panel: Official Resources -->
+    <div class="panel" id="panel-official" role="tabpanel" aria-labelledby="tab-official">
+      <div class="tip-box">
+        <strong>Important:</strong> Always refer to official Texas SBDE resources for the most current regulations.
+      </div>
+
+      <h3 style="color: var(--blue-primary); margin-bottom: 14px;">Texas State Board of Dental Examiners</h3>
+
+      <div class="resource-grid">
+        <a href="https://www.tsbde.texas.gov/" target="_blank" class="resource-link">
+          <div class="resource-icon">🏛️</div>
+          <div class="resource-info">
+            <h4>TSBDE Official Website</h4>
+            <p>Main portal for all Texas dental regulations and licensing</p>
+          </div>
+        </a>
+        <a href="https://www.tsbde.texas.gov/78i6bc5/dental-assistant-registration" target="_blank" class="resource-link">
+          <div class="resource-icon">📋</div>
+          <div class="resource-info">
+            <h4>RDA Registration Info</h4>
+            <p>Requirements, applications, and renewal information</p>
+          </div>
+        </a>
+      </div>
+
+      <h3 style="color: var(--blue-primary); margin: 20px 0 14px;">Exam Information</h3>
+
+      <div class="card">
+        <h3>Texas RDA Exam Overview</h3>
+        <ul>
+          <li><strong>Format:</strong> Computer-based multiple choice</li>
+          <li><strong>Sections:</strong> Jurisprudence, Infection Control, Radiology</li>
+          <li><strong>Passing Score:</strong> Check current TSBDE requirements</li>
+          <li><strong>Retake Policy:</strong> Review TSBDE guidelines for retake waiting periods</li>
+        </ul>
+      </div>
+
+      <h3 style="color: var(--blue-primary); margin: 20px 0 14px;">Professional Organizations</h3>
+
+      <div class="resource-grid">
+        <a href="https://www.danb.org/" target="_blank" class="resource-link">
+          <div class="resource-icon">⭐</div>
+          <div class="resource-info">
+            <h4>DANB</h4>
+            <p>Dental Assisting National Board - National certification info</p>
+          </div>
+        </a>
+        <a href="https://www.ada.org/" target="_blank" class="resource-link">
+          <div class="resource-icon">🦷</div>
+          <div class="resource-info">
+            <h4>ADA</h4>
+            <p>American Dental Association - Industry standards and guidelines</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <strong>Remember:</strong> This resource hub is your starting point. Bookmark pages you find helpful, and return here whenever you need to find study materials or official information. Your externship supervisor can also point you to additional resources specific to your practice setting.
+    </div>
+  </div>
+
+  <script>
+    // Tab functionality
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.panel');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Deselect all tabs
+        tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+        // Hide all panels
+        panels.forEach(p => p.classList.remove('active'));
+
+        // Select clicked tab
+        tab.setAttribute('aria-selected', 'true');
+        // Show corresponding panel
+        const panelId = tab.getAttribute('aria-controls');
+        document.getElementById(panelId).classList.add('active');
+      });
+    });
+
+    // Load assessment scores if available
+    function loadScores() {
+      const banner = document.getElementById('scoreBanner');
+      const KEY_SUMMARY = 'dac300:v1:tx-rda:w1:assessment:summary';
+
+      try {
+        const data = JSON.parse(localStorage.getItem(KEY_SUMMARY) || '{}');
+
+        if (data.domains && data.domains.length > 0) {
+          let html = '<div class="score-banner"><h3>Your Self-Assessment Results</h3>';
+          data.domains.forEach(d => {
+            html += `<div class="score-item"><div class="value">${d.avg.toFixed(1)}</div><div class="label">${d.name}</div></div>`;
+          });
+          html += '</div>';
+          banner.innerHTML = html;
+        } else {
+          banner.innerHTML = `
+            <div class="no-scores">
+              <strong>No assessment data found.</strong> Complete the Self-Assessment activity first to see personalized recommendations here.
+            </div>
+          `;
+        }
+      } catch (e) {
+        banner.innerHTML = '';
+      }
+    }
+
+    // Auto-resize for iframe embedding
+    function postHeight() {
+      if (window.parent !== window) {
+        const h = document.body.scrollHeight;
+        window.parent.postMessage({ type: 'resize', height: h }, '*');
+      }
+    }
+
+    window.addEventListener('load', () => {
+      loadScores();
+      postHeight();
+    });
+    window.addEventListener('resize', postHeight);
+
+    // Update height when tabs change
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => setTimeout(postHeight, 100));
+    });
+
+    // Update height when details expand/collapse
+    document.querySelectorAll('details').forEach(d => {
+      d.addEventListener('toggle', () => setTimeout(postHeight, 100));
+    });
+  </script>
+</body>
+</html>
