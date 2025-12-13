@@ -1,671 +1,671 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DAC 300 - RYG (Red, Yellow, Green) Micro-Plan</title>
-  <style>
-    :root{
-      --blue:#01549e; --blue2:#507ABB; --teal:#0093b2; --orange:#cb6015; --bg:#f7f9fc; --ink:#1d2939; --muted:#667085; --card:#ffffff;
-      --ring: rgba(1,84,158,.35);
-    }
-    *{box-sizing:border-box}
-    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--bg); min-height:100vh}
-    .wrap{max-width:100%; margin:0; padding:20px 20px 8px; box-sizing:border-box}
-    h1{font-size:1.5rem; margin:0 0 12px; color:var(--blue); line-height:1.3}
-    .subtitle{color:var(--muted); margin:0 0 16px; font-size:1rem; line-height:1.4}
-    .banner{border:1px solid #d0d5dd; background:#fff; padding:12px 16px; border-radius:12px; display:block; margin-bottom:16px; box-shadow:0 1px 2px rgba(0,0,0,.03); line-height:1.4}
-    .banner.good{border-color:#B7E4C7; background:#F1FAF5}
-    .banner.warn{border-color:#ffe1b3; background:#fff9ed}
-    .grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:16px}
-    @media(min-width:768px){ .grid{grid-template-columns:repeat(3,1fr)} }
-    .card{background:var(--card); border:1px solid #e5e7eb; border-radius:14px; padding:16px; box-shadow:0 1px 2px rgba(0,0,0,.04); margin-bottom:12px}
-    #submitCard{margin-bottom:0}
-    .card h2{font-size:1.1rem; margin:0 0 6px; display:flex; justify-content:space-between; align-items:center; line-height:1.4; flex-wrap:wrap; gap:8px}
-    .pill{font-size:.75rem; line-height:1; padding:6px 8px; border-radius:999px; border:1px solid #e5e7eb; color:var(--muted); background:#fafafa}
-    .pill.red{border-color:#ffd1d1; background:#fff5f5; color:#b42318}
-    .pill.yellow{border-color:#ffe1b3; background:#fff9ed; color:#b76e00}
-    .pill.green{border-color:#c5e5c7; background:#f2fbf3; color:#157f3a}
-    .muted{color:var(--muted)}
-    .domain{font-weight:600; color:var(--blue)}
-    .item{border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:12px; background:#fcfdff}
-    .item label{display:flex; gap:12px; align-items:flex-start; cursor:pointer; line-height:1.5}
-    .item input{margin-top:4px; flex-shrink:0}
-    .chips{display:grid; grid-template-columns:1fr; gap:6px; margin:12px 0}
-    .chips[aria-label="Time frame"]{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; align-items:center}
-    .chip{border:1px solid #d0d5dd; background:#fff; padding:8px 12px; border-radius:8px; cursor:pointer; user-select:none; font-size:0.8rem; line-height:1.2; text-align:center; min-height:64px; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease; width:100%; box-sizing:border-box; hyphens:none; word-break:normal}
-    .chip[aria-pressed="true"]{border-color:var(--blue); box-shadow:0 0 0 3px var(--ring)}
-    .hint{font-size:.8rem; color:var(--muted); line-height:1.4; margin-bottom:12px}
-    .actions{margin:20px 0; display:flex; gap:12px; flex-wrap:wrap; align-items:center}
-    button{appearance:none; border:1px solid #d0d5dd; background:#fff; color:var(--ink); padding:12px 20px; border-radius:10px; cursor:pointer; font-weight:600; font-size:0.95rem; line-height:1.4; min-height:44px}
-    button.primary{background:var(--blue); color:#fff; border-color:var(--blue)}
-    button:disabled{opacity:.5; cursor:not-allowed}
-    pre{background:#0b1020; color:#e7eaf3; padding:14px; border-radius:12px; overflow:auto; max-height:240px}
-    .import{margin-top:24px}
-    textarea{width:100%; min-height:120px; padding:16px; border:1px solid #d0d5dd; border-radius:12px; resize:vertical; font-size:0.95rem; line-height:1.5; box-sizing:border-box}
-    .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
-    .footer{margin-top:24px; color:var(--muted); font-size:.9rem; line-height:1.4}
-    
-    /* Responsive improvements for iframe/mobile */
-    @media (max-width: 767px) {
-      .wrap{padding:16px 16px 8px}
-      .grid{grid-template-columns:1fr; gap:16px}
-      .card{padding:16px}
-      .chip{padding:10px 14px; font-size:0.85rem; min-height:64px}
-      h1{font-size:1.5rem}
-      .subtitle{font-size:1rem}
-    }
-    
-    /* Improve readability in small spaces */
-    .card h2 .pill{margin-left:8px; white-space:nowrap}
-    .card h2 .domain{font-size:0.9em; color:var(--blue)}
-    
-    /* Better chip wrapping */
-    .chip{
-      hyphens:none;
-      word-break:normal;
-      white-space:normal;
-      overflow-wrap:break-word;
-    }
-    
-    /* Floating horizontal rule */
-    .chip-divider {
-      width:50%;
-      height:1px;
-      background:#e5e7eb;
-      margin:20px auto;
-      flex-shrink:0;
-    }
-    
-    /* Differentiate content chips from time chips */
-    .chips[aria-label="Time frame"] {
-      margin-top:auto;
-    }
-    
-    .chips[aria-label="Time frame"] .chip {
-      font-size:0.75rem;
-      padding:6px 12px;
-      min-height:28px;
-      background:#f8f9fa;
-      border-color:#dee2e6;
-      color:#495057;
-      min-width:70px;
-      border-radius:999px;
-      width:auto;
-    }
-    
-    .chips[aria-label="Time frame"] .chip[aria-pressed="true"] {
-      background:var(--blue);
-      color:white;
-      border-color:var(--blue);
-    }
-    
-    /* Make cards equal height */
-    .grid .card {
-      display:flex;
-      flex-direction:column;
-      min-height:300px;
-    }
-    
-    .card .chips:not([aria-label="Time frame"]) {
-      flex-grow:1;
-    }
-  </style>
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>DAC 300 - RYG (Red, Yellow, Green) Micro-Plan</title>
+ <style>
+ :root{
+ --blue:#01549e; --blue2:#507ABB; --teal:#0093b2; --orange:#cb6015; --bg:#f7f9fc; --ink:#1d2939; --muted:#667085; --card:#ffffff;
+ --ring: rgba(1,84,158,.35);
+ }
+ *{box-sizing:border-box}
+ body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--bg); min-height:100vh}
+ .wrap{max-width:100%; margin:0; padding:20px 20px 8px; box-sizing:border-box}
+ h1{font-size:1.5rem; margin:0 0 12px; color:var(--blue); line-height:1.3}
+ .subtitle{color:var(--muted); margin:0 0 16px; font-size:1rem; line-height:1.4}
+ .banner{border:1px solid #d0d5dd; background:#fff; padding:12px 16px; border-radius:12px; display:block; margin-bottom:16px; box-shadow:0 1px 2px rgba(0,0,0,.03); line-height:1.4}
+ .banner.good{border-color:#B7E4C7; background:#F1FAF5}
+ .banner.warn{border-color:#ffe1b3; background:#fff9ed}
+ .grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:16px}
+ @media(min-width:768px){ .grid{grid-template-columns:repeat(3,1fr)} }
+ .card{background:var(--card); border:1px solid #e5e7eb; border-radius:14px; padding:16px; box-shadow:0 1px 2px rgba(0,0,0,.04); margin-bottom:12px}
+ #submitCard{margin-bottom:0}
+ .card h2{font-size:1.1rem; margin:0 0 6px; display:flex; justify-content:space-between; align-items:center; line-height:1.4; flex-wrap:wrap; gap:8px}
+ .pill{font-size:.75rem; line-height:1; padding:6px 8px; border-radius:999px; border:1px solid #e5e7eb; color:var(--muted); background:#fafafa}
+ .pill.red{border-color:#ffd1d1; background:#fff5f5; color:#b42318}
+ .pill.yellow{border-color:#ffe1b3; background:#fff9ed; color:#b76e00}
+ .pill.green{border-color:#c5e5c7; background:#f2fbf3; color:#157f3a}
+ .muted{color:var(--muted)}
+ .domain{font-weight:600; color:var(--blue)}
+ .item{border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:12px; background:#fcfdff}
+ .item label{display:flex; gap:12px; align-items:flex-start; cursor:pointer; line-height:1.5}
+ .item input{margin-top:4px; flex-shrink:0}
+ .chips{display:grid; grid-template-columns:1fr; gap:6px; margin:12px 0}
+ .chips[aria-label="Time frame"]{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; align-items:center}
+ .chip{border:1px solid #d0d5dd; background:#fff; padding:8px 12px; border-radius:8px; cursor:pointer; user-select:none; font-size:0.8rem; line-height:1.2; text-align:center; min-height:64px; display:flex; align-items:center; justify-content:center; transition:all 0.2s ease; width:100%; box-sizing:border-box; hyphens:none; word-break:normal}
+ .chip[aria-pressed="true"]{border-color:var(--blue); box-shadow:0 0 0 3px var(--ring)}
+ .hint{font-size:.8rem; color:var(--muted); line-height:1.4; margin-bottom:12px}
+ .actions{margin:20px 0; display:flex; gap:12px; flex-wrap:wrap; align-items:center}
+ button{appearance:none; border:1px solid #d0d5dd; background:#fff; color:var(--ink); padding:12px 20px; border-radius:10px; cursor:pointer; font-weight:600; font-size:0.95rem; line-height:1.4; min-height:44px}
+ button.primary{background:var(--blue); color:#fff; border-color:var(--blue)}
+ button:disabled{opacity:.5; cursor:not-allowed}
+ pre{background:#0b1020; color:#e7eaf3; padding:14px; border-radius:12px; overflow:auto; max-height:240px}
+ .import{margin-top:24px}
+ textarea{width:100%; min-height:120px; padding:16px; border:1px solid #d0d5dd; border-radius:12px; resize:vertical; font-size:0.95rem; line-height:1.5; box-sizing:border-box}
+ .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
+ .footer{margin-top:24px; color:var(--muted); font-size:.9rem; line-height:1.4}
+ 
+ /* Responsive improvements for iframe/mobile */
+ @media (max-width: 767px) {
+ .wrap{padding:16px 16px 8px}
+ .grid{grid-template-columns:1fr; gap:16px}
+ .card{padding:16px}
+ .chip{padding:10px 14px; font-size:0.85rem; min-height:64px}
+ h1{font-size:1.5rem}
+ .subtitle{font-size:1rem}
+ }
+ 
+ /* Improve readability in small spaces */
+ .card h2 .pill{margin-left:8px; white-space:nowrap}
+ .card h2 .domain{font-size:0.9em; color:var(--blue)}
+ 
+ /* Better chip wrapping */
+ .chip{
+ hyphens:none;
+ word-break:normal;
+ white-space:normal;
+ overflow-wrap:break-word;
+ }
+ 
+ /* Floating horizontal rule */
+ .chip-divider {
+ width:50%;
+ height:1px;
+ background:#e5e7eb;
+ margin:20px auto;
+ flex-shrink:0;
+ }
+ 
+ /* Differentiate content chips from time chips */
+ .chips[aria-label="Time frame"] {
+ margin-top:auto;
+ }
+ 
+ .chips[aria-label="Time frame"] .chip {
+ font-size:0.75rem;
+ padding:6px 12px;
+ min-height:28px;
+ background:#f8f9fa;
+ border-color:#dee2e6;
+ color:#495057;
+ min-width:70px;
+ border-radius:999px;
+ width:auto;
+ }
+ 
+ .chips[aria-label="Time frame"] .chip[aria-pressed="true"] {
+ background:var(--blue);
+ color:white;
+ border-color:var(--blue);
+ }
+ 
+ /* Make cards equal height */
+ .grid .card {
+ display:flex;
+ flex-direction:column;
+ min-height:300px;
+ }
+ 
+ .card .chips:not([aria-label="Time frame"]) {
+ flex-grow:1;
+ }
+ </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>RYG (Red, Yellow, Green) Micro-Plan</h1>
-    <p class="subtitle">This tool reads your self-assessment results and helps you set one focused action for a lower area, one maintenance action, and one quick check-in. It should take about 6-10 minutes.</p>
+ <div class="wrap">
+ <h1>RYG (Red, Yellow, Green) Micro-Plan</h1>
+ <p class="subtitle">This tool reads your self-assessment results and helps you set one focused action for a lower area, one maintenance action, and one quick check-in. It should take about 6-10 minutes.</p>
 
-    <div id="status" class="banner">Checking for your self-assessment results...</div>
-    
+ <div id="status" class="banner">Checking for your self-assessment results...</div>
+ 
 
-    <section class="import card" id="importCard" hidden>
-      <h2>Import results <span class="pill">fallback</span></h2>
-      <p class="hint">If your results are not detected automatically, paste the text from <strong>Copy Results</strong> or upload the CSV you exported from the summary page.</p>
-      <div style="margin-top:8px">
-        <label for="paste" class="sr-only">Paste results</label>
-        <textarea id="paste" placeholder="Paste copied results or JSON here…"></textarea>
-        <div class="actions">
-          <button id="tryPaste" class="primary">Use pasted text</button>
-          <input id="csv" type="file" accept=".csv,text/csv,application/csv" />
-        </div>
-      </div>
-    </section>
+ <section class="import card" id="importCard" hidden>
+ <h2>Import results <span class="pill">fallback</span></h2>
+ <p class="hint">If your results are not detected automatically, paste the text from <strong>Copy Results</strong> or upload the CSV you exported from the summary page.</p>
+ <div style="margin-top:8px">
+ <label for="paste" class="sr-only">Paste results</label>
+ <textarea id="paste" placeholder="Paste copied results or JSON here…"></textarea>
+ <div class="actions">
+ <button id="tryPaste" class="primary">Use pasted text</button>
+ <input id="csv" type="file" accept=".csv,text/csv,application/csv" />
+ </div>
+ </div>
+ </section>
 
-    <section class="grid" id="plan" hidden>
-      <div class="card" id="redCard" aria-labelledby="redHdr">
-        <h2 id="redHdr">
-          <span>Focus Area <span class="pill red">Red</span></span>
-          <span class="domain" id="redDomain">—</span>
-        </h2>
-        <p class="hint" id="redHint">Select a specific low item to target first.</p>
-        <div id="redItems"></div>
-        <div class="hint" id="redItemMsg" style="margin-top:-4px"></div>
-        <div class="chips" id="redTasks"></div>
-        <div class="chip-divider"></div>
-        <div class="chips" aria-label="Time frame" id="redTime">
-          <button class="chip" data-time="this">This week</button>
-          <button class="chip" data-time="next">Next week</button>
-          <button class="chip" data-time="later">Later</button>
-        </div>
-      </div>
+ <section class="grid" id="plan" hidden>
+ <div class="card" id="redCard" aria-labelledby="redHdr">
+ <h2 id="redHdr">
+ <span>Focus Area <span class="pill red">Red</span></span>
+ <span class="domain" id="redDomain"> - </span>
+ </h2>
+ <p class="hint" id="redHint">Select a specific low item to target first.</p>
+ <div id="redItems"></div>
+ <div class="hint" id="redItemMsg" style="margin-top:-4px"></div>
+ <div class="chips" id="redTasks"></div>
+ <div class="chip-divider"></div>
+ <div class="chips" aria-label="Time frame" id="redTime">
+ <button class="chip" data-time="this">This week</button>
+ <button class="chip" data-time="next">Next week</button>
+ <button class="chip" data-time="later">Later</button>
+ </div>
+ </div>
 
-      <div class="card" id="yellowCard" aria-labelledby="yellowHdr">
-        <h2 id="yellowHdr">
-          <span>Maintenance <span class="pill yellow">Yellow</span></span>
-          <span class="domain" id="yellowDomain">—</span>
-        </h2>
-        <p class="hint" id="yellowHint">Keep progress moving with one short action.</p>
-        <div class="chips" id="yellowTasks"></div>
-        <div class="chip-divider"></div>
-        <div class="chips" aria-label="Time frame" id="yellowTime">
-          <button class="chip" data-time="this">This week</button>
-          <button class="chip" data-time="next">Next week</button>
-          <button class="chip" data-time="later">Later</button>
-        </div>
-      </div>
+ <div class="card" id="yellowCard" aria-labelledby="yellowHdr">
+ <h2 id="yellowHdr">
+ <span>Maintenance <span class="pill yellow">Yellow</span></span>
+ <span class="domain" id="yellowDomain"> - </span>
+ </h2>
+ <p class="hint" id="yellowHint">Keep progress moving with one short action.</p>
+ <div class="chips" id="yellowTasks"></div>
+ <div class="chip-divider"></div>
+ <div class="chips" aria-label="Time frame" id="yellowTime">
+ <button class="chip" data-time="this">This week</button>
+ <button class="chip" data-time="next">Next week</button>
+ <button class="chip" data-time="later">Later</button>
+ </div>
+ </div>
 
-      <div class="card" id="greenCard" aria-labelledby="greenHdr">
-        <h2 id="greenHdr">
-          <span>Quick Check-In <span class="pill green">Green</span></span>
-          <span class="domain" id="greenDomain">—</span>
-        </h2>
-        <p class="hint" id="greenHint">Confirm confidence with a 30-second check.</p>
-        <div class="chips" id="greenTasks"></div>
-        <div class="chip-divider"></div>
-        <div class="chips" aria-label="Time frame" id="greenTime">
-          <button class="chip" data-time="this">This week</button>
-          <button class="chip" data-time="next">Next week</button>
-          <button class="chip" data-time="later">Later</button>
-        </div>
-      </div>
-    </section>
+ <div class="card" id="greenCard" aria-labelledby="greenHdr">
+ <h2 id="greenHdr">
+ <span>Quick Check-In <span class="pill green">Green</span></span>
+ <span class="domain" id="greenDomain"> - </span>
+ </h2>
+ <p class="hint" id="greenHint">Confirm confidence with a 30-second check.</p>
+ <div class="chips" id="greenTasks"></div>
+ <div class="chip-divider"></div>
+ <div class="chips" aria-label="Time frame" id="greenTime">
+ <button class="chip" data-time="this">This week</button>
+ <button class="chip" data-time="next">Next week</button>
+ <button class="chip" data-time="later">Later</button>
+ </div>
+ </div>
+ </section>
 
-    <section class="card" id="submitCard" hidden>
-      <h2>Create Your Plan</h2>
-      <div class="actions">
-        <button id="generate" class="primary" disabled>Create My Plan</button>
-        <button id="download" disabled>Export Plan</button>
-      </div>
-      <div id="planDisplay" style="display:none; margin-top:16px; padding:16px; background:#fff; border:1px solid #e5e7eb; border-radius:12px; font-size:0.95rem;" aria-live="polite" aria-atomic="true">
-        <h3 style="margin:0 0 16px 0; color:var(--blue); font-size:1.1rem; border-bottom:1px solid #e5e7eb; padding-bottom:8px;">Your Personal Micro-Plan</h3>
-        <div id="planContent"></div>
-        <p style="margin:16px 0 0 0; padding-top:12px; border-top:1px solid #e5e7eb; color:var(--muted); font-size:0.85rem;">Use "Export Plan" to save this to your device for easy reference.</p>
-      </div>
-    </section>
-  </div>
+ <section class="card" id="submitCard" hidden>
+ <h2>Create Your Plan</h2>
+ <div class="actions">
+ <button id="generate" class="primary" disabled>Create My Plan</button>
+ <button id="download" disabled>Export Plan</button>
+ </div>
+ <div id="planDisplay" style="display:none; margin-top:16px; padding:16px; background:#fff; border:1px solid #e5e7eb; border-radius:12px; font-size:0.95rem;" aria-live="polite" aria-atomic="true">
+ <h3 style="margin:0 0 16px 0; color:var(--blue); font-size:1.1rem; border-bottom:1px solid #e5e7eb; padding-bottom:8px;">Your Personal Micro-Plan</h3>
+ <div id="planContent"></div>
+ <p style="margin:16px 0 0 0; padding-top:12px; border-top:1px solid #e5e7eb; color:var(--muted); font-size:0.85rem;">Use "Export Plan" to save this to your device for easy reference.</p>
+ </div>
+ </section>
+ </div>
 
-  <script>
-  (function(){
-    "use strict";
+ <script>
+ (function(){
+ "use strict";
 
-    // ====== Storage keys (try summary first, then legacy) ======
-    const SUMMARY_KEYS = [
-      'dac300:v1:tx-rda:w1:assessment:summary'
-    ];
-    const RESPONSE_KEYS = [
-      'dac300:v1:tx-rda:w1:assessment:responses',
-      'dac300-tx-rda-12-v2'
-    ];
+ // ====== Storage keys (try summary first, then legacy) ======
+ const SUMMARY_KEYS = [
+ 'dac300:v1:tx-rda:w1:assessment:summary'
+ ];
+ const RESPONSE_KEYS = [
+ 'dac300:v1:tx-rda:w1:assessment:responses',
+ 'dac300-tx-rda-12-v2'
+ ];
 
-    const state = {
-      raw:null,         // raw parsed summary
-      ryg:null,         // { red, yellow, green }
-      selections:{      // user choices
-        red:{ itemIndex:null, task:null, time:null },
-        yellow:{ task:null, time:null },
-        green:{ task:null, time:null }
-      },
-    };
+ const state = {
+ raw:null, // raw parsed summary
+ ryg:null, // { red, yellow, green }
+ selections:{ // user choices
+ red:{ itemIndex:null, task:null, time:null },
+ yellow:{ task:null, time:null },
+ green:{ task:null, time:null }
+ },
+ };
 
-    // ====== Utils ======
-    const $ = sel => document.querySelector(sel);
-    const $$ = sel => Array.from(document.querySelectorAll(sel));
-    function el(tag, props={}, children=[]) { const n=document.createElement(tag); Object.assign(n, props); children.forEach(c=>n.append(c)); return n; }
-    function text(s){ return document.createTextNode(String(s)); }
-    function safeParse(s){ try{ return JSON.parse(s); }catch(e){ return null; } }
-    function clamp(n,lo,hi){ return Math.max(lo, Math.min(hi, n)); }
+ // ====== Utils ======
+ const $ = sel => document.querySelector(sel);
+ const $$ = sel => Array.from(document.querySelectorAll(sel));
+ function el(tag, props={}, children=[]) { const n=document.createElement(tag); Object.assign(n, props); children.forEach(c=>n.append(c)); return n; }
+ function text(s){ return document.createTextNode(String(s)); }
+ function safeParse(s){ try{ return JSON.parse(s); }catch(e){ return null; } }
+ function clamp(n,lo,hi){ return Math.max(lo, Math.min(hi, n)); }
 
-    function keyphrase(txt){
-      if(!txt) return 'this item';
-      const words = String(txt).replace(/\s+/g,' ').trim().split(' ');
-      return '“' + words.slice(0, Math.min(6, words.length)).join(' ') + (words.length>6?'…':'”');
-    }
+ function keyphrase(txt){
+ if(!txt) return 'this item';
+ const words = String(txt).replace(/\s+/g,' ').trim().split(' ');
+ return '“' + words.slice(0, Math.min(6, words.length)).join(' ') + (words.length>6?'…':'”');
+ }
 
-    function classify(domains){
-      if(!domains || !domains.length) return null;
-      const sorted = [...domains].sort((a,b)=>a.avg-b.avg);
-      const red = sorted[0];
-      const green = sorted[sorted.length-1];
-      let yellow = sorted.find(d=> d!==red && d!==green) || sorted[1] || red;
-      return { red, yellow, green };
-    }
+ function classify(domains){
+ if(!domains || !domains.length) return null;
+ const sorted = [...domains].sort((a,b)=>a.avg-b.avg);
+ const red = sorted[0];
+ const green = sorted[sorted.length-1];
+ let yellow = sorted.find(d=> d!==red && d!==green) || sorted[1] || red;
+ return { red, yellow, green };
+ }
 
-    // ====== Suggestion engines ======
-    function detectType(text){
-      if(!text) return 'general';
-      const t = text.toLowerCase();
-      if(/rule|law|delegation|scope|record|documentation|consent|ethic|report/i.test(t)) return 'policy';
-      if(/steril|disinfect|asepsis|ppe|barrier|hand hygiene|spore|biohazard|waste/i.test(t)) return 'infection';
-      if(/radiograph|exposure|position|film|sensor|cone|pid|scatter|shield|artifact|developer|fixer|beam/i.test(t)) return 'radiology';
-      if(/term|define|definition|glossary|vocab|abbrev/i.test(t)) return 'terminology';
-      if(/calculate|dosage|time|speed|kvp|ma|ratio|percent|conversion|math|formula/i.test(t)) return 'calculation';
-      if(/sequence|steps|procedure|process|order|checklist/i.test(t)) return 'procedure';
-      return 'general';
-    }
+ // ====== Suggestion engines ======
+ function detectType(text){
+ if(!text) return 'general';
+ const t = text.toLowerCase();
+ if(/rule|law|delegation|scope|record|documentation|consent|ethic|report/i.test(t)) return 'policy';
+ if(/steril|disinfect|asepsis|ppe|barrier|hand hygiene|spore|biohazard|waste/i.test(t)) return 'infection';
+ if(/radiograph|exposure|position|film|sensor|cone|pid|scatter|shield|artifact|developer|fixer|beam/i.test(t)) return 'radiology';
+ if(/term|define|definition|glossary|vocab|abbrev/i.test(t)) return 'terminology';
+ if(/calculate|dosage|time|speed|kvp|ma|ratio|percent|conversion|math|formula/i.test(t)) return 'calculation';
+ if(/sequence|steps|procedure|process|order|checklist/i.test(t)) return 'procedure';
+ return 'general';
+ }
 
-    function taskIdeasForItem(itemText, domainName){
-      const kp = keyphrase(itemText);
-      const type = detectType(itemText);
-      const dn = (domainName||'').toLowerCase();
-      const ideas = [];
-      const add=(s)=>ideas.push(s);
+ function taskIdeasForItem(itemText, domainName){
+ const kp = keyphrase(itemText);
+ const type = detectType(itemText);
+ const dn = (domainName||'').toLowerCase();
+ const ideas = [];
+ const add=(s)=>ideas.push(s);
 
-      // Tailored by detected type first
-      switch(type){
-        case 'policy':
-          add(`Write two “if…then” examples that apply ${kp} in practice.`);
-          add(`List the 3 decision points that determine compliance for ${kp}.`);
-          add(`Create a one-line reminder for ${kp} and place it where you review notes.`);
-          break;
-        case 'infection':
-          add(`Outline 4 steps to meet ${kp} without missing a step.`);
-          add(`Make a 6-item visual checklist focused on ${kp}.`);
-          add(`Do one minute of recall: list supplies needed to complete ${kp}.`);
-          break;
-        case 'radiology':
-          add(`Write a 4-step positioning note to prevent errors related to ${kp}.`);
-          add(`List 3 causes of retakes tied to ${kp} and one prevention.`);
-          add(`Describe one setup adjustment that improves ${kp}.`);
-          break;
-        case 'terminology':
-          add(`Create 10 term→example pairs including one for ${kp}.`);
-          add(`Write two plain-language definitions related to ${kp}.`);
-          add(`Draft three quick questions that use ${kp} in context.`);
-          break;
-        case 'calculation':
-          add(`Solve two sample problems related to ${kp} and show work.`);
-          add(`Write the formula used for ${kp} with one common pitfall.`);
-          add(`Create a tiny reference line for ${kp} (inputs → output).`);
-          break;
-        case 'procedure':
-          add(`Draft a 4-step mini-checklist to complete ${kp}.`);
-          add(`Write two error-proofing tips specific to ${kp}.`);
-          add(`Record the sequence keywords for ${kp} in order.`);
-          break;
-        default:
-          add(`Write a 3-step action you will execute for ${kp}.`);
-          add(`Note two examples that demonstrate correct ${kp}.`);
-          add(`List one mistake to avoid when addressing ${kp}.`);
-      }
+ // Tailored by detected type first
+ switch(type){
+ case 'policy':
+ add(`Write two “if…then” examples that apply ${kp} in practice.`);
+ add(`List the 3 decision points that determine compliance for ${kp}.`);
+ add(`Create a one-line reminder for ${kp} and place it where you review notes.`);
+ break;
+ case 'infection':
+ add(`Outline 4 steps to meet ${kp} without missing a step.`);
+ add(`Make a 6-item visual checklist focused on ${kp}.`);
+ add(`Do one minute of recall: list supplies needed to complete ${kp}.`);
+ break;
+ case 'radiology':
+ add(`Write a 4-step positioning note to prevent errors related to ${kp}.`);
+ add(`List 3 causes of retakes tied to ${kp} and one prevention.`);
+ add(`Describe one setup adjustment that improves ${kp}.`);
+ break;
+ case 'terminology':
+ add(`Create 10 term→example pairs including one for ${kp}.`);
+ add(`Write two plain-language definitions related to ${kp}.`);
+ add(`Draft three quick questions that use ${kp} in context.`);
+ break;
+ case 'calculation':
+ add(`Solve two sample problems related to ${kp} and show work.`);
+ add(`Write the formula used for ${kp} with one common pitfall.`);
+ add(`Create a tiny reference line for ${kp} (inputs → output).`);
+ break;
+ case 'procedure':
+ add(`Draft a 4-step mini-checklist to complete ${kp}.`);
+ add(`Write two error-proofing tips specific to ${kp}.`);
+ add(`Record the sequence keywords for ${kp} in order.`);
+ break;
+ default:
+ add(`Write a 3-step action you will execute for ${kp}.`);
+ add(`Note two examples that demonstrate correct ${kp}.`);
+ add(`List one mistake to avoid when addressing ${kp}.`);
+ }
 
-      // Light domain flavoring
-      if(dn.includes('juris')){
-        ideas[0] = ideas[0] || `Write two “if…then” examples that apply ${kp}.`;
-      } else if(dn.includes('infection')){
-        ideas[0] = ideas[0] || `Outline 4 steps to meet ${kp} without missing a step.`;
-      } else if(dn.includes('radiolog') || dn.includes('x-ray') || dn.includes('xray')){
-        ideas[0] = ideas[0] || `Write a 4-step positioning note to prevent errors related to ${kp}.`;
-      }
+ // Light domain flavoring
+ if(dn.includes('juris')){
+ ideas[0] = ideas[0] || `Write two “if…then” examples that apply ${kp}.`;
+ } else if(dn.includes('infection')){
+ ideas[0] = ideas[0] || `Outline 4 steps to meet ${kp} without missing a step.`;
+ } else if(dn.includes('radiolog') || dn.includes('x-ray') || dn.includes('xray')){
+ ideas[0] = ideas[0] || `Write a 4-step positioning note to prevent errors related to ${kp}.`;
+ }
 
-      return ideas.slice(0,3);
-    }
+ return ideas.slice(0,3);
+ }
 
-    function maintenanceIdeas(domain, suggested){
-      const dn = (domain?.name||'').toLowerCase();
-      const ideas = [];
-      if(suggested){ ideas.push(suggested); }
-      if(dn.includes('juris')){
-        ideas.push('Review case scenarios and identify correct regulatory applications.');
-        ideas.push('Compare allowed vs prohibited practices for one procedure.');
-      } else if(dn.includes('infection')){
-        ideas.push('Review surface barrier protocols and instrument processing steps.');
-        ideas.push('Study hand hygiene timing requirements and applications.');
-      } else if(dn.includes('radiolog') || dn.includes('x-ray') || dn.includes('xray')){
-        ideas.push('Review positioning techniques and exposure setting principles.');
-        ideas.push('Study common artifact causes and prevention strategies.');
-      } else {
-        ideas.push('Review key maintenance principles and best practices.');
-        ideas.push('Study core concepts and summarize main points.');
-      }
-      // De-duplicate and cap at 3
-      const seen = new Set();
-      return ideas.filter(s=>{ if(!s||seen.has(s)) return false; seen.add(s); return true; }).slice(0,3);
-    }
+ function maintenanceIdeas(domain, suggested){
+ const dn = (domain?.name||'').toLowerCase();
+ const ideas = [];
+ if(suggested){ ideas.push(suggested); }
+ if(dn.includes('juris')){
+ ideas.push('Review case scenarios and identify correct regulatory applications.');
+ ideas.push('Compare allowed vs prohibited practices for one procedure.');
+ } else if(dn.includes('infection')){
+ ideas.push('Review surface barrier protocols and instrument processing steps.');
+ ideas.push('Study hand hygiene timing requirements and applications.');
+ } else if(dn.includes('radiolog') || dn.includes('x-ray') || dn.includes('xray')){
+ ideas.push('Review positioning techniques and exposure setting principles.');
+ ideas.push('Study common artifact causes and prevention strategies.');
+ } else {
+ ideas.push('Review key maintenance principles and best practices.');
+ ideas.push('Study core concepts and summarize main points.');
+ }
+ // De-duplicate and cap at 3
+ const seen = new Set();
+ return ideas.filter(s=>{ if(!s||seen.has(s)) return false; seen.add(s); return true; }).slice(0,3);
+ }
 
-    function greenIdeas(domain){
-      const dn = (domain?.name||'').toLowerCase();
-      if(dn.includes('juris')) return [ 'Review key regulatory principles and their applications.', 'Study documentation requirements and compliance examples.' , 'Analyze the rationale behind important regulations.' ];
-      if(dn.includes('infection')) return [ 'Review sterilization workflow checkpoints and protocols.', 'Study cross-contamination prevention strategies and examples.', 'Review hand hygiene protocols and timing requirements.' ];
-      if(dn.includes('radiolog') || dn.includes('x‑ray') || dn.includes('xray')) return [ 'Review positioning techniques and anatomical landmarks.', 'Study exposure factors and their clinical applications.', 'Review common artifacts and prevention strategies.' ];
-      return [ 'Review core concepts and key principles.', 'Study practical examples and case scenarios.', 'Analyze common challenges and solutions.' ];
-    }
+ function greenIdeas(domain){
+ const dn = (domain?.name||'').toLowerCase();
+ if(dn.includes('juris')) return [ 'Review key regulatory principles and their applications.', 'Study documentation requirements and compliance examples.' , 'Analyze the rationale behind important regulations.' ];
+ if(dn.includes('infection')) return [ 'Review sterilization workflow checkpoints and protocols.', 'Study cross-contamination prevention strategies and examples.', 'Review hand hygiene protocols and timing requirements.' ];
+ if(dn.includes('radiolog') || dn.includes('x‑ray') || dn.includes('xray')) return [ 'Review positioning techniques and anatomical landmarks.', 'Study exposure factors and their clinical applications.', 'Review common artifacts and prevention strategies.' ];
+ return [ 'Review core concepts and key principles.', 'Study practical examples and case scenarios.', 'Analyze common challenges and solutions.' ];
+ }
 
-    // ====== Rendering ======
-    function render(){
-      if(!state.raw){ return; }
-      const { red, yellow, green } = state.ryg;
+ // ====== Rendering ======
+ function render(){
+ if(!state.raw){ return; }
+ const { red, yellow, green } = state.ryg;
 
-      // Red card
-      $('#redDomain').textContent = red.name + (Number.isFinite(red.avg) ? ` (avg ${red.avg.toFixed(2)})` : '');
-      const redItemsWrap = $('#redItems');
-      redItemsWrap.innerHTML = '';
-      const items = (red.lowestItems && red.lowestItems.length) ? red.lowestItems.slice(0,2) : [];
-      if(items.length > 0){
-        redItemsWrap.style.display = 'block';
-        $('#redItemMsg').style.display = 'block';
-        items.forEach((it,idx)=>{
-          const id = 'redItem_'+idx;
-          const row = el('div',{className:'item'});
-          const lab = el('label',{htmlFor:id});
-          const radio = el('input',{type:'radio', name:'redItem', id});
-          radio.addEventListener('change',()=>{ state.selections.red.itemIndex = idx; refreshRedTasks(); });
-          const textWrap = el('div',{},[ el('div',{style:'font-weight:600'},[ text(it.text||`Item ${idx+1}`) ]), el('div',{className:'hint'},[ text(`Score: ${it.score ?? '—'}`) ]) ]);
-          lab.append(radio, textWrap);
-          row.append(lab);
-          redItemsWrap.append(row);
-        });
-        $('#redHint').textContent = 'Select one item to target first.';
-      } else {
-        $('#redHint').textContent = 'Select a specific low item to target first.';
-        redItemsWrap.style.display = 'none';
-        $('#redItemMsg').style.display = 'none';
-      }
-      refreshRedTasks();
+ // Red card
+ $('#redDomain').textContent = red.name + (Number.isFinite(red.avg) ? ` (avg ${red.avg.toFixed(2)})` : '');
+ const redItemsWrap = $('#redItems');
+ redItemsWrap.innerHTML = '';
+ const items = (red.lowestItems && red.lowestItems.length) ? red.lowestItems.slice(0,2) : [];
+ if(items.length > 0){
+ redItemsWrap.style.display = 'block';
+ $('#redItemMsg').style.display = 'block';
+ items.forEach((it,idx)=>{
+ const id = 'redItem_'+idx;
+ const row = el('div',{className:'item'});
+ const lab = el('label',{htmlFor:id});
+ const radio = el('input',{type:'radio', name:'redItem', id});
+ radio.addEventListener('change',()=>{ state.selections.red.itemIndex = idx; refreshRedTasks(); });
+ const textWrap = el('div',{},[ el('div',{style:'font-weight:600'},[ text(it.text||`Item ${idx+1}`) ]), el('div',{className:'hint'},[ text(`Score: ${it.score ?? ' - '}`) ]) ]);
+ lab.append(radio, textWrap);
+ row.append(lab);
+ redItemsWrap.append(row);
+ });
+ $('#redHint').textContent = 'Select one item to target first.';
+ } else {
+ $('#redHint').textContent = 'Select a specific low item to target first.';
+ redItemsWrap.style.display = 'none';
+ $('#redItemMsg').style.display = 'none';
+ }
+ refreshRedTasks();
 
-      // Yellow card
-      $('#yellowDomain').textContent = yellow.name + (Number.isFinite(yellow.avg) ? ` (avg ${yellow.avg.toFixed(2)})` : '');
-      const yIdeas = maintenanceIdeas(yellow, yellow.suggestion);
-      renderChips($('#yellowTasks'), yIdeas, (val)=>{ state.selections.yellow.task = val; });
+ // Yellow card
+ $('#yellowDomain').textContent = yellow.name + (Number.isFinite(yellow.avg) ? ` (avg ${yellow.avg.toFixed(2)})` : '');
+ const yIdeas = maintenanceIdeas(yellow, yellow.suggestion);
+ renderChips($('#yellowTasks'), yIdeas, (val)=>{ state.selections.yellow.task = val; });
 
-      // Green card
-      $('#greenDomain').textContent = green.name + (Number.isFinite(green.avg) ? ` (avg ${green.avg.toFixed(2)})` : '');
-      const gIdeas = greenIdeas(green);
-      renderChips($('#greenTasks'), gIdeas, (val)=>{ state.selections.green.task = val; });
+ // Green card
+ $('#greenDomain').textContent = green.name + (Number.isFinite(green.avg) ? ` (avg ${green.avg.toFixed(2)})` : '');
+ const gIdeas = greenIdeas(green);
+ renderChips($('#greenTasks'), gIdeas, (val)=>{ state.selections.green.task = val; });
 
-      // Time chips (all three sections)
-      bindTimeChips('#redTime','red');
-      bindTimeChips('#yellowTime','yellow');
-      bindTimeChips('#greenTime','green');
+ // Time chips (all three sections)
+ bindTimeChips('#redTime','red');
+ bindTimeChips('#yellowTime','yellow');
+ bindTimeChips('#greenTime','green');
 
-      // Reveal plan + submission
-      $('#plan').hidden = false;
-      $('#submitCard').hidden = false;
-      // Check if button should be enabled
-      checkCompletionReady();
-    }
+ // Reveal plan + submission
+ $('#plan').hidden = false;
+ $('#submitCard').hidden = false;
+ // Check if button should be enabled
+ checkCompletionReady();
+ }
 
-    function refreshRedTasks(){
-      const { red } = state.ryg;
-      const idx = state.selections.red.itemIndex ?? 0;
-      const it = (red.lowestItems && red.lowestItems[idx]) ? red.lowestItems[idx] : { text:'' };
-      
-      // If no specific item, provide domain-specific default suggestions
-      let ideas;
-      if (!it.text) {
-        ideas = getDefaultTasksForDomain(red.name);
-      } else {
-        ideas = taskIdeasForItem(it.text, red.name);
-      }
-      
-      $('#redItemMsg').textContent = it.text ? `Targeting: ${keyphrase(it.text)}` : '';
-      renderChips($('#redTasks'), ideas, (val)=>{ state.selections.red.task = val; });
-    }
-    
-    function getDefaultTasksForDomain(domainName) {
-      const dn = (domainName || '').toLowerCase();
-      if (dn.includes('juris')) {
-        return [
-          'Review Texas dental practice act key sections',
-          'Study RDA scope of practice limitations',
-          'Practice delegation rule scenarios'
-        ];
-      } else if (dn.includes('infection')) {
-        return [
-          'Review sterilization cycle requirements',
-          'Practice aseptic technique protocols',
-          'Study instrument processing workflow'
-        ];
-      } else if (dn.includes('radiolog') || dn.includes('x-ray') || dn.includes('xray')) {
-        return [
-          'Practice positioning techniques for accuracy',
-          'Review exposure settings and factors',
-          'Study radiation safety protocols'
-        ];
-      }
-      return [
-        'Review key concepts and definitions',
-        'Practice application scenarios',
-        'Study regulatory requirements'
-      ];
-    }
+ function refreshRedTasks(){
+ const { red } = state.ryg;
+ const idx = state.selections.red.itemIndex ?? 0;
+ const it = (red.lowestItems && red.lowestItems[idx]) ? red.lowestItems[idx] : { text:'' };
+ 
+ // If no specific item, provide domain-specific default suggestions
+ let ideas;
+ if (!it.text) {
+ ideas = getDefaultTasksForDomain(red.name);
+ } else {
+ ideas = taskIdeasForItem(it.text, red.name);
+ }
+ 
+ $('#redItemMsg').textContent = it.text ? `Targeting: ${keyphrase(it.text)}` : '';
+ renderChips($('#redTasks'), ideas, (val)=>{ state.selections.red.task = val; });
+ }
+ 
+ function getDefaultTasksForDomain(domainName) {
+ const dn = (domainName || '').toLowerCase();
+ if (dn.includes('juris')) {
+ return [
+ 'Review Texas dental practice act key sections',
+ 'Study RDA scope of practice limitations',
+ 'Practice delegation rule scenarios'
+ ];
+ } else if (dn.includes('infection')) {
+ return [
+ 'Review sterilization cycle requirements',
+ 'Practice aseptic technique protocols',
+ 'Study instrument processing workflow'
+ ];
+ } else if (dn.includes('radiolog') || dn.includes('x-ray') || dn.includes('xray')) {
+ return [
+ 'Practice positioning techniques for accuracy',
+ 'Review exposure settings and factors',
+ 'Study radiation safety protocols'
+ ];
+ }
+ return [
+ 'Review key concepts and definitions',
+ 'Practice application scenarios',
+ 'Study regulatory requirements'
+ ];
+ }
 
-    function renderChips(container, options, onSelect){
-      container.innerHTML = '';
-      options.forEach(opt=>{
-        const b = el('button',{className:'chip', type:'button'}); b.textContent = opt; b.setAttribute('aria-pressed','false');
-        b.addEventListener('click',()=>{
-          // toggle single-select behavior within this container
-          container.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
-          b.setAttribute('aria-pressed','true');
-          onSelect(opt);
-          checkCompletionReady();
-        });
-        container.append(b);
-      });
-    }
+ function renderChips(container, options, onSelect){
+ container.innerHTML = '';
+ options.forEach(opt=>{
+ const b = el('button',{className:'chip', type:'button'}); b.textContent = opt; b.setAttribute('aria-pressed','false');
+ b.addEventListener('click',()=>{
+ // toggle single-select behavior within this container
+ container.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
+ b.setAttribute('aria-pressed','true');
+ onSelect(opt);
+ checkCompletionReady();
+ });
+ container.append(b);
+ });
+ }
 
-    function bindTimeChips(sel, key){
-      const wrap = $(sel);
-      wrap.querySelectorAll('.chip').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          wrap.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
-          btn.setAttribute('aria-pressed','true');
-          state.selections[key].time = btn.dataset.time; // 'this'|'next'|'later'
-          checkCompletionReady();
-        });
-      });
-    }
+ function bindTimeChips(sel, key){
+ const wrap = $(sel);
+ wrap.querySelectorAll('.chip').forEach(btn=>{
+ btn.addEventListener('click',()=>{
+ wrap.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
+ btn.setAttribute('aria-pressed','true');
+ state.selections[key].time = btn.dataset.time; // 'this'|'next'|'later'
+ checkCompletionReady();
+ });
+ });
+ }
 
-    // ====== Input / import paths ======
-    function tryLoadFromLocal(){
-      for(const k of SUMMARY_KEYS){
-        const raw = localStorage.getItem(k);
-        const parsed = raw && safeParse(raw);
-        if(parsed && parsed.domains && parsed.domains.length){
-          return normalizeSummary(parsed);
-        }
-      }
-      // Optional: attempt to read responses and synthesize (best effort)
-      for(const k of RESPONSE_KEYS){
-        const raw = localStorage.getItem(k);
-        const parsed = raw && safeParse(raw);
-        if(parsed){
-          // We do not know the item texts here; ask the learner to paste results if summary is unavailable.
-          return null;
-        }
-      }
-      return null;
-    }
+ // ====== Input / import paths ======
+ function tryLoadFromLocal(){
+ for(const k of SUMMARY_KEYS){
+ const raw = localStorage.getItem(k);
+ const parsed = raw && safeParse(raw);
+ if(parsed && parsed.domains && parsed.domains.length){
+ return normalizeSummary(parsed);
+ }
+ }
+ // Optional: attempt to read responses and synthesize (best effort)
+ for(const k of RESPONSE_KEYS){
+ const raw = localStorage.getItem(k);
+ const parsed = raw && safeParse(raw);
+ if(parsed){
+ // We do not know the item texts here; ask the learner to paste results if summary is unavailable.
+ return null;
+ }
+ }
+ return null;
+ }
 
-    function normalizeSummary(s){
-      // Expect: { schema, domains:[{id,name,avg,lowestItems:[{text,score}], suggestion?}], lowestItemsOverall? }
-      const out = { schema: s.schema||'v1', timestamp: s.timestamp||null, domains: [] };
-      const domains = Array.isArray(s.domains) ? s.domains : [];
-      out.domains = domains.map(d=>({
-        id: d.id||d.domainId||d.name||'d',
-        name: d.name||String(d.id||'Domain'),
-        avg: typeof d.avg==='number'? d.avg : (typeof d.average==='number'? d.average : NaN),
-        lowestItems: Array.isArray(d.lowestItems)? d.lowestItems.map(li=>({ text: String(li.text||'').trim(), score: Number(li.score)||NaN })) : [],
-        suggestion: d.suggestion || null
-      }));
-      return out;
-    }
+ function normalizeSummary(s){
+ // Expect: { schema, domains:[{id,name,avg,lowestItems:[{text,score}], suggestion?}], lowestItemsOverall? }
+ const out = { schema: s.schema||'v1', timestamp: s.timestamp||null, domains: [] };
+ const domains = Array.isArray(s.domains) ? s.domains : [];
+ out.domains = domains.map(d=>({
+ id: d.id||d.domainId||d.name||'d',
+ name: d.name||String(d.id||'Domain'),
+ avg: typeof d.avg==='number'? d.avg : (typeof d.average==='number'? d.average : NaN),
+ lowestItems: Array.isArray(d.lowestItems)? d.lowestItems.map(li=>({ text: String(li.text||'').trim(), score: Number(li.score)||NaN })) : [],
+ suggestion: d.suggestion || null
+ }));
+ return out;
+ }
 
-    // Paste / CSV import
-    function tryUsePasted(text){
-      if(!text||!text.trim()) return null;
-      // 1) JSON path
-      const js = safeParse(text);
-      if(js && js.domains){ return normalizeSummary(js); }
-      // 2) CSV path (very tolerant)
-      if(/,/.test(text)){
-        try{
-          const lines = text.trim().split(/\r?\n/).filter(Boolean);
-          const head = lines.shift();
-          const cols = head.split(',').map(s=>s.trim().toLowerCase());
-          const dNameIdx = cols.findIndex(c=>/domain/.test(c));
-          const avgIdx = cols.findIndex(c=>/avg|average/.test(c));
-          const itemIdx = cols.findIndex(c=>/item|text|question/.test(c));
-          const scoreIdx = cols.findIndex(c=>/score|value/.test(c));
-          const map = new Map();
-          for(const line of lines){
-            const parts = line.split(',');
-            const dName = (parts[dNameIdx]||'Domain').trim();
-            const avg = avgIdx>=0 ? Number(parts[avgIdx]) : NaN;
-            const itText = itemIdx>=0 ? parts[itemIdx] : '';
-            const itScore = scoreIdx>=0 ? Number(parts[scoreIdx]) : NaN;
-            if(!map.has(dName)) map.set(dName,{ name:dName, avg:isNaN(avg)? NaN:avg, lowestItems:[] });
-            if(itText){ map.get(dName).lowestItems.push({ text: itText, score: itScore }); }
-          }
-          const domains = Array.from(map.values());
-          if(domains.length){ return normalizeSummary({ schema:'csv', domains }); }
-        }catch(e){ /* fallthrough */ }
-      }
-      return null;
-    }
+ // Paste / CSV import
+ function tryUsePasted(text){
+ if(!text||!text.trim()) return null;
+ // 1) JSON path
+ const js = safeParse(text);
+ if(js && js.domains){ return normalizeSummary(js); }
+ // 2) CSV path (very tolerant)
+ if(/,/.test(text)){
+ try{
+ const lines = text.trim().split(/\r?\n/).filter(Boolean);
+ const head = lines.shift();
+ const cols = head.split(',').map(s=>s.trim().toLowerCase());
+ const dNameIdx = cols.findIndex(c=>/domain/.test(c));
+ const avgIdx = cols.findIndex(c=>/avg|average/.test(c));
+ const itemIdx = cols.findIndex(c=>/item|text|question/.test(c));
+ const scoreIdx = cols.findIndex(c=>/score|value/.test(c));
+ const map = new Map();
+ for(const line of lines){
+ const parts = line.split(',');
+ const dName = (parts[dNameIdx]||'Domain').trim();
+ const avg = avgIdx>=0 ? Number(parts[avgIdx]) : NaN;
+ const itText = itemIdx>=0 ? parts[itemIdx] : '';
+ const itScore = scoreIdx>=0 ? Number(parts[scoreIdx]) : NaN;
+ if(!map.has(dName)) map.set(dName,{ name:dName, avg:isNaN(avg)? NaN:avg, lowestItems:[] });
+ if(itText){ map.get(dName).lowestItems.push({ text: itText, score: itScore }); }
+ }
+ const domains = Array.from(map.values());
+ if(domains.length){ return normalizeSummary({ schema:'csv', domains }); }
+ }catch(e){ /* fallthrough */ }
+ }
+ return null;
+ }
 
-    // ====== Submission formatting ======
-    function humanTime(code){
-      return code==='this' ? 'This week' : code==='next' ? 'Next week' : code==='later' ? 'Later' : '';
-    }
+ // ====== Submission formatting ======
+ function humanTime(code){
+ return code==='this' ? 'This week' : code==='next' ? 'Next week' : code==='later' ? 'Later' : '';
+ }
 
-    function buildSubmission(){
-      const { red, yellow, green } = state.ryg;
-      const sel = state.selections;
-      const redItem = (red.lowestItems||[])[ sel.red.itemIndex ?? 0 ];
-      const lines = [];
-      lines.push(`Red: ${red.name} → ${redItem && redItem.text ? '"'+redItem.text+'"' : 'specific focus'} → ${sel.red.task} → ${humanTime(sel.red.time)}`);
-      lines.push(`Yellow: ${yellow.name} → ${sel.yellow.task} → ${humanTime(sel.yellow.time)}`);
-      lines.push(`Green: ${green.name} → ${sel.green.task} → ${humanTime(sel.green.time)}`);
-      return lines.join("\n");
-    }
-    
-    function displayFormattedPlan(){
-      const { red, yellow, green } = state.ryg;
-      const sel = state.selections;
-      const redItem = (red.lowestItems||[])[ sel.red.itemIndex ?? 0 ];
-      
-      const planHtml = `
-        <div style="margin-bottom:16px;">
-          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-            <span class="pill red" style="font-weight:600;">Red - Focus Area</span>
-            <span style="color:var(--blue); font-weight:600;">${red.name}</span>
-          </div>
-          <div style="margin-left:16px; color:var(--ink);">
-            <div style="margin-bottom:4px;"><strong>Target:</strong> ${redItem && redItem.text ? redItem.text : 'Specific focus area'}</div>
-            <div style="margin-bottom:4px;"><strong>Action:</strong> ${sel.red.task}</div>
-            <div><strong>Timeline:</strong> ${humanTime(sel.red.time)}</div>
-          </div>
-        </div>
-        
-        <div style="margin-bottom:16px;">
-          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-            <span class="pill yellow" style="font-weight:600;">Yellow - Maintenance</span>
-            <span style="color:var(--blue); font-weight:600;">${yellow.name}</span>
-          </div>
-          <div style="margin-left:16px; color:var(--ink);">
-            <div style="margin-bottom:4px;"><strong>Action:</strong> ${sel.yellow.task}</div>
-            <div><strong>Timeline:</strong> ${humanTime(sel.yellow.time)}</div>
-          </div>
-        </div>
-        
-        <div>
-          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-            <span class="pill green" style="font-weight:600;">Green - Quick Check-In</span>
-            <span style="color:var(--blue); font-weight:600;">${green.name}</span>
-          </div>
-          <div style="margin-left:16px; color:var(--ink);">
-            <div style="margin-bottom:4px;"><strong>Action:</strong> ${sel.green.task}</div>
-            <div><strong>Timeline:</strong> ${humanTime(sel.green.time)}</div>
-          </div>
-        </div>
-      `;
-      
-      $('#planContent').innerHTML = planHtml;
-    }
+ function buildSubmission(){
+ const { red, yellow, green } = state.ryg;
+ const sel = state.selections;
+ const redItem = (red.lowestItems||[])[ sel.red.itemIndex ?? 0 ];
+ const lines = [];
+ lines.push(`Red: ${red.name} → ${redItem && redItem.text ? '"'+redItem.text+'"' : 'specific focus'} → ${sel.red.task} → ${humanTime(sel.red.time)}`);
+ lines.push(`Yellow: ${yellow.name} → ${sel.yellow.task} → ${humanTime(sel.yellow.time)}`);
+ lines.push(`Green: ${green.name} → ${sel.green.task} → ${humanTime(sel.green.time)}`);
+ return lines.join("\n");
+ }
+ 
+ function displayFormattedPlan(){
+ const { red, yellow, green } = state.ryg;
+ const sel = state.selections;
+ const redItem = (red.lowestItems||[])[ sel.red.itemIndex ?? 0 ];
+ 
+ const planHtml = `
+ <div style="margin-bottom:16px;">
+ <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+ <span class="pill red" style="font-weight:600;">Red - Focus Area</span>
+ <span style="color:var(--blue); font-weight:600;">${red.name}</span>
+ </div>
+ <div style="margin-left:16px; color:var(--ink);">
+ <div style="margin-bottom:4px;"><strong>Target:</strong> ${redItem && redItem.text ? redItem.text : 'Specific focus area'}</div>
+ <div style="margin-bottom:4px;"><strong>Action:</strong> ${sel.red.task}</div>
+ <div><strong>Timeline:</strong> ${humanTime(sel.red.time)}</div>
+ </div>
+ </div>
+ 
+ <div style="margin-bottom:16px;">
+ <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+ <span class="pill yellow" style="font-weight:600;">Yellow - Maintenance</span>
+ <span style="color:var(--blue); font-weight:600;">${yellow.name}</span>
+ </div>
+ <div style="margin-left:16px; color:var(--ink);">
+ <div style="margin-bottom:4px;"><strong>Action:</strong> ${sel.yellow.task}</div>
+ <div><strong>Timeline:</strong> ${humanTime(sel.yellow.time)}</div>
+ </div>
+ </div>
+ 
+ <div>
+ <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+ <span class="pill green" style="font-weight:600;">Green - Quick Check-In</span>
+ <span style="color:var(--blue); font-weight:600;">${green.name}</span>
+ </div>
+ <div style="margin-left:16px; color:var(--ink);">
+ <div style="margin-bottom:4px;"><strong>Action:</strong> ${sel.green.task}</div>
+ <div><strong>Timeline:</strong> ${humanTime(sel.green.time)}</div>
+ </div>
+ </div>
+ `;
+ 
+ $('#planContent').innerHTML = planHtml;
+ }
 
-    function checkCompletionReady(){
-      const s = state.selections;
-      const ready = s.red.task && s.red.time && (s.red.itemIndex!==null || true) && s.yellow.task && s.yellow.time && s.green.task && s.green.time;
-      $('#generate').disabled = !ready;
-      return ready;
-    }
+ function checkCompletionReady(){
+ const s = state.selections;
+ const ready = s.red.task && s.red.time && (s.red.itemIndex!==null || true) && s.yellow.task && s.yellow.time && s.green.task && s.green.time;
+ $('#generate').disabled = !ready;
+ return ready;
+ }
 
 
-    // ====== Wire up controls ======
-    $('#tryPaste').addEventListener('click', ()=>{
-      const val = $('#paste').value;
-      const parsed = tryUsePasted(val);
-      if(parsed){ state.raw = parsed; afterLoad(); }
-      else { alert('Sorry, that did not look like results I can read. Try JSON or CSV from your summary page.'); }
-    });
-    $('#csv').addEventListener('change', (e)=>{
-      const f = e.target.files && e.target.files[0]; if(!f) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        const parsed = tryUsePasted(String(reader.result||''));
-        if(parsed){ state.raw = parsed; afterLoad(); }
-        else { alert('Could not parse that CSV. Please export the summary CSV and try again.'); }
-      };
-      reader.readAsText(f);
-    });
+ // ====== Wire up controls ======
+ $('#tryPaste').addEventListener('click', ()=>{
+ const val = $('#paste').value;
+ const parsed = tryUsePasted(val);
+ if(parsed){ state.raw = parsed; afterLoad(); }
+ else { alert('Sorry, that did not look like results I can read. Try JSON or CSV from your summary page.'); }
+ });
+ $('#csv').addEventListener('change', (e)=>{
+ const f = e.target.files && e.target.files[0]; if(!f) return;
+ const reader = new FileReader();
+ reader.onload = () => {
+ const parsed = tryUsePasted(String(reader.result||''));
+ if(parsed){ state.raw = parsed; afterLoad(); }
+ else { alert('Could not parse that CSV. Please export the summary CSV and try again.'); }
+ };
+ reader.readAsText(f);
+ });
 
-    $('#generate').addEventListener('click', ()=>{
-      const txt = buildSubmission();
-      // Store the content for download
-      $('#generate').dataset.submissionContent = txt;
-      // Display the formatted plan
-      displayFormattedPlan();
-      // Show plan display
-      $('#planDisplay').style.display = 'block';
-      $('#download').disabled = false;
-    });
-    $('#download').addEventListener('click', ()=>{
-      const content = $('#generate').dataset.submissionContent || '';
-      const rtfContent = `{\\rtf1\\ansi\\deff0 {\\fonttbl {\\f0 Times New Roman;}}\\f0\\fs24\\b Personal Micro-Plan\\b0\\par\\par ${content.replace(/\n/g, '\\par ')}}`;
-      const blob = new Blob([rtfContent], {type:'application/rtf'});
-      const url = URL.createObjectURL(blob);
-      const a = el('a',{href:url, download:'RYG_Micro_Plan.rtf'}); document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 0);
-    });
+ $('#generate').addEventListener('click', ()=>{
+ const txt = buildSubmission();
+ // Store the content for download
+ $('#generate').dataset.submissionContent = txt;
+ // Display the formatted plan
+ displayFormattedPlan();
+ // Show plan display
+ $('#planDisplay').style.display = 'block';
+ $('#download').disabled = false;
+ });
+ $('#download').addEventListener('click', ()=>{
+ const content = $('#generate').dataset.submissionContent || '';
+ const rtfContent = `{\\rtf1\\ansi\\deff0 {\\fonttbl {\\f0 Times New Roman;}}\\f0\\fs24\\b Personal Micro-Plan\\b0\\par\\par ${content.replace(/\n/g, '\\par ')}}`;
+ const blob = new Blob([rtfContent], {type:'application/rtf'});
+ const url = URL.createObjectURL(blob);
+ const a = el('a',{href:url, download:'RYG_Micro_Plan.rtf'}); document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 0);
+ });
 
-    // ====== Lifecycle ======
-    function afterLoad(){
-      // Build RYG
-      const d = state.raw.domains || [];
-      if(!d.length){ $('#status').className='banner warn'; $('#status').textContent='Results detected but no domains were found. Use the fallback below.'; $('#importCard').hidden=false; return; }
-      state.ryg = classify(d);
-      if(!state.ryg){ $('#status').className='banner warn'; $('#status').textContent='Could not classify results. Use the fallback below.'; $('#importCard').hidden=false; return; }
+ // ====== Lifecycle ======
+ function afterLoad(){
+ // Build RYG
+ const d = state.raw.domains || [];
+ if(!d.length){ $('#status').className='banner warn'; $('#status').textContent='Results detected but no domains were found. Use the fallback below.'; $('#importCard').hidden=false; return; }
+ state.ryg = classify(d);
+ if(!state.ryg){ $('#status').className='banner warn'; $('#status').textContent='Could not classify results. Use the fallback below.'; $('#importCard').hidden=false; return; }
 
-      // Status banner
-      const ts = state.raw.timestamp ? new Date(state.raw.timestamp) : null;
-      $('#status').className = 'banner good';
-      $('#status').textContent = 'Results found' + (ts? ` from ${ts.toLocaleString()}`:'') + '. Your personalized study plan has been generated below.';
+ // Status banner
+ const ts = state.raw.timestamp ? new Date(state.raw.timestamp) : null;
+ $('#status').className = 'banner good';
+ $('#status').textContent = 'Results found' + (ts? ` from ${ts.toLocaleString()}`:'') + '. Your personalized study plan has been generated below.';
 
-      render();
-    }
+ render();
+ }
 
-    // Start
-    const fromLocal = tryLoadFromLocal();
-    if(fromLocal){ state.raw = fromLocal; afterLoad(); }
-    else {
-      $('#status').className='banner warn';
-      $('#status').textContent='No saved results were found on this device. Paste your summary or upload the CSV below.';
-      $('#importCard').hidden=false;
-    }
+ // Start
+ const fromLocal = tryLoadFromLocal();
+ if(fromLocal){ state.raw = fromLocal; afterLoad(); }
+ else {
+ $('#status').className='banner warn';
+ $('#status').textContent='No saved results were found on this device. Paste your summary or upload the CSV below.';
+ $('#importCard').hidden=false;
+ }
 
-  })();
-  </script>
+ })();
+ </script>
 </body>
 </html>
