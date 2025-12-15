@@ -447,7 +447,7 @@
         window.addEventListener('resize', postHeight);
 
         function loadContacts() {
-            const saved = localStorage.getItem('professionalContacts');
+            const saved = localStorage.getItem('dac300:v1:tx-rda:w2:network-builder');
             if (saved) {
                 contacts = JSON.parse(saved);
                 renderContacts();
@@ -455,7 +455,7 @@
         }
 
         function saveContacts() {
-            localStorage.setItem('professionalContacts', JSON.stringify(contacts));
+            localStorage.setItem('dac300:v1:tx-rda:w2:network-builder', JSON.stringify(contacts));
         }
 
         function addContact() {

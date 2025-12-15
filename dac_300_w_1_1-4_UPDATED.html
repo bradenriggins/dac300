@@ -851,12 +851,20 @@
       });
     }
 
+    function postHeight() {
+      const height = document.documentElement.scrollHeight;
+      window.parent.postMessage({ type: 'resize', height: height }, '*');
+    }
+
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
       load();
       renderProgress();
       enhanceA11y();
+      postHeight();
     });
+
+    window.addEventListener('resize', postHeight);
 
   </script>
 </body>

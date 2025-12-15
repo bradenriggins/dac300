@@ -656,13 +656,22 @@
  render();
  }
 
+ // ====== iframe resize support ======
+ function postHeight() {
+   const height = document.documentElement.scrollHeight;
+   window.parent.postMessage({ type: 'resize', height: height }, '*');
+ }
+
+ window.addEventListener('resize', postHeight);
+
  // Start
  const fromLocal = tryLoadFromLocal();
- if(fromLocal){ state.raw = fromLocal; afterLoad(); }
+ if(fromLocal){ state.raw = fromLocal; afterLoad(); postHeight(); }
  else {
  $('#status').className='banner warn';
  $('#status').textContent='No saved results were found on this device. Paste your summary or upload the CSV below.';
  $('#importCard').hidden=false;
+ postHeight();
  }
 
  })();
