@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Profile Checklist for Dental Assistants</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0077b5 0%, #0a66c2 100%);
+            color: white;
+            padding: 20px 24px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .progress-overview {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-percent {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0077b5;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #0077b5 0%, #0a66c2 100%);
+            border-radius: 6px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .strength-label {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .strength-label strong {
+            color: #0077b5;
+        }
+
+        .checklist-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f8fafc;
+        }
+
+        .section-icon {
+            font-size: 24px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #01549e;
+        }
+
+        .section-progress {
+            margin-left: auto;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .checklist-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .checklist-item:hover {
+            background: #e8f4f8;
+        }
+
+        .checklist-item.completed {
+            background: #f0fdf4;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+
+        .checklist-item.completed .checkbox {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+
+        .checkbox-icon {
+            display: none;
+            font-size: 14px;
+        }
+
+        .checklist-item.completed .checkbox-icon {
+            display: block;
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .checklist-item.completed .item-title {
+            color: #065f46;
+        }
+
+        .item-tip {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .checklist-item.completed .item-tip {
+            color: #059669;
+        }
+
+        .completion-message {
+            display: none;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .completion-message.show {
+            display: block;
+        }
+
+        .completion-message h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .completion-message p {
+            font-size: 15px;
+            opacity: 0.95;
+        }
+
+        .reset-btn {
+            display: block;
+            width: 100%;
+            max-width: 200px;
+            margin: 16px auto 0;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .reset-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 12px;
+            }
+
+            .header {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .checklist-section {
+                padding: 16px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>LinkedIn Profile Checklist</h1>
+            <p>Build a professional profile that stands out to dental employers</p>
+        </div>
+
+        <div class="progress-overview">
+            <div class="progress-stats">
+                <span class="progress-label">Profile Strength</span>
+                <span class="progress-percent" id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="strength-label">
+                <span id="strengthLabel">Getting Started - Check off items as you complete them</span>
+            </div>
+        </div>
+
+        <div class="checklist-section" data-section="basics">
+            <div class="section-header">
+                <span class="section-icon">👤</span>
+                <span class="section-title">Profile Basics</span>
+                <span class="section-progress" id="basicsProgress">0/4</span>
+            </div>
+            <div class="checklist-items">
+                <div class="checklist-item" data-item="photo">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Professional Photo</div>
+                        <div class="item-tip">Clear headshot, neutral background, professional attire</div>
+                    </div>
+                </div>
+                <div class="checklist-item" data-item="headline">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Custom Headline</div>
+                        <div class="item-tip">Beyond job title - "RDA | Patient Care Advocate | Radiography Specialist"</div>
+                    </div>
+                </div>
+                <div class="checklist-item" data-item="location">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Location Added</div>
+                        <div class="item-tip">City and state help employers find local candidates</div>
+                    </div>
+                </div>
+                <div class="checklist-item" data-item="contact">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Contact Info Updated</div>
+                        <div class="item-tip">Professional email and phone for recruiters</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="checklist-section" data-section="content">
+            <div class="section-header">
+                <span class="section-icon">📝</span>
+                <span class="section-title">Content & Experience</span>
+                <span class="section-progress" id="contentProgress">0/4</span>
+            </div>
+            <div class="checklist-items">
+                <div class="checklist-item" data-item="summary">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">About Section Written</div>
+                        <div class="item-tip">3-5 paragraphs about your background, passion, and goals</div>
+                    </div>
+                </div>
+                <div class="checklist-item" data-item="experience">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Experience Added</div>
+                        <div class="item-tip">Include externship with specific duties and accomplishments</div>
+                    </div>
+                </div>
+                <div class="checklist-item" data-item="education">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Education Listed</div>
+                        <div class="item-tip">Your dental assisting program and any other education</div>
+                    </div>
+                </div>
+                <div class="checklist-item" data-item="certifications">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Certifications Added</div>
+                        <div class="item-tip">RDA, CPR/BLS, radiology, and any CE certificates</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="checklist-section" data-section="skills">
+            <div class="section-header">
+                <span class="section-icon">⭐</span>
+                <span class="section-title">Skills & Endorsements</span>
+                <span class="section-progress" id="skillsProgress">0/3</span>
+            </div>
+            <div class="checklist-items">
+                <div class="checklist-item" data-item="skills">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Key Skills Added</div>
+                        <div class="item-tip">Chairside assisting, radiography, sterilization, patient education</div>
+                    </div>
+                </div>
+                <div class="checklist-item" data-item="software">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Software Skills Listed</div>
+                        <div class="item-tip">Dentrix, Eaglesoft, or other practice management software</div>
+                    </div>
+                </div>
+                <div class="checklist-item" data-item="endorsements">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Requested Endorsements</div>
+                        <div class="item-tip">Ask classmates and supervisors to endorse your skills</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="checklist-section" data-section="network">
+            <div class="section-header">
+                <span class="section-icon">🤝</span>
+                <span class="section-title">Network Building</span>
+                <span class="section-progress" id="networkProgress">0/3</span>
+            </div>
+            <div class="checklist-items">
+                <div class="checklist-item" data-item="connections">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Connected with Classmates</div>
+                        <div class="item-tip">Build your network starting with people you know</div>
+                    </div>
+                </div>
+                <div class="checklist-item" data-item="follow">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Following Organizations</div>
+                        <div class="item-tip">ADAA, DANB, TDA, and dental companies</div>
+                    </div>
+                </div>
+                <div class="checklist-item" data-item="groups">
+                    <div class="checkbox">
+                        <span class="checkbox-icon">✓</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-title">Joined Dental Groups</div>
+                        <div class="item-tip">Dental assistant groups for networking and job postings</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="completion-message" id="completionMessage">
+            <h3>🎉 All-Star Profile!</h3>
+            <p>You've completed all the essentials for a strong LinkedIn presence. Your profile is now ready to attract dental employers and grow your professional network!</p>
+            <button class="reset-btn" onclick="resetChecklist()">Start Over</button>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'dac300:v1:linkedin-checklist';
+        const items = document.querySelectorAll('.checklist-item');
+        const progressPercent = document.getElementById('progressPercent');
+        const progressFill = document.getElementById('progressFill');
+        const strengthLabel = document.getElementById('strengthLabel');
+        const completionMessage = document.getElementById('completionMessage');
+
+        // Load saved state
+        function loadState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const completed = JSON.parse(saved);
+                completed.forEach(itemId => {
+                    const item = document.querySelector(`[data-item="${itemId}"]`);
+                    if (item) item.classList.add('completed');
+                });
+            }
+            updateProgress();
+        }
+
+        // Save state
+        function saveState() {
+            const completed = [];
+            items.forEach(item => {
+                if (item.classList.contains('completed')) {
+                    completed.push(item.dataset.item);
+                }
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(completed));
+        }
+
+        // Update progress
+        function updateProgress() {
+            const total = items.length;
+            const completed = document.querySelectorAll('.checklist-item.completed').length;
+            const percent = Math.round((completed / total) * 100);
+
+            progressPercent.textContent = percent + '%';
+            progressFill.style.width = percent + '%';
+
+            // Update section progress
+            ['basics', 'content', 'skills', 'network'].forEach(section => {
+                const sectionEl = document.querySelector(`[data-section="${section}"]`);
+                const sectionItems = sectionEl.querySelectorAll('.checklist-item');
+                const sectionCompleted = sectionEl.querySelectorAll('.checklist-item.completed').length;
+                document.getElementById(section + 'Progress').textContent =
+                    `${sectionCompleted}/${sectionItems.length}`;
+            });
+
+            // Update strength label
+            if (percent === 100) {
+                strengthLabel.innerHTML = '<strong>All-Star Profile!</strong> You\'re ready to impress employers!';
+                completionMessage.classList.add('show');
+            } else if (percent >= 75) {
+                strengthLabel.innerHTML = '<strong>Expert Level!</strong> Almost complete - finish strong!';
+                completionMessage.classList.remove('show');
+            } else if (percent >= 50) {
+                strengthLabel.innerHTML = '<strong>Intermediate!</strong> Great progress - keep going!';
+                completionMessage.classList.remove('show');
+            } else if (percent >= 25) {
+                strengthLabel.innerHTML = '<strong>Beginner!</strong> You\'re building momentum!';
+                completionMessage.classList.remove('show');
+            } else {
+                strengthLabel.innerHTML = 'Getting Started - Check off items as you complete them';
+                completionMessage.classList.remove('show');
+            }
+
+            postHeight();
+        }
+
+        // Toggle item
+        items.forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('completed');
+                saveState();
+                updateProgress();
+            });
+        });
+
+        // Reset checklist
+        function resetChecklist() {
+            items.forEach(item => item.classList.remove('completed'));
+            localStorage.removeItem(STORAGE_KEY);
+            updateProgress();
+        }
+
+        function postHeight() {
+            const height = document.documentElement.scrollHeight;
+            window.parent.postMessage({ type: 'resize', height: height }, '*');
+        }
+
+        // Initialize
+        loadState();
+        window.addEventListener('load', postHeight);
+        window.addEventListener('resize', postHeight);
+    </script>
+</body>
+</html>

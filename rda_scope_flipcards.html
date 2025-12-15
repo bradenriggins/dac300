@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RDA Enhanced Scope of Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #01549e 0%, #507ABB 100%);
+            color: white;
+            padding: 20px 24px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .instructions {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .flip-card {
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .flip-card-front {
+            background: white;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #01549e;
+            margin-bottom: 8px;
+        }
+
+        .card-hint {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .flip-card-back h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .flip-card-back p {
+            font-size: 14px;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        .flip-card-back .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            margin-top: 24px;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .progress-track {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #be5510 0%, #cb6015 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .completion-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #be5510 0%, #cb6015 100%);
+            color: white;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .completion-message.show {
+            display: block;
+        }
+
+        .completion-message h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 12px;
+            }
+
+            .header {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .flip-card {
+                height: 180px;
+            }
+
+            .card-icon {
+                font-size: 32px;
+            }
+
+            .card-title {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>RDA Enhanced Scope of Practice</h1>
+            <p>Tap each card to discover what your certification allows you to do</p>
+        </div>
+
+        <p class="instructions">Click or tap each card to flip and learn about RDA-exclusive duties</p>
+
+        <div class="cards-grid">
+            <div class="flip-card" data-card="1">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-icon">📷</div>
+                        <div class="card-title">Radiography</div>
+                        <div class="card-hint">Tap to learn more</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="badge">RDA Only</div>
+                        <h3>Take Dental X-Rays</h3>
+                        <p>As an RDA, you can take dental radiographs under <strong>general supervision</strong> - meaning the dentist doesn't need to be present in the office.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" data-card="2">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-icon">✨</div>
+                        <div class="card-title">Coronal Polishing</div>
+                        <div class="card-hint">Tap to learn more</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="badge">RDA Only</div>
+                        <h3>Polish Teeth</h3>
+                        <p>You can polish the coronal (visible) portion of teeth using rubber cups with polishing paste - a duty restricted to certified assistants.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" data-card="3">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-icon">💊</div>
+                        <div class="card-title">Topical Anesthetics</div>
+                        <div class="card-hint">Tap to learn more</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="badge">RDA Only</div>
+                        <h3>Apply Topical Anesthetic</h3>
+                        <p>RDAs can apply topical anesthetic agents to oral tissues to help numb areas before injections or procedures.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" data-card="4">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-icon">⚡</div>
+                        <div class="card-title">Expanded Functions</div>
+                        <div class="card-hint">Tap to learn more</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="badge">RDA Only</div>
+                        <h3>Additional Procedures</h3>
+                        <p>Your RDA opens doors to expanded functions as delegated by the dentist, with potential for EFDA certification for even more duties.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" data-card="5">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-icon">📋</div>
+                        <div class="card-title">General Supervision</div>
+                        <div class="card-hint">Tap to learn more</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="badge">RDA Benefit</div>
+                        <h3>Work More Independently</h3>
+                        <p>Many RDA duties can be performed under general supervision - the dentist authorizes procedures but doesn't need to be physically present.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" data-card="6">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-title">Career Advancement</div>
+                        <div class="card-hint">Tap to learn more</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="badge">RDA Benefit</div>
+                        <h3>More Opportunities</h3>
+                        <p>RDA certification is often required for lead assistant and supervisory roles, and serves as foundation for specialty certifications.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-text">
+                <span>Cards explored</span>
+                <span class="progress-count">0 of 6</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="completion-message">
+            <h3>Great Job!</h3>
+            <p>You've explored all the enhanced duties available to Texas RDAs. These expanded capabilities set you apart from non-certified dental assistants!</p>
+        </div>
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.flip-card');
+        const progressFill = document.querySelector('.progress-fill');
+        const progressCount = document.querySelector('.progress-count');
+        const completionMessage = document.querySelector('.completion-message');
+        let flippedCards = new Set();
+
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                this.classList.toggle('flipped');
+
+                const cardId = this.dataset.card;
+                if (this.classList.contains('flipped')) {
+                    flippedCards.add(cardId);
+                }
+
+                updateProgress();
+                postHeight();
+            });
+        });
+
+        function updateProgress() {
+            const total = cards.length;
+            const explored = flippedCards.size;
+            const percentage = (explored / total) * 100;
+
+            progressFill.style.width = percentage + '%';
+            progressCount.textContent = `${explored} of ${total}`;
+
+            if (explored === total) {
+                completionMessage.classList.add('show');
+            }
+        }
+
+        function postHeight() {
+            const height = document.documentElement.scrollHeight;
+            window.parent.postMessage({ type: 'resize', height: height }, '*');
+        }
+
+        window.addEventListener('load', postHeight);
+        window.addEventListener('resize', postHeight);
+    </script>
+</body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Organization Matcher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #01549e 0%, #507ABB 100%);
+            color: white;
+            padding: 20px 24px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .question-slide {
+            display: none;
+        }
+
+        .question-slide.active {
+            display: block;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: #01549e;
+            transform: scale(1.2);
+        }
+
+        .progress-dot.completed {
+            background: #10b981;
+        }
+
+        .question-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: #01549e;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .option-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-card:hover {
+            border-color: #507ABB;
+            background: #e8f1fb;
+            transform: translateY(-2px);
+        }
+
+        .option-card.selected {
+            border-color: #01549e;
+            background: #e8f1fb;
+        }
+
+        .option-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .option-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .option-desc {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .results-container {
+            display: none;
+        }
+
+        .results-container.active {
+            display: block;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .results-header h2 {
+            font-size: 24px;
+            color: #01549e;
+            margin-bottom: 8px;
+        }
+
+        .results-header p {
+            color: #666;
+        }
+
+        .org-results {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .org-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .org-card.top-match {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .org-rank {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #666;
+            flex-shrink: 0;
+        }
+
+        .org-card.top-match .org-rank {
+            background: #10b981;
+            color: white;
+        }
+
+        .org-info {
+            flex: 1;
+        }
+
+        .org-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .org-card.top-match .org-name {
+            color: #065f46;
+        }
+
+        .org-tagline {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .org-benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .benefit-tag {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .org-card.top-match .benefit-tag {
+            background: #dcfce7;
+            border-color: #86efac;
+            color: #166534;
+        }
+
+        .match-badge {
+            background: #10b981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .restart-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 24px auto 0;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #be5510 0%, #cb6015 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 12px;
+            }
+
+            .header {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .question-text {
+                font-size: 18px;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .org-card {
+                flex-direction: column;
+            }
+
+            .match-badge {
+                margin-left: 0;
+                margin-top: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Find Your Professional Organization</h1>
+            <p>Answer a few questions to discover which organizations best fit your needs</p>
+        </div>
+
+        <div class="quiz-container">
+            <div class="progress-indicator">
+                <div class="progress-dot active" data-step="1"></div>
+                <div class="progress-dot" data-step="2"></div>
+                <div class="progress-dot" data-step="3"></div>
+                <div class="progress-dot" data-step="4"></div>
+            </div>
+
+            <!-- Question 1 -->
+            <div class="question-slide active" data-question="1">
+                <div class="question-text">What's your primary goal for joining a professional organization?</div>
+                <div class="options-grid">
+                    <div class="option-card" data-value="certification" data-danb="3" data-adaa="1" data-tda="1">
+                        <div class="option-icon">🏆</div>
+                        <div class="option-label">National Certification</div>
+                        <div class="option-desc">Earn credentials recognized across states</div>
+                    </div>
+                    <div class="option-card" data-value="networking" data-danb="1" data-adaa="3" data-tda="2">
+                        <div class="option-icon">🤝</div>
+                        <div class="option-label">Networking</div>
+                        <div class="option-desc">Connect with other dental assistants</div>
+                    </div>
+                    <div class="option-card" data-value="ce" data-danb="2" data-adaa="2" data-tda="3">
+                        <div class="option-icon">📚</div>
+                        <div class="option-label">Continuing Education</div>
+                        <div class="option-desc">Access quality CE courses and resources</div>
+                    </div>
+                    <div class="option-card" data-value="local" data-danb="1" data-adaa="2" data-tda="3">
+                        <div class="option-icon">📍</div>
+                        <div class="option-label">Local Resources</div>
+                        <div class="option-desc">Texas-specific info and events</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-slide" data-question="2">
+                <div class="question-text">How do you prefer to learn?</div>
+                <div class="options-grid">
+                    <div class="option-card" data-value="online" data-danb="3" data-adaa="2" data-tda="2">
+                        <div class="option-icon">💻</div>
+                        <div class="option-label">Online Courses</div>
+                        <div class="option-desc">Self-paced webinars and modules</div>
+                    </div>
+                    <div class="option-card" data-value="conference" data-danb="2" data-adaa="3" data-tda="3">
+                        <div class="option-icon">🎤</div>
+                        <div class="option-label">Conferences</div>
+                        <div class="option-desc">In-person events and workshops</div>
+                    </div>
+                    <div class="option-card" data-value="publications" data-danb="2" data-adaa="3" data-tda="1">
+                        <div class="option-icon">📰</div>
+                        <div class="option-label">Publications</div>
+                        <div class="option-desc">Journals and newsletters</div>
+                    </div>
+                    <div class="option-card" data-value="mixed" data-danb="2" data-adaa="2" data-tda="2">
+                        <div class="option-icon">🔄</div>
+                        <div class="option-label">Mix of Everything</div>
+                        <div class="option-desc">Variety of learning formats</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-slide" data-question="3">
+                <div class="question-text">What's most important to you in your career right now?</div>
+                <div class="options-grid">
+                    <div class="option-card" data-value="credentials" data-danb="3" data-adaa="1" data-tda="1">
+                        <div class="option-icon">📜</div>
+                        <div class="option-label">Building Credentials</div>
+                        <div class="option-desc">Adding certifications to my resume</div>
+                    </div>
+                    <div class="option-card" data-value="community" data-danb="1" data-adaa="3" data-tda="2">
+                        <div class="option-icon">👥</div>
+                        <div class="option-label">Finding Community</div>
+                        <div class="option-desc">Connecting with peers who understand</div>
+                    </div>
+                    <div class="option-card" data-value="advocacy" data-danb="1" data-adaa="3" data-tda="2">
+                        <div class="option-icon">📢</div>
+                        <div class="option-label">Professional Voice</div>
+                        <div class="option-desc">Advocating for the profession</div>
+                    </div>
+                    <div class="option-card" data-value="laws" data-danb="1" data-adaa="1" data-tda="3">
+                        <div class="option-icon">⚖️</div>
+                        <div class="option-label">Staying Current on Laws</div>
+                        <div class="option-desc">Texas regulations and updates</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-slide" data-question="4">
+                <div class="question-text">What's your budget situation for professional memberships?</div>
+                <div class="options-grid">
+                    <div class="option-card" data-value="student" data-danb="2" data-adaa="3" data-tda="2">
+                        <div class="option-icon">🎓</div>
+                        <div class="option-label">Student Budget</div>
+                        <div class="option-desc">Looking for student discounts</div>
+                    </div>
+                    <div class="option-card" data-value="moderate" data-danb="2" data-adaa="2" data-tda="2">
+                        <div class="option-icon">💰</div>
+                        <div class="option-label">Moderate</div>
+                        <div class="option-desc">Can invest in my development</div>
+                    </div>
+                    <div class="option-card" data-value="employer" data-danb="3" data-adaa="2" data-tda="2">
+                        <div class="option-icon">🏢</div>
+                        <div class="option-label">Employer Sponsored</div>
+                        <div class="option-desc">My practice may cover it</div>
+                    </div>
+                    <div class="option-card" data-value="free" data-danb="1" data-adaa="1" data-tda="2">
+                        <div class="option-icon">🆓</div>
+                        <div class="option-label">Free Options First</div>
+                        <div class="option-desc">Starting with free resources</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="results-container">
+                <div class="results-header">
+                    <h2>Your Organization Matches</h2>
+                    <p>Based on your answers, here are your recommended professional organizations:</p>
+                </div>
+
+                <div class="org-results" id="orgResults">
+                    <!-- Results populated by JavaScript -->
+                </div>
+
+                <button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.question-slide');
+        const dots = document.querySelectorAll('.progress-dot');
+        const resultsContainer = document.querySelector('.results-container');
+        const orgResults = document.getElementById('orgResults');
+
+        let currentQuestion = 1;
+        let scores = { danb: 0, adaa: 0, tda: 0 };
+
+        const organizations = {
+            danb: {
+                name: 'DANB (Dental Assisting National Board)',
+                tagline: 'National certification and credential recognition',
+                benefits: ['CDA Certification', 'Specialty Exams', 'Online CE', 'Career Resources'],
+                url: 'www.danb.org'
+            },
+            adaa: {
+                name: 'ADAA (American Dental Assistants Association)',
+                tagline: 'Premier professional community for dental assistants',
+                benefits: ['Annual Conference', 'Networking', 'The Dental Assistant Journal', 'Advocacy'],
+                url: 'www.dentalassistant.org'
+            },
+            tda: {
+                name: 'TDA (Texas Dental Association)',
+                tagline: 'Texas-focused resources and professional community',
+                benefits: ['Texas CE', 'Legislative Updates', 'Local Events', 'Regional Networking'],
+                url: 'www.tda.org'
+            }
+        };
+
+        document.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Add scores
+                scores.danb += parseInt(this.dataset.danb) || 0;
+                scores.adaa += parseInt(this.dataset.adaa) || 0;
+                scores.tda += parseInt(this.dataset.tda) || 0;
+
+                // Mark current dot as completed
+                dots[currentQuestion - 1].classList.remove('active');
+                dots[currentQuestion - 1].classList.add('completed');
+
+                // Move to next question or show results
+                if (currentQuestion < 4) {
+                    currentQuestion++;
+                    updateSlide();
+                } else {
+                    showResults();
+                }
+
+                postHeight();
+            });
+        });
+
+        function updateSlide() {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentQuestion - 1].classList.add('active');
+
+            dots.forEach((dot, index) => {
+                if (index === currentQuestion - 1) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function showResults() {
+            document.querySelector('.progress-indicator').style.display = 'none';
+            slides.forEach(slide => slide.classList.remove('active'));
+            resultsContainer.classList.add('active');
+
+            // Sort organizations by score
+            const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+
+            orgResults.innerHTML = sorted.map((entry, index) => {
+                const [key, score] = entry;
+                const org = organizations[key];
+                const isTopMatch = index === 0;
+
+                return `
+                    <div class="org-card ${isTopMatch ? 'top-match' : ''}">
+                        <div class="org-rank">${index + 1}</div>
+                        <div class="org-info">
+                            <div class="org-name">${org.name}</div>
+                            <div class="org-tagline">${org.tagline}</div>
+                            <div class="org-benefits">
+                                ${org.benefits.map(b => `<span class="benefit-tag">${b}</span>`).join('')}
+                            </div>
+                        </div>
+                        ${isTopMatch ? '<span class="match-badge">Best Match</span>' : ''}
+                    </div>
+                `;
+            }).join('');
+
+            postHeight();
+        }
+
+        function restartQuiz() {
+            currentQuestion = 1;
+            scores = { danb: 0, adaa: 0, tda: 0 };
+
+            document.querySelector('.progress-indicator').style.display = 'flex';
+            resultsContainer.classList.remove('active');
+
+            dots.forEach((dot, index) => {
+                dot.classList.remove('completed', 'active');
+                if (index === 0) dot.classList.add('active');
+            });
+
+            updateSlide();
+            postHeight();
+        }
+
+        function postHeight() {
+            const height = document.documentElement.scrollHeight;
+            window.parent.postMessage({ type: 'resize', height: height }, '*');
+        }
+
+        window.addEventListener('load', postHeight);
+        window.addEventListener('resize', postHeight);
+    </script>
+</body>
+</html>

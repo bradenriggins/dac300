@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texas RDA CE Requirements Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #01549e 0%, #507ABB 100%);
+            color: white;
+            padding: 20px 24px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .requirements-overview {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .requirements-overview h2 {
+            font-size: 18px;
+            color: #01549e;
+            margin-bottom: 16px;
+        }
+
+        .requirement-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .requirement-item {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .requirement-item.highlight {
+            border-color: #be5510;
+            background: #fef7f0;
+        }
+
+        .requirement-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #01549e;
+        }
+
+        .requirement-item.highlight .requirement-number {
+            color: #be5510;
+        }
+
+        .requirement-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .tracker-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .tracker-section h2 {
+            font-size: 18px;
+            color: #01549e;
+            margin-bottom: 8px;
+        }
+
+        .tracker-section p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .ce-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .ce-category {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .ce-category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .ce-category-name {
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ce-category-name .icon {
+            font-size: 20px;
+        }
+
+        .ce-category-hours {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hours-input {
+            width: 60px;
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .hours-input:focus {
+            outline: none;
+            border-color: #507ABB;
+        }
+
+        .hours-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .ce-category-desc {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .progress-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .progress-header h2 {
+            font-size: 18px;
+            color: #01549e;
+        }
+
+        .progress-total {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .progress-total.complete {
+            color: #10b981;
+        }
+
+        .progress-total.incomplete {
+            color: #be5510;
+        }
+
+        .progress-bar-container {
+            margin-bottom: 16px;
+        }
+
+        .progress-bar-track {
+            height: 24px;
+            background: #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 12px;
+            transition: width 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+        }
+
+        .progress-bar-fill.warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .progress-bar-fill.danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .progress-bar-text {
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .target-line {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #01549e;
+        }
+
+        .target-label {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 11px;
+            color: #666;
+            background: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .status-message {
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .status-message.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-message.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-message.info {
+            background: #e8f1fb;
+            color: #01549e;
+        }
+
+        .tips-section {
+            margin-top: 24px;
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .tips-section h3 {
+            font-size: 16px;
+            color: #be5510;
+            margin-bottom: 12px;
+        }
+
+        .tips-section ul {
+            list-style: none;
+            font-size: 14px;
+        }
+
+        .tips-section li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .tips-section li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 12px;
+            }
+
+            .header {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .requirement-items {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .requirement-number {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Texas RDA CE Requirements</h1>
+            <p>Track your continuing education hours for certification renewal</p>
+        </div>
+
+        <div class="requirements-overview">
+            <h2>Renewal Requirements at a Glance</h2>
+            <div class="requirement-items">
+                <div class="requirement-item highlight">
+                    <div class="requirement-number">12</div>
+                    <div class="requirement-label">CE Hours Required</div>
+                </div>
+                <div class="requirement-item">
+                    <div class="requirement-number">2</div>
+                    <div class="requirement-label">Year Renewal Cycle</div>
+                </div>
+                <div class="requirement-item">
+                    <div class="requirement-number">4</div>
+                    <div class="requirement-label">Years to Keep Records</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tracker-section">
+            <h2>Plan Your CE Hours</h2>
+            <p>Enter your planned CE hours in each category to see if you'll meet the 12-hour requirement:</p>
+
+            <div class="ce-categories">
+                <div class="ce-category">
+                    <div class="ce-category-header">
+                        <div class="ce-category-name">
+                            <span class="icon">🦠</span>
+                            Infection Control
+                        </div>
+                        <div class="ce-category-hours">
+                            <input type="number" class="hours-input" id="infection" min="0" max="12" value="0">
+                            <span class="hours-label">hours</span>
+                        </div>
+                    </div>
+                    <div class="ce-category-desc">OSHA, sterilization, PPE, and infection prevention courses</div>
+                </div>
+
+                <div class="ce-category">
+                    <div class="ce-category-header">
+                        <div class="ce-category-name">
+                            <span class="icon">📷</span>
+                            Radiology
+                        </div>
+                        <div class="ce-category-hours">
+                            <input type="number" class="hours-input" id="radiology" min="0" max="12" value="0">
+                            <span class="hours-label">hours</span>
+                        </div>
+                    </div>
+                    <div class="ce-category-desc">X-ray safety, digital radiography, and imaging techniques</div>
+                </div>
+
+                <div class="ce-category">
+                    <div class="ce-category-header">
+                        <div class="ce-category-name">
+                            <span class="icon">⚖️</span>
+                            Jurisprudence
+                        </div>
+                        <div class="ce-category-hours">
+                            <input type="number" class="hours-input" id="jurisprudence" min="0" max="12" value="0">
+                            <span class="hours-label">hours</span>
+                        </div>
+                    </div>
+                    <div class="ce-category-desc">Texas dental laws, ethics, and HIPAA compliance</div>
+                </div>
+
+                <div class="ce-category">
+                    <div class="ce-category-header">
+                        <div class="ce-category-name">
+                            <span class="icon">🎓</span>
+                            General / Clinical
+                        </div>
+                        <div class="ce-category-hours">
+                            <input type="number" class="hours-input" id="general" min="0" max="12" value="0">
+                            <span class="hours-label">hours</span>
+                        </div>
+                    </div>
+                    <div class="ce-category-desc">Clinical skills, materials, patient communication, and specialty topics</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-header">
+                <h2>Your CE Progress</h2>
+                <div class="progress-total incomplete" id="totalHours">0 / 12 hours</div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill" id="progressFill" style="width: 0%">
+                        <span class="progress-bar-text" id="progressText">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-message info" id="statusMessage">
+                Enter your planned CE hours above to track your progress toward the 12-hour requirement.
+            </div>
+
+            <div class="tips-section">
+                <h3>CE Planning Tips</h3>
+                <ul>
+                    <li>Spread CE across the 2-year cycle - don't wait until the last minute!</li>
+                    <li>Mix in free CE from CDC TRAIN and manufacturer webinars</li>
+                    <li>Choose topics that align with your career goals</li>
+                    <li>Remember: CPR must be hands-on (online not accepted)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.hours-input');
+        const totalDisplay = document.getElementById('totalHours');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const statusMessage = document.getElementById('statusMessage');
+        const REQUIRED_HOURS = 12;
+
+        function updateProgress() {
+            let total = 0;
+            inputs.forEach(input => {
+                total += parseInt(input.value) || 0;
+            });
+
+            const percentage = Math.min((total / REQUIRED_HOURS) * 100, 100);
+
+            totalDisplay.textContent = `${total} / ${REQUIRED_HOURS} hours`;
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = Math.round(percentage) + '%';
+
+            // Update colors based on progress
+            if (total >= REQUIRED_HOURS) {
+                totalDisplay.className = 'progress-total complete';
+                progressFill.className = 'progress-bar-fill';
+                statusMessage.className = 'status-message success';
+                statusMessage.innerHTML = '<strong>Congratulations!</strong> You\'ve met the 12-hour CE requirement for this renewal period!';
+            } else if (total >= 6) {
+                totalDisplay.className = 'progress-total incomplete';
+                progressFill.className = 'progress-bar-fill warning';
+                statusMessage.className = 'status-message warning';
+                statusMessage.innerHTML = `<strong>Good progress!</strong> You need ${REQUIRED_HOURS - total} more hours to meet the requirement.`;
+            } else if (total > 0) {
+                totalDisplay.className = 'progress-total incomplete';
+                progressFill.className = 'progress-bar-fill danger';
+                statusMessage.className = 'status-message info';
+                statusMessage.innerHTML = `<strong>Getting started!</strong> You need ${REQUIRED_HOURS - total} more hours. Consider spreading them across different topic areas.`;
+            } else {
+                totalDisplay.className = 'progress-total incomplete';
+                progressFill.className = 'progress-bar-fill';
+                statusMessage.className = 'status-message info';
+                statusMessage.textContent = 'Enter your planned CE hours above to track your progress toward the 12-hour requirement.';
+            }
+
+            postHeight();
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', updateProgress);
+            input.addEventListener('change', updateProgress);
+        });
+
+        function postHeight() {
+            const height = document.documentElement.scrollHeight;
+            window.parent.postMessage({ type: 'resize', height: height }, '*');
+        }
+
+        window.addEventListener('load', postHeight);
+        window.addEventListener('resize', postHeight);
+    </script>
+</body>
+</html>
