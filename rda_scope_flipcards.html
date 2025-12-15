@@ -20,198 +20,473 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         .header {
             background: linear-gradient(135deg, #01549e 0%, #507ABB 100%);
             color: white;
-            padding: 20px 24px;
+            padding: 24px 32px;
             border-radius: 12px;
             text-align: center;
             margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(1, 84, 158, 0.2);
         }
 
         .header h1 {
-            font-size: 24px;
-            margin-bottom: 4px;
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
         }
 
         .header p {
-            font-size: 14px;
+            font-size: 15px;
             opacity: 0.95;
         }
 
         .instructions {
             text-align: center;
             color: #666;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             font-size: 15px;
+            font-weight: 500;
         }
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
         }
 
-        .flip-card {
-            height: 200px;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-
-        .flip-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .flip-card-front {
+        .card {
             background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            cursor: pointer;
+            transition: all 0.3s ease;
             border: 2px solid #e2e8f0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .flip-card-back {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+            border-color: #01549e;
+        }
+
+        .card-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #be5510 0%, #cb6015 100%);
             color: white;
-            transform: rotateY(180deg);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
         }
 
         .card-icon {
-            font-size: 40px;
-            margin-bottom: 12px;
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
         }
 
         .card-title {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
             color: #01549e;
-            margin-bottom: 8px;
-        }
-
-        .card-hint {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .flip-card-back h3 {
-            font-size: 16px;
             margin-bottom: 12px;
+            line-height: 1.3;
         }
 
-        .flip-card-back p {
+        .card-preview {
             font-size: 14px;
-            opacity: 0.95;
+            color: #666;
+            margin-bottom: 16px;
             line-height: 1.5;
         }
 
-        .flip-card-back .badge {
+        .card-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #01549e;
+            font-weight: 600;
+            font-size: 14px;
+            transition: gap 0.2s ease;
+        }
+
+        .card:hover .card-cta {
+            gap: 10px;
+        }
+
+        .card-cta::after {
+            content: '→';
+            font-size: 16px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #01549e 0%, #507ABB 100%);
+            color: white;
+            padding: 24px 32px;
+            border-radius: 16px 16px 0 0;
+            position: relative;
+        }
+
+        .modal-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .modal-icon {
+            font-size: 56px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .modal-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .modal-subtitle {
+            font-size: 15px;
+            opacity: 0.95;
+        }
+
+        .modal-close {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(255,255,255,0.2);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
+            top: 20px;
+            right: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 28px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 32px;
+        }
+
+        .modal-section {
+            margin-bottom: 28px;
+        }
+
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #01549e;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(135deg, #be5510 0%, #cb6015 100%);
+            border-radius: 2px;
+        }
+
+        .modal-section-content {
+            font-size: 15px;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        .modal-section-content strong {
+            color: #01549e;
             font-weight: 600;
         }
 
-        .progress-bar {
-            margin-top: 24px;
-            background: white;
+        .modal-list {
+            list-style: none;
+            margin: 12px 0;
+        }
+
+        .modal-list li {
+            padding-left: 28px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .modal-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #be5510;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff5ec 0%, #ffe8d9 100%);
+            border-left: 4px solid #be5510;
             padding: 16px 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .highlight-box-title {
+            font-weight: 700;
+            color: #be5510;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .highlight-box-content {
+            color: #744210;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            background: white;
+            padding: 20px 28px;
             border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            margin-bottom: 24px;
         }
 
         .progress-text {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #666;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .progress-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-count {
+            font-weight: 700;
+            color: #01549e;
         }
 
         .progress-track {
-            height: 8px;
+            height: 10px;
             background: #e2e8f0;
-            border-radius: 4px;
+            border-radius: 5px;
             overflow: hidden;
+            position: relative;
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(135deg, #be5510 0%, #cb6015 100%);
-            border-radius: 4px;
-            transition: width 0.3s ease;
+            border-radius: 5px;
+            transition: width 0.4s ease;
             width: 0%;
+            position: relative;
+            overflow: hidden;
         }
 
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Completion Message */
         .completion-message {
             display: none;
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #be5510 0%, #cb6015 100%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
+            padding: 28px 32px;
             border-radius: 12px;
-            margin-top: 20px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+            animation: slideUp 0.4s ease;
         }
 
         .completion-message.show {
             display: block;
         }
 
-        .completion-message h3 {
-            font-size: 20px;
-            margin-bottom: 8px;
+        .completion-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
         }
 
-        @media (max-width: 640px) {
-            body {
-                padding: 12px;
-            }
+        .completion-message h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
 
-            .header {
+        .completion-message p {
+            font-size: 16px;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
                 padding: 16px;
             }
 
+            .header {
+                padding: 20px 24px;
+            }
+
             .header h1 {
-                font-size: 20px;
+                font-size: 22px;
             }
 
-            .flip-card {
-                height: 180px;
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
             }
 
-            .card-icon {
-                font-size: 32px;
+            .modal {
+                margin: 0;
+                max-height: 90vh;
             }
 
-            .card-title {
-                font-size: 16px;
+            .modal-header {
+                padding: 20px 24px;
+            }
+
+            .modal-icon {
+                font-size: 44px;
+            }
+
+            .modal-title {
+                font-size: 22px;
+            }
+
+            .modal-body {
+                padding: 24px;
+            }
+
+            .modal-close {
+                top: 16px;
+                right: 20px;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
     </style>
@@ -220,107 +495,65 @@
     <div class="container">
         <div class="header">
             <h1>RDA Enhanced Scope of Practice</h1>
-            <p>Tap each card to discover what your certification allows you to do</p>
+            <p>Discover the exclusive duties and opportunities available with your RDA certification</p>
         </div>
 
-        <p class="instructions">Click or tap each card to flip and learn about RDA-exclusive duties</p>
+        <p class="instructions">Click any card to explore detailed information about each RDA-exclusive capability</p>
 
         <div class="cards-grid">
-            <div class="flip-card" data-card="1">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="card-icon">📷</div>
-                        <div class="card-title">Radiography</div>
-                        <div class="card-hint">Tap to learn more</div>
-                    </div>
-                    <div class="flip-card-back">
-                        <div class="badge">RDA Only</div>
-                        <h3>Take Dental X-Rays</h3>
-                        <p>As an RDA, you can take dental radiographs under <strong>general supervision</strong> - meaning the dentist doesn't need to be present in the office.</p>
-                    </div>
-                </div>
+            <div class="card" data-card="1">
+                <span class="card-badge">RDA Only</span>
+                <span class="card-icon">📷</span>
+                <h3 class="card-title">Dental Radiography</h3>
+                <p class="card-preview">Take dental X-rays under general supervision</p>
+                <div class="card-cta">Learn more</div>
             </div>
 
-            <div class="flip-card" data-card="2">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="card-icon">✨</div>
-                        <div class="card-title">Coronal Polishing</div>
-                        <div class="card-hint">Tap to learn more</div>
-                    </div>
-                    <div class="flip-card-back">
-                        <div class="badge">RDA Only</div>
-                        <h3>Polish Teeth</h3>
-                        <p>You can polish the coronal (visible) portion of teeth using rubber cups with polishing paste - a duty restricted to certified assistants.</p>
-                    </div>
-                </div>
+            <div class="card" data-card="2">
+                <span class="card-badge">RDA Only</span>
+                <span class="card-icon">✨</span>
+                <h3 class="card-title">Coronal Polishing</h3>
+                <p class="card-preview">Polish the visible surfaces of patient teeth</p>
+                <div class="card-cta">Learn more</div>
             </div>
 
-            <div class="flip-card" data-card="3">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="card-icon">💊</div>
-                        <div class="card-title">Topical Anesthetics</div>
-                        <div class="card-hint">Tap to learn more</div>
-                    </div>
-                    <div class="flip-card-back">
-                        <div class="badge">RDA Only</div>
-                        <h3>Apply Topical Anesthetic</h3>
-                        <p>RDAs can apply topical anesthetic agents to oral tissues to help numb areas before injections or procedures.</p>
-                    </div>
-                </div>
+            <div class="card" data-card="3">
+                <span class="card-badge">RDA Only</span>
+                <span class="card-icon">💊</span>
+                <h3 class="card-title">Topical Anesthetics</h3>
+                <p class="card-preview">Apply numbing agents to oral tissues</p>
+                <div class="card-cta">Learn more</div>
             </div>
 
-            <div class="flip-card" data-card="4">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="card-icon">⚡</div>
-                        <div class="card-title">Expanded Functions</div>
-                        <div class="card-hint">Tap to learn more</div>
-                    </div>
-                    <div class="flip-card-back">
-                        <div class="badge">RDA Only</div>
-                        <h3>Additional Procedures</h3>
-                        <p>Your RDA opens doors to expanded functions as delegated by the dentist, with potential for EFDA certification for even more duties.</p>
-                    </div>
-                </div>
+            <div class="card" data-card="4">
+                <span class="card-badge">RDA Only</span>
+                <span class="card-icon">🔬</span>
+                <h3 class="card-title">Expanded Functions</h3>
+                <p class="card-preview">Access to advanced delegated procedures</p>
+                <div class="card-cta">Learn more</div>
             </div>
 
-            <div class="flip-card" data-card="5">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="card-icon">📋</div>
-                        <div class="card-title">General Supervision</div>
-                        <div class="card-hint">Tap to learn more</div>
-                    </div>
-                    <div class="flip-card-back">
-                        <div class="badge">RDA Benefit</div>
-                        <h3>Work More Independently</h3>
-                        <p>Many RDA duties can be performed under general supervision - the dentist authorizes procedures but doesn't need to be physically present.</p>
-                    </div>
-                </div>
+            <div class="card" data-card="5">
+                <span class="card-badge">RDA Benefit</span>
+                <span class="card-icon">📋</span>
+                <h3 class="card-title">General Supervision</h3>
+                <p class="card-preview">Work independently without direct oversight</p>
+                <div class="card-cta">Learn more</div>
             </div>
 
-            <div class="flip-card" data-card="6">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="card-icon">🎯</div>
-                        <div class="card-title">Career Advancement</div>
-                        <div class="card-hint">Tap to learn more</div>
-                    </div>
-                    <div class="flip-card-back">
-                        <div class="badge">RDA Benefit</div>
-                        <h3>More Opportunities</h3>
-                        <p>RDA certification is often required for lead assistant and supervisory roles, and serves as foundation for specialty certifications.</p>
-                    </div>
-                </div>
+            <div class="card" data-card="6">
+                <span class="card-badge">RDA Benefit</span>
+                <span class="card-icon">🎯</span>
+                <h3 class="card-title">Career Advancement</h3>
+                <p class="card-preview">Unlock leadership and specialty opportunities</p>
+                <div class="card-cta">Learn more</div>
             </div>
         </div>
 
         <div class="progress-bar">
             <div class="progress-text">
-                <span>Cards explored</span>
-                <span class="progress-count">0 of 6</span>
+                <span class="progress-label">Your Progress</span>
+                <span class="progress-count">0 of 6 explored</span>
             </div>
             <div class="progress-track">
                 <div class="progress-fill"></div>
@@ -328,52 +561,346 @@
         </div>
 
         <div class="completion-message">
-            <h3>Great Job!</h3>
-            <p>You've explored all the enhanced duties available to Texas RDAs. These expanded capabilities set you apart from non-certified dental assistants!</p>
+            <div class="completion-icon">🎉</div>
+            <h3>Congratulations!</h3>
+            <p>You've explored all the enhanced duties and benefits available to Texas RDAs. These expanded capabilities set you apart from non-certified dental assistants and open doors to greater career opportunities!</p>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <button class="modal-close" id="modalClose">&times;</button>
+                <span class="modal-badge" id="modalBadge">RDA Only</span>
+                <span class="modal-icon" id="modalIcon">📷</span>
+                <h2 class="modal-title" id="modalTitle">Dental Radiography</h2>
+                <p class="modal-subtitle" id="modalSubtitle">Take dental X-rays under general supervision</p>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be dynamically inserted -->
+            </div>
         </div>
     </div>
 
     <script>
-        const cards = document.querySelectorAll('.flip-card');
+        // Card data with detailed content
+        const cardData = {
+            '1': {
+                badge: 'RDA Only',
+                icon: '📷',
+                title: 'Dental Radiography',
+                subtitle: 'Take dental X-rays under general supervision',
+                sections: [
+                    {
+                        title: 'What You Can Do',
+                        content: 'As an RDA, you are authorized to take dental radiographs (X-rays) under <strong>general supervision</strong>. This is a significant privilege that distinguishes certified RDAs from non-certified dental assistants.'
+                    },
+                    {
+                        title: 'Key Benefits',
+                        list: [
+                            'Take X-rays when the dentist is not physically present in the office',
+                            'Work more efficiently and independently in the dental practice',
+                            'Increase your value to employers who need this critical capability',
+                            'Perform a clinical duty that requires specialized training and certification'
+                        ]
+                    },
+                    {
+                        title: 'Clinical Impact',
+                        highlight: {
+                            title: 'Why This Matters',
+                            content: 'Radiography is essential for diagnosis, treatment planning, and monitoring patient care. Your ability to perform this duty under general supervision means you can help maintain smooth clinical operations even when the dentist is focusing on other tasks or not in the office.'
+                        }
+                    }
+                ]
+            },
+            '2': {
+                badge: 'RDA Only',
+                icon: '✨',
+                title: 'Coronal Polishing',
+                subtitle: 'Polish the visible surfaces of patient teeth',
+                sections: [
+                    {
+                        title: 'What You Can Do',
+                        content: 'RDAs are authorized to perform <strong>coronal polishing</strong> - the polishing of the coronal (visible) portion of teeth using rubber cups with polishing paste. This cosmetic and preventive procedure is restricted to certified dental assistants.'
+                    },
+                    {
+                        title: 'Procedure Details',
+                        list: [
+                            'Polish teeth to remove superficial stains and plaque after cleanings',
+                            'Use slow-speed handpieces with rubber cups and polishing paste',
+                            'Provide patients with immediate aesthetic improvement',
+                            'Work on the crown portion of teeth only (above the gumline)'
+                        ]
+                    },
+                    {
+                        title: 'Professional Value',
+                        highlight: {
+                            title: 'Career Advantage',
+                            content: 'Coronal polishing is a patient-favorite procedure that provides visible results. Being able to perform this duty makes you more valuable in general dentistry practices and enhances patient satisfaction with their dental visits.'
+                        }
+                    }
+                ]
+            },
+            '3': {
+                badge: 'RDA Only',
+                icon: '💊',
+                title: 'Topical Anesthetics',
+                subtitle: 'Apply numbing agents to oral tissues',
+                sections: [
+                    {
+                        title: 'What You Can Do',
+                        content: 'As an RDA, you can apply <strong>topical anesthetic agents</strong> to oral tissues. This helps numb areas before injections or certain dental procedures, improving patient comfort and reducing anxiety.'
+                    },
+                    {
+                        title: 'Clinical Applications',
+                        list: [
+                            'Prepare patients for local anesthetic injections',
+                            'Reduce discomfort during minor soft tissue procedures',
+                            'Help anxious patients feel more comfortable',
+                            'Apply gel, spray, or liquid anesthetic formulations'
+                        ]
+                    },
+                    {
+                        title: 'Patient Care Benefits',
+                        highlight: {
+                            title: 'Improving Patient Experience',
+                            content: 'The ability to apply topical anesthetics allows you to play a direct role in patient comfort management. This relatively simple duty can significantly reduce patient anxiety and make dental procedures more tolerable.'
+                        }
+                    }
+                ]
+            },
+            '4': {
+                badge: 'RDA Only',
+                icon: '🔬',
+                title: 'Expanded Functions',
+                subtitle: 'Access to advanced delegated procedures',
+                sections: [
+                    {
+                        title: 'What You Can Do',
+                        content: 'Your RDA certification opens the door to <strong>expanded functions</strong> as delegated by the dentist. With additional training, you can pursue EFDA (Expanded Functions Dental Assistant) certification to perform even more advanced clinical procedures.'
+                    },
+                    {
+                        title: 'Growth Opportunities',
+                        list: [
+                            'Foundation for EFDA certification and advanced duties',
+                            'Access to procedures beyond basic dental assisting',
+                            'Ability to take on more clinical responsibilities',
+                            'Increased earning potential with expanded skills'
+                        ]
+                    },
+                    {
+                        title: 'Career Path',
+                        highlight: {
+                            title: 'Building Your Future',
+                            content: 'Think of your RDA as the foundation. With this certification, you have proven competency and gained eligibility for advanced training programs that can authorize you to perform procedures like placing restorations, taking impressions, and other reversible duties.'
+                        }
+                    }
+                ]
+            },
+            '5': {
+                badge: 'RDA Benefit',
+                icon: '📋',
+                title: 'General Supervision',
+                subtitle: 'Work independently without direct oversight',
+                sections: [
+                    {
+                        title: 'What This Means',
+                        content: '<strong>General supervision</strong> means the dentist has authorized and delegated specific procedures, but does not need to be physically present in the office while you perform them. This is a major distinction from direct supervision.'
+                    },
+                    {
+                        title: 'Practical Advantages',
+                        list: [
+                            'Perform X-rays while the dentist is with other patients',
+                            'Work more independently and efficiently',
+                            'Demonstrate professional judgment and responsibility',
+                            'Make yourself more valuable to employers'
+                        ]
+                    },
+                    {
+                        title: 'Professional Responsibility',
+                        content: 'With general supervision privileges comes professional responsibility. You must work within your scope of practice, use proper clinical judgment, and ensure quality patient care even when the dentist is not immediately available.'
+                    },
+                    {
+                        title: 'Workplace Impact',
+                        highlight: {
+                            title: 'Operational Efficiency',
+                            content: 'General supervision allows dental practices to operate more efficiently. You can complete necessary procedures without interrupting the dentist\'s schedule, which improves workflow and patient throughput.'
+                        }
+                    }
+                ]
+            },
+            '6': {
+                badge: 'RDA Benefit',
+                icon: '🎯',
+                title: 'Career Advancement',
+                subtitle: 'Unlock leadership and specialty opportunities',
+                sections: [
+                    {
+                        title: 'Professional Opportunities',
+                        content: 'RDA certification is often <strong>required or strongly preferred</strong> for lead assistant positions, supervisory roles, and specialty practice positions. It demonstrates your commitment to professional development and clinical competency.'
+                    },
+                    {
+                        title: 'Career Paths Open to RDAs',
+                        list: [
+                            'Lead Dental Assistant or Office Manager positions',
+                            'Specialty practices (orthodontics, oral surgery, pediatrics)',
+                            'Dental product sales and education representatives',
+                            'Instructor positions at dental assisting programs',
+                            'EFDA and other advanced certifications'
+                        ]
+                    },
+                    {
+                        title: 'Financial Benefits',
+                        highlight: {
+                            title: 'Increased Earning Potential',
+                            content: 'RDAs typically earn higher hourly wages than non-certified assistants. The certification demonstrates verifiable skills and competencies that employers value, translating directly to better compensation and benefits.'
+                        }
+                    },
+                    {
+                        title: 'Long-Term Value',
+                        content: 'Your RDA certification is a professional credential that stays with you throughout your career. It serves as proof of your training, competency, and commitment to the dental profession - opening doors now and in the future.'
+                    }
+                ]
+            }
+        };
+
+        // DOM Elements
+        const cards = document.querySelectorAll('.card');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modal = document.getElementById('modal');
+        const modalClose = document.getElementById('modalClose');
+        const modalBadge = document.getElementById('modalBadge');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalSubtitle = document.getElementById('modalSubtitle');
+        const modalBody = document.getElementById('modalBody');
         const progressFill = document.querySelector('.progress-fill');
         const progressCount = document.querySelector('.progress-count');
         const completionMessage = document.querySelector('.completion-message');
-        let flippedCards = new Set();
 
-        cards.forEach(card => {
-            card.addEventListener('click', function() {
-                this.classList.toggle('flipped');
+        let exploredCards = new Set();
 
-                const cardId = this.dataset.card;
-                if (this.classList.contains('flipped')) {
-                    flippedCards.add(cardId);
+        // Open modal with card data
+        function openModal(cardId) {
+            const data = cardData[cardId];
+            if (!data) return;
+
+            // Update modal content
+            modalBadge.textContent = data.badge;
+            modalIcon.textContent = data.icon;
+            modalTitle.textContent = data.title;
+            modalSubtitle.textContent = data.subtitle;
+
+            // Build modal body
+            let bodyHTML = '';
+            data.sections.forEach(section => {
+                bodyHTML += '<div class="modal-section">';
+                bodyHTML += `<h3 class="modal-section-title">${section.title}</h3>`;
+
+                if (section.content) {
+                    bodyHTML += `<div class="modal-section-content">${section.content}</div>`;
                 }
 
-                updateProgress();
-                postHeight();
-            });
-        });
+                if (section.list) {
+                    bodyHTML += '<ul class="modal-list">';
+                    section.list.forEach(item => {
+                        bodyHTML += `<li>${item}</li>`;
+                    });
+                    bodyHTML += '</ul>';
+                }
 
+                if (section.highlight) {
+                    bodyHTML += '<div class="highlight-box">';
+                    bodyHTML += `<div class="highlight-box-title">${section.highlight.title}</div>`;
+                    bodyHTML += `<div class="highlight-box-content">${section.highlight.content}</div>`;
+                    bodyHTML += '</div>';
+                }
+
+                bodyHTML += '</div>';
+            });
+
+            modalBody.innerHTML = bodyHTML;
+
+            // Show modal
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Track exploration
+            exploredCards.add(cardId);
+            updateProgress();
+
+            // Call postHeight after modal animation
+            setTimeout(postHeight, 350);
+        }
+
+        // Close modal
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+
+            // Call postHeight after modal closes
+            setTimeout(postHeight, 250);
+        }
+
+        // Update progress
         function updateProgress() {
             const total = cards.length;
-            const explored = flippedCards.size;
+            const explored = exploredCards.size;
             const percentage = (explored / total) * 100;
 
             progressFill.style.width = percentage + '%';
-            progressCount.textContent = `${explored} of ${total}`;
+            progressCount.textContent = `${explored} of ${total} explored`;
 
             if (explored === total) {
-                completionMessage.classList.add('show');
+                setTimeout(() => {
+                    completionMessage.classList.add('show');
+                    postHeight();
+                }, 300);
             }
         }
 
+        // Post height to parent frame
         function postHeight() {
             const height = document.documentElement.scrollHeight;
             window.parent.postMessage({ type: 'resize', height: height }, '*');
         }
 
+        // Event listeners
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const cardId = card.dataset.card;
+                openModal(cardId);
+            });
+        });
+
+        modalClose.addEventListener('click', closeModal);
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Initial height post
         window.addEventListener('load', postHeight);
         window.addEventListener('resize', postHeight);
+
+        // Observe DOM changes for height updates
+        const observer = new MutationObserver(postHeight);
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['class', 'style']
+        });
     </script>
 </body>
 </html>

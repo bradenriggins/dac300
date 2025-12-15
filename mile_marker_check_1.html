@@ -15,357 +15,860 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f8fafc;
-            padding: 20px;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
         }
 
-        .container {
-            max-width: 800px;
+        .quiz-container {
+            max-width: 900px;
             margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
 
         .header {
-            background: linear-gradient(135deg, #01549e 0%, #507ABB 100%);
+            background: linear-gradient(135deg, #01549e 0%, #0d6ebd 100%);
             color: white;
-            padding: 24px;
-            border-radius: 12px 12px 0 0;
+            padding: 40px 48px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="30" cy="25" r="1.5" fill="white" opacity="0.1"/><circle cx="60" cy="15" r="1" fill="white" opacity="0.1"/><circle cx="80" cy="30" r="1.2" fill="white" opacity="0.1"/></svg>');
+            opacity: 0.3;
         }
 
         .header h1 {
-            font-size: 28px;
+            font-size: 36px;
             margin-bottom: 8px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
         }
 
         .header p {
-            font-size: 16px;
+            font-size: 18px;
             opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-bar-container {
+            background: #f8fafc;
+            padding: 24px 48px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: #01549e;
+        }
+
+        .progress-steps {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #01549e 0%, #0d6ebd 50%, #01549e 100%);
+            background-size: 200% 100%;
+            border-radius: 999px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         .quiz-content {
-            background: white;
-            padding: 32px;
-            border-radius: 0 0 12px 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .question {
-            margin-bottom: 32px;
-            padding-bottom: 32px;
-            border-bottom: 2px solid #f8fafc;
-        }
-
-        .question:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .question-text {
-            font-size: 18px;
-            font-weight: 600;
-            color: #01549e;
-            margin-bottom: 16px;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .option {
+            padding: 48px;
+            min-height: 500px;
             position: relative;
         }
 
-        .option input[type="radio"] {
+        .question-container {
+            display: none;
+            opacity: 0;
+        }
+
+        .question-container.active {
+            display: block;
+            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .question-container.fade-out {
+            animation: slideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+        }
+
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #be5510 0%, #d35f14 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(190, 85, 16, 0.3);
+        }
+
+        .question-text {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 36px;
+            line-height: 1.4;
+        }
+
+        .answer-options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .option-wrapper {
+            position: relative;
+        }
+
+        .option-wrapper input[type="radio"] {
             position: absolute;
             opacity: 0;
             cursor: pointer;
         }
 
-        .option label {
-            display: block;
-            padding: 16px 20px;
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 20px 28px;
             background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
+            border: 3px solid #e2e8f0;
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 18px;
+            font-weight: 500;
+            color: #334155;
+            position: relative;
+            overflow: hidden;
         }
 
-        .option label:hover {
+        .option-label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            background: linear-gradient(90deg, rgba(1, 84, 158, 0.05) 0%, transparent 100%);
+            transition: width 0.3s ease;
+        }
+
+        .option-label:hover {
+            border-color: #01549e;
             background: #e8f1fb;
-            border-color: #507ABB;
+            transform: translateX(8px);
+            box-shadow: 0 8px 24px rgba(1, 84, 158, 0.15);
         }
 
-        .option input[type="radio"]:focus + label {
-            outline: 3px solid #507ABB;
-            outline-offset: 2px;
+        .option-label:hover::before {
+            width: 100%;
         }
 
-        .option input[type="radio"]:checked + label {
+        .option-wrapper input[type="radio"]:focus + .option-label {
+            outline: 3px solid #01549e;
+            outline-offset: 3px;
+        }
+
+        .option-wrapper input[type="radio"]:checked + .option-label {
             background: #e8f1fb;
             border-color: #01549e;
             font-weight: 600;
+            color: #01549e;
         }
 
-        .option.correct label {
-            background: #d1fae5;
+        .option-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: white;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            font-weight: 700;
+            margin-right: 16px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .option-wrapper input[type="radio"]:checked + .option-label .option-letter {
+            background: #01549e;
+            color: white;
+            border-color: #01549e;
+            transform: scale(1.1);
+        }
+
+        .option-wrapper.correct .option-label {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
             border-color: #10b981;
             color: #065f46;
+            font-weight: 600;
+            animation: correctPulse 0.6s ease;
         }
 
-        .option.incorrect label {
-            background: #fee2e2;
+        .option-wrapper.correct .option-letter {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .option-wrapper.incorrect .option-label {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
             border-color: #ef4444;
             color: #991b1b;
+            animation: incorrectShake 0.5s ease;
         }
 
-        .feedback {
-            margin-top: 12px;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 15px;
-            display: none;
-        }
-
-        .feedback.show {
-            display: block;
-        }
-
-        .feedback.correct {
-            background: #d1fae5;
-            color: #065f46;
-            border-left: 4px solid #10b981;
-        }
-
-        .feedback.incorrect {
-            background: #fee2e2;
-            color: #991b1b;
-            border-left: 4px solid #ef4444;
-        }
-
-        .summary {
-            display: none;
-            background: linear-gradient(135deg, #be5510 0%, #cb6015 100%);
+        .option-wrapper.incorrect .option-letter {
+            background: #ef4444;
             color: white;
-            padding: 24px;
-            border-radius: 12px;
-            text-align: center;
-            margin-top: 32px;
+            border-color: #ef4444;
         }
 
-        .summary.show {
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .option-wrapper.disabled .option-label {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .option-wrapper.disabled:not(.correct):not(.incorrect) .option-label {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        .feedback-message {
+            margin-top: 32px;
+            padding: 24px 28px;
+            border-radius: 16px;
+            font-size: 17px;
+            display: none;
+            animation: feedbackSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes feedbackSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback-message.show {
             display: block;
         }
 
-        .summary h2 {
+        .feedback-message.correct {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            color: #065f46;
+            border-left: 5px solid #10b981;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2);
+        }
+
+        .feedback-message.incorrect {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #991b1b;
+            border-left: 5px solid #ef4444;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2);
+        }
+
+        .feedback-message strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .feedback-icon {
             font-size: 24px;
-            margin-bottom: 12px;
+            margin-right: 12px;
         }
 
-        .summary p {
-            font-size: 18px;
-            margin-bottom: 8px;
+        .action-buttons {
+            margin-top: 40px;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
         }
 
-        .summary .message {
-            font-size: 16px;
-            margin-top: 16px;
+        .btn {
+            padding: 16px 40px;
+            font-size: 17px;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn.show {
+            display: inline-block;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #01549e 0%, #0d6ebd 100%);
+            color: white;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(1, 84, 158, 0.4);
+        }
+
+        .btn-next:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-try-again {
+            background: linear-gradient(135deg, #be5510 0%, #d35f14 100%);
+            color: white;
+        }
+
+        .btn-try-again:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(190, 85, 16, 0.4);
+        }
+
+        .btn-try-again:active {
+            transform: translateY(-1px);
+        }
+
+        .results-screen {
+            display: none;
+            text-align: center;
+            padding: 48px 24px;
+        }
+
+        .results-screen.show {
+            display: block;
+            animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .results-card {
+            background: linear-gradient(135deg, #be5510 0%, #d35f14 100%);
+            color: white;
+            padding: 56px 48px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(190, 85, 16, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .results-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .results-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .completion-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .results-title {
+            font-size: 36px;
+            margin-bottom: 24px;
+            font-weight: 800;
+        }
+
+        .score-display {
+            font-size: 72px;
+            font-weight: 900;
+            margin: 28px 0;
+            line-height: 1;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .score-percentage {
+            font-size: 28px;
+            margin-bottom: 28px;
             opacity: 0.95;
+            font-weight: 600;
         }
 
-        @media (max-width: 640px) {
-            body {
-                padding: 12px;
-            }
+        .results-message {
+            font-size: 20px;
+            margin-top: 24px;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
+        .stat-badges {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        @media (max-width: 768px) {
             .header {
-                padding: 20px;
+                padding: 32px 24px;
             }
 
             .header h1 {
-                font-size: 24px;
+                font-size: 28px;
             }
 
-            .quiz-content {
-                padding: 20px;
-            }
-
-            .question-text {
+            .header p {
                 font-size: 16px;
             }
 
-            .option label {
-                padding: 12px 16px;
-                font-size: 15px;
+            .progress-bar-container {
+                padding: 20px 24px;
+            }
+
+            .quiz-content {
+                padding: 32px 24px;
+                min-height: 450px;
+            }
+
+            .question-text {
+                font-size: 22px;
+                margin-bottom: 28px;
+            }
+
+            .option-label {
+                padding: 16px 20px;
+                font-size: 16px;
+            }
+
+            .option-letter {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+                margin-right: 12px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 14px 32px;
+            }
+
+            .results-card {
+                padding: 40px 28px;
+            }
+
+            .results-title {
+                font-size: 28px;
+            }
+
+            .score-display {
+                font-size: 56px;
+            }
+
+            .score-percentage {
+                font-size: 22px;
+            }
+
+            .results-message {
+                font-size: 17px;
+            }
+
+            .stat-badges {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="quiz-container">
         <div class="header">
             <h1>Mile Marker Check</h1>
             <p>Test your knowledge of Texas RDA certification requirements</p>
         </div>
 
+        <div class="progress-bar-container">
+            <div class="progress-label">
+                <span class="progress-text" id="progress-text">Question 1 of 4</span>
+                <span class="progress-steps" id="progress-steps">Step 1/4</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+
         <div class="quiz-content">
             <!-- Question 1 -->
-            <div class="question" data-question="1" data-correct="B">
-                <div class="question-text">1. What is the minimum passing score for the Texas RDA exam?</div>
-                <div class="options">
-                    <div class="option">
+            <div class="question-container active" data-question="1" data-correct="B">
+                <div class="question-number">Question 1</div>
+                <div class="question-text">What is the minimum passing score for the Texas RDA exam?</div>
+                <div class="answer-options">
+                    <div class="option-wrapper">
                         <input type="radio" id="q1a" name="q1" value="A">
-                        <label for="q1a">A) 60%</label>
+                        <label for="q1a" class="option-label">
+                            <span class="option-letter">A</span>
+                            <span>60%</span>
+                        </label>
                     </div>
-                    <div class="option">
+                    <div class="option-wrapper">
                         <input type="radio" id="q1b" name="q1" value="B">
-                        <label for="q1b">B) 70%</label>
+                        <label for="q1b" class="option-label">
+                            <span class="option-letter">B</span>
+                            <span>70%</span>
+                        </label>
                     </div>
-                    <div class="option">
+                    <div class="option-wrapper">
                         <input type="radio" id="q1c" name="q1" value="C">
-                        <label for="q1c">C) 80%</label>
+                        <label for="q1c" class="option-label">
+                            <span class="option-letter">C</span>
+                            <span>80%</span>
+                        </label>
                     </div>
-                    <div class="option">
+                    <div class="option-wrapper">
                         <input type="radio" id="q1d" name="q1" value="D">
-                        <label for="q1d">D) 90%</label>
+                        <label for="q1d" class="option-label">
+                            <span class="option-letter">D</span>
+                            <span>90%</span>
+                        </label>
                     </div>
                 </div>
-                <div class="feedback"></div>
+                <div class="feedback-message"></div>
+                <div class="action-buttons">
+                    <button class="btn btn-try-again" onclick="tryAgain(1)">Try Again</button>
+                    <button class="btn btn-next" onclick="nextQuestion()">Next Question →</button>
+                </div>
             </div>
 
             <!-- Question 2 -->
-            <div class="question" data-question="2" data-correct="B">
-                <div class="question-text">2. How long must you wait between exam attempts after failing twice?</div>
-                <div class="options">
-                    <div class="option">
+            <div class="question-container" data-question="2" data-correct="B">
+                <div class="question-number">Question 2</div>
+                <div class="question-text">How long must you wait between exam attempts after failing twice?</div>
+                <div class="answer-options">
+                    <div class="option-wrapper">
                         <input type="radio" id="q2a" name="q2" value="A">
-                        <label for="q2a">A) 30 days</label>
+                        <label for="q2a" class="option-label">
+                            <span class="option-letter">A</span>
+                            <span>30 days</span>
+                        </label>
                     </div>
-                    <div class="option">
+                    <div class="option-wrapper">
                         <input type="radio" id="q2b" name="q2" value="B">
-                        <label for="q2b">B) 45 days</label>
+                        <label for="q2b" class="option-label">
+                            <span class="option-letter">B</span>
+                            <span>45 days</span>
+                        </label>
                     </div>
-                    <div class="option">
+                    <div class="option-wrapper">
                         <input type="radio" id="q2c" name="q2" value="C">
-                        <label for="q2c">C) 60 days</label>
+                        <label for="q2c" class="option-label">
+                            <span class="option-letter">C</span>
+                            <span>60 days</span>
+                        </label>
                     </div>
-                    <div class="option">
+                    <div class="option-wrapper">
                         <input type="radio" id="q2d" name="q2" value="D">
-                        <label for="q2d">D) 90 days</label>
+                        <label for="q2d" class="option-label">
+                            <span class="option-letter">D</span>
+                            <span>90 days</span>
+                        </label>
                     </div>
                 </div>
-                <div class="feedback"></div>
+                <div class="feedback-message"></div>
+                <div class="action-buttons">
+                    <button class="btn btn-try-again" onclick="tryAgain(2)">Try Again</button>
+                    <button class="btn btn-next" onclick="nextQuestion()">Next Question →</button>
+                </div>
             </div>
 
             <!-- Question 3 -->
-            <div class="question" data-question="3" data-correct="C">
-                <div class="question-text">3. Which certification allows you to perform expanded duties in Texas?</div>
-                <div class="options">
-                    <div class="option">
+            <div class="question-container" data-question="3" data-correct="C">
+                <div class="question-number">Question 3</div>
+                <div class="question-text">Which certification allows you to perform expanded duties in Texas?</div>
+                <div class="answer-options">
+                    <div class="option-wrapper">
                         <input type="radio" id="q3a" name="q3" value="A">
-                        <label for="q3a">A) RDA</label>
+                        <label for="q3a" class="option-label">
+                            <span class="option-letter">A</span>
+                            <span>RDA</span>
+                        </label>
                     </div>
-                    <div class="option">
+                    <div class="option-wrapper">
                         <input type="radio" id="q3b" name="q3" value="B">
-                        <label for="q3b">B) CDA</label>
+                        <label for="q3b" class="option-label">
+                            <span class="option-letter">B</span>
+                            <span>CDA</span>
+                        </label>
                     </div>
-                    <div class="option">
+                    <div class="option-wrapper">
                         <input type="radio" id="q3c" name="q3" value="C">
-                        <label for="q3c">C) EFDA</label>
+                        <label for="q3c" class="option-label">
+                            <span class="option-letter">C</span>
+                            <span>EFDA</span>
+                        </label>
                     </div>
-                    <div class="option">
+                    <div class="option-wrapper">
                         <input type="radio" id="q3d" name="q3" value="D">
-                        <label for="q3d">D) All of the above</label>
+                        <label for="q3d" class="option-label">
+                            <span class="option-letter">D</span>
+                            <span>All of the above</span>
+                        </label>
                     </div>
                 </div>
-                <div class="feedback"></div>
+                <div class="feedback-message"></div>
+                <div class="action-buttons">
+                    <button class="btn btn-try-again" onclick="tryAgain(3)">Try Again</button>
+                    <button class="btn btn-next" onclick="nextQuestion()">Next Question →</button>
+                </div>
             </div>
 
             <!-- Question 4 -->
-            <div class="question" data-question="4" data-correct="B">
-                <div class="question-text">4. What type of BLS certification is required for Texas RDA?</div>
-                <div class="options">
-                    <div class="option">
+            <div class="question-container" data-question="4" data-correct="B">
+                <div class="question-number">Question 4</div>
+                <div class="question-text">What type of BLS certification is required for Texas RDA?</div>
+                <div class="answer-options">
+                    <div class="option-wrapper">
                         <input type="radio" id="q4a" name="q4" value="A">
-                        <label for="q4a">A) Online certification</label>
+                        <label for="q4a" class="option-label">
+                            <span class="option-letter">A</span>
+                            <span>Online certification</span>
+                        </label>
                     </div>
-                    <div class="option">
+                    <div class="option-wrapper">
                         <input type="radio" id="q4b" name="q4" value="B">
-                        <label for="q4b">B) Hands-on certification</label>
+                        <label for="q4b" class="option-label">
+                            <span class="option-letter">B</span>
+                            <span>Hands-on certification</span>
+                        </label>
                     </div>
-                    <div class="option">
+                    <div class="option-wrapper">
                         <input type="radio" id="q4c" name="q4" value="C">
-                        <label for="q4c">C) Either type</label>
+                        <label for="q4c" class="option-label">
+                            <span class="option-letter">C</span>
+                            <span>Either type</span>
+                        </label>
                     </div>
-                    <div class="option">
+                    <div class="option-wrapper">
                         <input type="radio" id="q4d" name="q4" value="D">
-                        <label for="q4d">D) BLS not required</label>
+                        <label for="q4d" class="option-label">
+                            <span class="option-letter">D</span>
+                            <span>BLS not required</span>
+                        </label>
                     </div>
                 </div>
-                <div class="feedback"></div>
+                <div class="feedback-message"></div>
+                <div class="action-buttons">
+                    <button class="btn btn-try-again" onclick="tryAgain(4)">Try Again</button>
+                    <button class="btn btn-next" onclick="showResults()">View Results →</button>
+                </div>
             </div>
 
-            <div class="summary">
-                <h2>Quiz Complete!</h2>
-                <p class="score"></p>
-                <p class="message"></p>
+            <!-- Results Screen -->
+            <div class="results-screen">
+                <div class="results-card">
+                    <div class="results-content">
+                        <div class="completion-icon">🎉</div>
+                        <h2 class="results-title">Quiz Complete!</h2>
+                        <div class="score-display" id="score-display"></div>
+                        <p class="score-percentage" id="score-percentage"></p>
+                        <div class="stat-badges">
+                            <div class="stat-badge" id="correct-badge"></div>
+                            <div class="stat-badge" id="incorrect-badge"></div>
+                        </div>
+                        <p class="results-message" id="results-message"></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const questions = document.querySelectorAll('.question');
-        const summary = document.querySelector('.summary');
-        let answeredCount = 0;
+        const questions = document.querySelectorAll('.question-container');
+        const resultsScreen = document.querySelector('.results-screen');
+        const totalQuestions = questions.length;
+        let currentQuestionIndex = 0;
         let correctCount = 0;
+        let questionAnswered = false;
 
-        questions.forEach(question => {
+        // Initialize
+        updateProgress();
+
+        // Set up event listeners for each question
+        questions.forEach((question, index) => {
             const radios = question.querySelectorAll('input[type="radio"]');
             const correctAnswer = question.dataset.correct;
-            const feedback = question.querySelector('.feedback');
-            const options = question.querySelectorAll('.option');
+            const feedback = question.querySelector('.feedback-message');
+            const options = question.querySelectorAll('.option-wrapper');
+            const tryAgainBtn = question.querySelector('.btn-try-again');
+            const nextBtn = question.querySelector('.btn-next');
 
             radios.forEach(radio => {
                 radio.addEventListener('change', function() {
-                    if (this.dataset.answered) return;
-
-                    // Mark as answered
-                    radios.forEach(r => r.dataset.answered = 'true');
-                    answeredCount++;
+                    if (questionAnswered) return;
 
                     const selectedValue = this.value;
                     const isCorrect = selectedValue === correctAnswer;
 
-                    if (isCorrect) {
-                        correctCount++;
-                    }
+                    // Mark question as answered
+                    questionAnswered = true;
 
-                    // Show feedback on options
+                    // Disable all options
+                    radios.forEach(r => r.disabled = true);
+
+                    // Show visual feedback on options
                     options.forEach(option => {
                         const optionRadio = option.querySelector('input[type="radio"]');
+
                         if (optionRadio.value === correctAnswer) {
                             option.classList.add('correct');
-                        } else if (optionRadio.checked) {
+                        } else if (optionRadio.checked && !isCorrect) {
                             option.classList.add('incorrect');
+                        } else {
+                            option.classList.add('disabled');
                         }
                     });
 
                     // Show feedback message
                     if (isCorrect) {
-                        feedback.className = 'feedback correct show';
-                        feedback.textContent = 'Correct! Well done!';
+                        correctCount++;
+                        feedback.className = 'feedback-message correct show';
+                        feedback.innerHTML = '<strong>✓ Correct!</strong> Excellent work! You got it right.';
+                        nextBtn.classList.add('show');
                     } else {
-                        feedback.className = 'feedback incorrect show';
-                        feedback.textContent = 'Not quite. The correct answer is highlighted above.';
-                    }
-
-                    // Check if all questions answered
-                    if (answeredCount === questions.length) {
-                        showSummary();
+                        feedback.className = 'feedback-message incorrect show';
+                        feedback.innerHTML = '<strong>✗ Not quite right.</strong> The correct answer is highlighted above. Give it another try!';
+                        tryAgainBtn.classList.add('show');
                     }
 
                     postHeight();
@@ -373,34 +876,128 @@
             });
         });
 
-        function showSummary() {
-            const score = document.querySelector('.summary .score');
-            const message = document.querySelector('.summary .message');
-            const percentage = Math.round((correctCount / questions.length) * 100);
+        function tryAgain(questionNum) {
+            const question = questions[questionNum - 1];
+            const radios = question.querySelectorAll('input[type="radio"]');
+            const feedback = question.querySelector('.feedback-message');
+            const options = question.querySelectorAll('.option-wrapper');
+            const tryAgainBtn = question.querySelector('.btn-try-again');
 
-            score.textContent = `You got ${correctCount} out of ${questions.length} correct (${percentage}%)`;
+            // Reset everything
+            radios.forEach(r => {
+                r.checked = false;
+                r.disabled = false;
+            });
 
-            if (percentage === 100) {
-                message.textContent = 'Perfect score! You have excellent knowledge of Texas RDA certification requirements!';
-            } else if (percentage >= 75) {
-                message.textContent = 'Great job! You have a solid understanding of the certification requirements.';
-            } else if (percentage >= 50) {
-                message.textContent = 'Good effort! Review the areas you missed to strengthen your knowledge.';
-            } else {
-                message.textContent = 'Keep studying! Review the certification requirements and try again.';
-            }
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect', 'disabled');
+            });
 
-            summary.classList.add('show');
+            feedback.classList.remove('show');
+            tryAgainBtn.classList.remove('show');
+            questionAnswered = false;
+
             postHeight();
         }
 
+        function nextQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+
+            // Fade out current question
+            currentQuestion.classList.add('fade-out');
+
+            setTimeout(() => {
+                currentQuestion.classList.remove('active', 'fade-out');
+
+                // Move to next question
+                currentQuestionIndex++;
+
+                if (currentQuestionIndex < totalQuestions) {
+                    const nextQ = questions[currentQuestionIndex];
+                    nextQ.classList.add('active');
+                    questionAnswered = false;
+                    updateProgress();
+
+                    // Scroll to top smoothly
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    postHeight();
+                }
+            }, 300);
+        }
+
+        function updateProgress() {
+            const progressPercent = ((currentQuestionIndex) / totalQuestions) * 100;
+            document.getElementById('progress-fill').style.width = progressPercent + '%';
+            document.getElementById('progress-text').textContent = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
+            document.getElementById('progress-steps').textContent = `Step ${currentQuestionIndex + 1}/${totalQuestions}`;
+        }
+
+        function showResults() {
+            const currentQuestion = questions[currentQuestionIndex];
+
+            // Fade out current question
+            currentQuestion.classList.add('fade-out');
+
+            setTimeout(() => {
+                currentQuestion.classList.remove('active', 'fade-out');
+
+                // Update progress to 100%
+                document.getElementById('progress-fill').style.width = '100%';
+                document.getElementById('progress-text').textContent = 'Complete!';
+                document.getElementById('progress-steps').textContent = `${totalQuestions}/${totalQuestions}`;
+
+                // Calculate results
+                const incorrectCount = totalQuestions - correctCount;
+                const percentage = Math.round((correctCount / totalQuestions) * 100);
+
+                // Update results display
+                document.getElementById('score-display').textContent = `${correctCount}/${totalQuestions}`;
+                document.getElementById('score-percentage').textContent = `${percentage}% Correct`;
+                document.getElementById('correct-badge').textContent = `✓ ${correctCount} Correct`;
+                document.getElementById('incorrect-badge').textContent = `✗ ${incorrectCount} Incorrect`;
+
+                // Set message based on score
+                const messageElement = document.getElementById('results-message');
+                if (percentage === 100) {
+                    messageElement.textContent = 'Perfect score! You have excellent knowledge of Texas RDA certification requirements. You\'re well-prepared!';
+                    document.querySelector('.completion-icon').textContent = '🏆';
+                } else if (percentage >= 75) {
+                    messageElement.textContent = 'Great job! You have a solid understanding of the certification requirements. Keep up the good work!';
+                    document.querySelector('.completion-icon').textContent = '🎉';
+                } else if (percentage >= 50) {
+                    messageElement.textContent = 'Good effort! Review the areas you missed to strengthen your knowledge before the actual exam.';
+                    document.querySelector('.completion-icon').textContent = '👍';
+                } else {
+                    messageElement.textContent = 'Keep studying! Make sure to review the certification requirements thoroughly before taking the exam.';
+                    document.querySelector('.completion-icon').textContent = '📚';
+                }
+
+                // Show results screen
+                resultsScreen.classList.add('show');
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                postHeight();
+            }, 300);
+        }
+
         function postHeight() {
-            const height = document.documentElement.scrollHeight;
-            window.parent.postMessage({ type: 'resize', height: height }, '*');
+            // Allow time for animations and layout changes
+            setTimeout(() => {
+                const height = document.documentElement.scrollHeight;
+                window.parent.postMessage({ type: 'resize', height: height }, '*');
+            }, 100);
         }
 
         // Initial height post
-        window.addEventListener('load', postHeight);
+        window.addEventListener('load', () => {
+            postHeight();
+            // Additional check after fonts and animations load
+            setTimeout(postHeight, 500);
+        });
+
         window.addEventListener('resize', postHeight);
     </script>
 </body>
