@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Pathways Explorer - Dental Assisting Careers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 1800px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #01549e 0%, #507ABB 100%);
+            border-radius: 12px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .intro-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #be5510;
+        }
+
+        .intro-section h2 {
+            color: #01549e;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .intro-section p {
+            color: #475569;
+            font-size: 1.05em;
+        }
+
+        .instructions {
+            background: #fff7ed;
+            border: 2px solid #cb6015;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+
+        .instructions h3 {
+            color: #be5510;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .instructions li {
+            padding: 8px 0 8px 28px;
+            position: relative;
+            color: #475569;
+        }
+
+        .instructions li:before {
+            content: "→";
+            position: absolute;
+            left: 8px;
+            color: #cb6015;
+            font-weight: bold;
+        }
+
+        .pathways-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .pathway-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            overflow: hidden;
+        }
+
+        .pathway-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            border-color: #507ABB;
+        }
+
+        .pathway-card:focus {
+            outline: 3px solid #cb6015;
+            outline-offset: 2px;
+        }
+
+        .pathway-card.expanded {
+            border-color: #01549e;
+            box-shadow: 0 8px 20px rgba(1, 84, 158, 0.2);
+        }
+
+        .card-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #507ABB 0%, #01549e 100%);
+            color: white;
+            position: relative;
+        }
+
+        .card-header h3 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .expand-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .pathway-card.expanded .expand-icon {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .card-preview {
+            padding: 20px;
+        }
+
+        .card-preview p {
+            color: #64748b;
+            font-size: 0.95em;
+            font-style: italic;
+        }
+
+        .card-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            padding: 0 20px;
+        }
+
+        .pathway-card.expanded .card-details {
+            max-height: 2000px;
+            padding: 0 20px 20px 20px;
+        }
+
+        .detail-section {
+            margin-bottom: 25px;
+        }
+
+        .detail-section h4 {
+            color: #01549e;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-section p {
+            color: #475569;
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .detail-section li {
+            padding: 8px 0 8px 24px;
+            color: #475569;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .detail-section li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #be5510;
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #fff7ed;
+            color: #be5510;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .reflection-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            border-top: 4px solid #01549e;
+        }
+
+        .reflection-section h2 {
+            color: #01549e;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .reflection-prompt {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #507ABB;
+        }
+
+        .reflection-prompt h3 {
+            color: #01549e;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+
+        .reflection-prompt p {
+            color: #64748b;
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #507ABB;
+            box-shadow: 0 0 0 3px rgba(80, 122, 187, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #01549e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #507ABB;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(1, 84, 158, 0.3);
+        }
+
+        .btn-primary:focus {
+            outline: 3px solid #cb6015;
+            outline-offset: 2px;
+        }
+
+        .btn-secondary {
+            background: #cb6015;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #be5510;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(203, 96, 21, 0.3);
+        }
+
+        .btn-secondary:focus {
+            outline: 3px solid #01549e;
+            outline-offset: 2px;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .visual-flowchart {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .visual-flowchart h2 {
+            color: #01549e;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+
+        .flowchart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .flowchart-start {
+            background: linear-gradient(135deg, #be5510 0%, #cb6015 100%);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2em;
+            box-shadow: 0 4px 8px rgba(190, 85, 16, 0.3);
+        }
+
+        .flowchart-arrow {
+            font-size: 2em;
+            color: #507ABB;
+        }
+
+        .flowchart-branches {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .flowchart-node {
+            background: #f1f5f9;
+            border: 3px solid #507ABB;
+            border-radius: 12px;
+            padding: 15px;
+            font-weight: 600;
+            color: #01549e;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .flowchart-node:hover {
+            background: #507ABB;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(80, 122, 187, 0.3);
+        }
+
+        .flowchart-node:focus {
+            outline: 3px solid #cb6015;
+            outline-offset: 2px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .pathways-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .flowchart-branches {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            .btn, .instructions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Career Pathways Explorer</h1>
+            <p>Discover Your Future in Dental Assisting - From RDA Certification to Specialized Career Paths</p>
+        </header>
+
+        <section class="intro-section">
+            <h2>Your Journey Begins with RDA Certification</h2>
+            <p>Becoming a Registered Dental Assistant opens doors to diverse and rewarding career opportunities. This interactive tool helps you explore eight distinct career pathways, each offering unique challenges, growth opportunities, and the chance to make a meaningful impact in dental healthcare.</p>
+        </section>
+
+        <div class="instructions" role="complementary" aria-label="How to use this tool">
+            <h3>How to Explore Career Pathways</h3>
+            <ul>
+                <li>Click on any career card below to expand and view detailed information</li>
+                <li>Use keyboard navigation (Tab/Enter/Space) for accessibility</li>
+                <li>Review job descriptions, required certifications, and daily responsibilities</li>
+                <li>Complete the reflection activity at the bottom to save your thoughts</li>
+                <li>Export your reflections for future reference</li>
+            </ul>
+        </div>
+
+        <section class="visual-flowchart" aria-labelledby="flowchart-heading">
+            <h2 id="flowchart-heading">Career Progression Map</h2>
+            <div class="flowchart-container">
+                <div class="flowchart-start">RDA Certification</div>
+                <div class="flowchart-arrow" aria-hidden="true">↓</div>
+                <div class="flowchart-branches" role="list" aria-label="Available career pathways">
+                    <div class="flowchart-node" role="listitem" tabindex="0" data-pathway="0" aria-label="Click to explore General Practice">
+                        General Practice
+                    </div>
+                    <div class="flowchart-node" role="listitem" tabindex="0" data-pathway="1" aria-label="Click to explore Orthodontics">
+                        Orthodontics
+                    </div>
+                    <div class="flowchart-node" role="listitem" tabindex="0" data-pathway="2" aria-label="Click to explore Oral Surgery">
+                        Oral Surgery
+                    </div>
+                    <div class="flowchart-node" role="listitem" tabindex="0" data-pathway="3" aria-label="Click to explore Pediatric">
+                        Pediatric
+                    </div>
+                    <div class="flowchart-node" role="listitem" tabindex="0" data-pathway="4" aria-label="Click to explore EFDA">
+                        EFDA
+                    </div>
+                    <div class="flowchart-node" role="listitem" tabindex="0" data-pathway="5" aria-label="Click to explore Office Management">
+                        Office Manager
+                    </div>
+                    <div class="flowchart-node" role="listitem" tabindex="0" data-pathway="6" aria-label="Click to explore Dental Sales">
+                        Dental Sales
+                    </div>
+                    <div class="flowchart-node" role="listitem" tabindex="0" data-pathway="7" aria-label="Click to explore Dental Education">
+                        Dental Educator
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section aria-labelledby="pathways-heading">
+            <h2 id="pathways-heading" class="sr-only">Detailed Career Pathway Information</h2>
+            <div class="pathways-grid" role="list">
+                <!-- Career cards will be generated by JavaScript -->
+            </div>
+        </section>
+
+        <section class="reflection-section" aria-labelledby="reflection-heading">
+            <h2 id="reflection-heading">Personal Career Reflection</h2>
+
+            <div class="reflection-prompt">
+                <h3>Reflect on Your Career Goals</h3>
+                <p>After exploring the different career pathways, take a moment to reflect on which path resonates with you. Consider your interests, skills, and long-term career aspirations.</p>
+
+                <label for="reflection-textarea" class="sr-only">Enter your career reflection</label>
+                <textarea
+                    id="reflection-textarea"
+                    placeholder="Which pathway interests you most? Why? What steps can you take to begin moving in that direction?"
+                    aria-describedby="reflection-instructions"
+                ></textarea>
+                <p id="reflection-instructions" class="sr-only">Your reflection will be automatically saved as you type and stored locally in your browser.</p>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" id="save-btn" aria-label="Save reflection to browser storage">
+                    <span aria-hidden="true">💾</span> Save Reflection
+                </button>
+                <button class="btn btn-secondary" id="export-btn" aria-label="Export reflection as text file">
+                    <span aria-hidden="true">📥</span> Export as Text File
+                </button>
+                <button class="btn btn-secondary" id="clear-btn" aria-label="Clear reflection text">
+                    <span aria-hidden="true">🗑️</span> Clear
+                </button>
+            </div>
+
+            <div class="success-message" id="success-message" role="alert" aria-live="polite"></div>
+        </section>
+    </div>
+
+    <script>
+        // Career pathway data
+        const careerPathways = [
+            {
+                title: "General Practice Dental Assistant",
+                preview: "The foundation of dental care, working in family dental practices",
+                description: "General practice dental assistants work in family dental offices providing comprehensive support for routine and preventive dental care. You'll work alongside dentists performing examinations, cleanings, fillings, and various restorative procedures. This role offers broad exposure to all aspects of dentistry and is an excellent foundation for any dental career.",
+                certifications: [
+                    "Current RDA certification (required)",
+                    "CPR/BLS certification (required)",
+                    "Radiology certification (highly recommended)",
+                    "Coronal polishing certification (optional but valuable)"
+                ],
+                dayInLife: "Your day begins by preparing treatment rooms and sterilizing instruments. You'll assist with patient examinations, take X-rays, prepare materials for fillings and crowns, provide patient education, and manage chairside assistance. Between appointments, you'll update patient records, schedule follow-ups, and ensure infection control protocols are maintained. You'll interact with diverse patients of all ages and build lasting relationships with the community.",
+                howToGetThere: [
+                    "Complete your RDA certification and pass the state exam",
+                    "Gain radiology certification to expand your capabilities",
+                    "Apply to family dental practices and multi-dentist group practices",
+                    "Develop strong communication skills and build rapport with patients of all ages"
+                ]
+            },
+            {
+                title: "Orthodontic Assistant",
+                preview: "Specializing in braces, aligners, and creating beautiful smiles",
+                description: "Orthodontic assistants specialize in helping patients achieve properly aligned teeth and beautiful smiles. Working in an orthodontic practice, you'll assist with fitting braces, adjusting wires, taking impressions for aligners, and educating patients on proper care. This fast-paced environment allows you to see dramatic transformations in patients' confidence and appearance over time.",
+                certifications: [
+                    "Current RDA certification (required)",
+                    "CPR/BLS certification (required)",
+                    "Orthodontic Assistant Certificate (recommended, 6-12 month program)",
+                    "Additional training in digital impression systems"
+                ],
+                dayInLife: "You'll start by preparing patients for appliance adjustments and taking clinical photos to document progress. Throughout the day, you'll assist with placing and adjusting brackets and wires, removing brackets for patients completing treatment, and taking digital impressions for clear aligners. You'll educate patients about oral hygiene with braces and answer questions from excited patients tracking their smile transformations. The work is detail-oriented with visible, rewarding results.",
+                howToGetThere: [
+                    "Complete specialized orthodontic assistant training programs",
+                    "Seek externship or entry-level positions in orthodontic offices",
+                    "Learn digital technologies including 3D scanners and treatment planning software",
+                    "Develop patience and precision skills essential for bracket placement and adjustments"
+                ]
+            },
+            {
+                title: "Oral Surgery Assistant",
+                preview: "Supporting complex surgical procedures in a dynamic environment",
+                description: "Oral surgery assistants work in high-intensity environments supporting dentists and oral surgeons performing extractions, wisdom teeth removal, dental implants, and corrective jaw surgery. This role requires excellent technical skills, the ability to remain calm under pressure, and strong knowledge of surgical protocols. You'll be part of a team that helps patients through anxiety-inducing procedures with compassion and expertise.",
+                certifications: [
+                    "Current RDA certification (required)",
+                    "CPR/BLS certification and ACLS (Advanced Cardiac Life Support) highly valued",
+                    "Oral and Maxillofacial Surgery Assistant Certification (recommended)",
+                    "IV sedation monitoring certification (for offices providing sedation)"
+                ],
+                dayInLife: "Your morning begins with reviewing surgical schedules and preparing sterile instrument packs and surgical suites. You'll assist during procedures by maintaining the surgical field, retracting tissue, suctioning, and passing instruments. Between surgeries, you'll monitor patients in recovery, provide post-operative instructions, and manage emergency situations if they arise. The role demands focus, technical precision, and the ability to provide calm reassurance to anxious patients.",
+                howToGetThere: [
+                    "Complete specialized oral surgery assistant training (typically 12-18 months)",
+                    "Gain experience in general dentistry first to build fundamental skills",
+                    "Pursue additional certifications in surgical assisting and sedation monitoring",
+                    "Develop strong composure and ability to work efficiently in fast-paced surgical environments"
+                ]
+            },
+            {
+                title: "Pediatric Dental Assistant",
+                preview: "Creating positive dental experiences for children and families",
+                description: "Pediatric dental assistants specialize in providing dental care to infants, children, and adolescents. This rewarding role requires patience, creativity, and the ability to make dental visits fun and stress-free for young patients. You'll help establish positive dental habits that last a lifetime while working with families to address unique pediatric dental needs including early intervention and preventive care.",
+                certifications: [
+                    "Current RDA certification (required)",
+                    "CPR/BLS and Pediatric Advanced Life Support (PALS) certification",
+                    "Pediatric Dental Assistant Certificate (6-9 month programs available)",
+                    "Training in behavior management techniques for children"
+                ],
+                dayInLife: "Each day brings variety as you work with children from toddlers to teens. You'll create welcoming environments with age-appropriate communication, assist with cleanings and fluoride treatments, help manage anxious children using distraction and positive reinforcement, and apply dental sealants to prevent cavities. You'll also educate parents on proper brushing techniques, dietary habits, and developmental milestones. Your enthusiasm and gentle approach make all the difference in how children perceive dental care.",
+                howToGetThere: [
+                    "Complete pediatric dental assistant certification or continuing education courses",
+                    "Gain experience working with children through volunteer or childcare opportunities",
+                    "Apply to pediatric dental practices and children's hospitals",
+                    "Develop creative communication skills and patience for working with young patients"
+                ]
+            },
+            {
+                title: "Expanded Functions Dental Assistant (EFDA)",
+                preview: "Advanced clinical role performing restorative procedures",
+                description: "Expanded Functions Dental Assistants have advanced training allowing them to perform certain restorative and irreversible procedures that traditionally only dentists could do. This includes placing and carving fillings, placing crowns, and other clinical procedures depending on state regulations. EFDAs work with greater autonomy and clinical responsibility, making this an excellent path for assistants seeking more advanced clinical challenges.",
+                certifications: [
+                    "Current RDA certification (required)",
+                    "State-approved EFDA certification or Extended Functions permit",
+                    "Completion of EFDA program (typically 6-12 months beyond RDA)",
+                    "Specific training in restorative procedures and state jurisprudence"
+                ],
+                dayInLife: "As an EFDA, your day involves more advanced clinical work. You'll place and finish composite restorations, adjust and cement crowns and bridges, and perform other expanded functions authorized in your state. You'll work more independently while maintaining communication with the supervising dentist. Your enhanced skills allow dental practices to increase efficiency and serve more patients while you enjoy greater responsibility and professional development.",
+                howToGetThere: [
+                    "Research your state's specific EFDA requirements and scope of practice",
+                    "Enroll in an accredited EFDA program at a dental school or community college",
+                    "Gain solid experience as an RDA before pursuing expanded functions",
+                    "Develop strong clinical judgment and attention to detail for restorative procedures"
+                ]
+            },
+            {
+                title: "Dental Office Manager",
+                preview: "Leading practice operations and team management",
+                description: "Dental office managers oversee the business and administrative operations of dental practices. Transitioning from clinical work to management, you'll handle staff scheduling, inventory management, insurance billing, patient relations, and practice marketing. This leadership role requires business acumen, organizational skills, and the ability to motivate and develop team members while maintaining the smooth operation of the practice.",
+                certifications: [
+                    "RDA certification (provides clinical background and credibility)",
+                    "Dental Office Management Certificate (6-12 month programs)",
+                    "Continuing education in healthcare administration and business management",
+                    "HIPAA compliance and dental software proficiency certifications"
+                ],
+                dayInLife: "Your role blends clinical knowledge with business operations. You'll start by reviewing the day's schedule and ensuring adequate staff coverage, then address insurance verification and billing questions. Throughout the day, you'll handle patient concerns, conduct staff meetings, manage supply orders, and analyze practice metrics. You'll also interview and train new staff, implement new technologies or protocols, and work with the dentist-owner on strategic planning and growth initiatives.",
+                howToGetThere: [
+                    "Gain several years of chairside experience to understand all aspects of practice operations",
+                    "Pursue dental office management coursework or certification programs",
+                    "Develop leadership, financial management, and human resources skills",
+                    "Start by taking on supervisory responsibilities before transitioning to full management"
+                ]
+            },
+            {
+                title: "Dental Sales Representative",
+                preview: "Connecting dental practices with innovative products and technology",
+                description: "Dental sales representatives leverage their clinical knowledge to help dental practices discover and implement new products, equipment, and technologies. Working for dental supply companies, equipment manufacturers, or pharmaceutical companies, you'll build relationships with dental offices, provide product demonstrations, and offer solutions that improve patient care and practice efficiency. This career combines clinical expertise with business development and relationship building.",
+                certifications: [
+                    "RDA certification (provides credibility and clinical understanding)",
+                    "Sales training and professional development courses",
+                    "Product-specific certifications from manufacturers",
+                    "Continuing education to stay current with dental innovations"
+                ],
+                dayInLife: "You'll spend your days traveling to dental practices within your territory for product demonstrations and consultations. You'll conduct lunch-and-learn presentations for dental teams, attend dental conferences and trade shows, and follow up with practices on equipment trials or product orders. Your clinical background allows you to speak the language of dental professionals and understand their needs. You'll balance relationship building with meeting sales targets and quotas.",
+                howToGetThere: [
+                    "Build strong clinical expertise and professional networks in dental practices",
+                    "Develop sales skills through courses, books, or entry-level sales positions",
+                    "Connect with dental supply companies and manufacturers about opportunities",
+                    "Cultivate communication, presentation, and negotiation skills essential for sales success"
+                ]
+            },
+            {
+                title: "Dental Educator",
+                preview: "Training the next generation of dental professionals",
+                description: "Dental educators teach in dental assisting programs at community colleges, vocational schools, and dental schools. You'll develop curriculum, conduct lectures and hands-on laboratory instruction, supervise clinical externships, and mentor students entering the profession. This rewarding career allows you to shape the future of dental healthcare by training competent, compassionate dental assistants while staying connected to the evolution of dental practices and technologies.",
+                certifications: [
+                    "RDA certification with several years of clinical experience (required)",
+                    "Bachelor's degree in dental hygiene, education, or related field (often required)",
+                    "Master's degree in education or healthcare (preferred for advanced positions)",
+                    "Teaching credential or instructional certificates"
+                ],
+                dayInLife: "Your schedule includes preparing and delivering lectures on dental anatomy, procedures, and ethics, supervising students in laboratory practice sessions where they develop hands-on skills, grading assignments and competency evaluations, and visiting clinical sites to observe students working with real patients. You'll also participate in curriculum development, attend faculty meetings, and stay current with advances in dental assisting through professional development. The relationships you build with students and the impact on their careers is deeply fulfilling.",
+                howToGetThere: [
+                    "Gain extensive clinical experience (typically 5+ years) across various dental settings",
+                    "Pursue a bachelor's or master's degree in education, health sciences, or related field",
+                    "Start with part-time or adjunct teaching positions to gain classroom experience",
+                    "Develop public speaking, curriculum design, and mentorship skills"
+                ]
+            }
+        ];
+
+        // Initialize the application
+        function init() {
+            renderCareerCards();
+            setupEventListeners();
+            loadSavedReflection();
+            setupFlowchartNodes();
+            postHeight();
+        }
+
+        // Render career pathway cards
+        function renderCareerCards() {
+            const grid = document.querySelector('.pathways-grid');
+
+            careerPathways.forEach((pathway, index) => {
+                const card = document.createElement('div');
+                card.className = 'pathway-card';
+                card.setAttribute('role', 'listitem');
+                card.setAttribute('tabindex', '0');
+                card.setAttribute('aria-expanded', 'false');
+                card.setAttribute('aria-label', `${pathway.title}. Click to expand details.`);
+                card.dataset.index = index;
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <h3>${pathway.title}</h3>
+                        <span class="expand-icon" aria-hidden="true">▼</span>
+                    </div>
+                    <div class="card-preview">
+                        <p>${pathway.preview}</p>
+                    </div>
+                    <div class="card-details" aria-hidden="true">
+                        <div class="detail-section">
+                            <h4>📋 Overview</h4>
+                            <p>${pathway.description}</p>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>🎓 Certifications & Training</h4>
+                            <ul>
+                                ${pathway.certifications.map(cert => `<li>${cert}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>☀️ A Day in the Life</h4>
+                            <p>${pathway.dayInLife}</p>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4>🚀 How to Get There</h4>
+                            <ul>
+                                ${pathway.howToGetThere.map(step => `<li>${step}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Career card click handlers
+            const cards = document.querySelectorAll('.pathway-card');
+            cards.forEach(card => {
+                card.addEventListener('click', () => toggleCard(card));
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleCard(card);
+                    }
+                });
+            });
+
+            // Reflection buttons
+            document.getElementById('save-btn').addEventListener('click', saveReflection);
+            document.getElementById('export-btn').addEventListener('click', exportReflection);
+            document.getElementById('clear-btn').addEventListener('click', clearReflection);
+
+            // Auto-save on typing (debounced)
+            let autoSaveTimeout;
+            document.getElementById('reflection-textarea').addEventListener('input', () => {
+                clearTimeout(autoSaveTimeout);
+                autoSaveTimeout = setTimeout(autoSaveReflection, 2000);
+            });
+
+            // Resize iframe on window resize
+            window.addEventListener('resize', postHeight);
+        }
+
+        // Setup flowchart node interactions
+        function setupFlowchartNodes() {
+            const nodes = document.querySelectorAll('.flowchart-node');
+            nodes.forEach(node => {
+                node.addEventListener('click', () => {
+                    const pathwayIndex = node.dataset.pathway;
+                    scrollToCard(pathwayIndex);
+                });
+
+                node.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const pathwayIndex = node.dataset.pathway;
+                        scrollToCard(pathwayIndex);
+                    }
+                });
+            });
+        }
+
+        // Scroll to and expand specific card
+        function scrollToCard(index) {
+            const cards = document.querySelectorAll('.pathway-card');
+            const targetCard = cards[index];
+
+            if (targetCard) {
+                // Expand the card if not already expanded
+                if (!targetCard.classList.contains('expanded')) {
+                    toggleCard(targetCard);
+                }
+
+                // Scroll to card with offset
+                setTimeout(() => {
+                    const offset = 100;
+                    const elementPosition = targetCard.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Focus the card for accessibility
+                    targetCard.focus();
+                }, 300);
+            }
+        }
+
+        // Toggle card expansion
+        function toggleCard(card) {
+            const isExpanded = card.classList.contains('expanded');
+            const details = card.querySelector('.card-details');
+
+            card.classList.toggle('expanded');
+            card.setAttribute('aria-expanded', !isExpanded);
+            details.setAttribute('aria-hidden', isExpanded);
+
+            // Post new height after animation
+            setTimeout(postHeight, 500);
+        }
+
+        // Save reflection to localStorage
+        function saveReflection() {
+            const textarea = document.getElementById('reflection-textarea');
+            const text = textarea.value.trim();
+
+            if (text) {
+                localStorage.setItem('dac300:v1:tx-rda:w2:career-explorer', JSON.stringify({
+                    reflection: text,
+                    timestamp: new Date().toISOString()
+                }));
+
+                showMessage('Reflection saved successfully!');
+            } else {
+                showMessage('Please write a reflection before saving.', 'warning');
+            }
+        }
+
+        // Auto-save reflection
+        function autoSaveReflection() {
+            const textarea = document.getElementById('reflection-textarea');
+            const text = textarea.value.trim();
+
+            if (text) {
+                localStorage.setItem('dac300:v1:tx-rda:w2:career-explorer', JSON.stringify({
+                    reflection: text,
+                    timestamp: new Date().toISOString()
+                }));
+            }
+        }
+
+        // Load saved reflection
+        function loadSavedReflection() {
+            const saved = localStorage.getItem('dac300:v1:tx-rda:w2:career-explorer');
+
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    document.getElementById('reflection-textarea').value = data.reflection;
+                } catch (e) {
+                    console.error('Error loading saved reflection:', e);
+                }
+            }
+        }
+
+        // Export reflection as text file
+        function exportReflection() {
+            const textarea = document.getElementById('reflection-textarea');
+            const text = textarea.value.trim();
+
+            if (!text) {
+                showMessage('Please write a reflection before exporting.', 'warning');
+                return;
+            }
+
+            const content = `Career Pathways Explorer - Personal Reflection
+Date: ${new Date().toLocaleDateString()}
+
+${text}
+
+---
+Generated from DAC 300 Career Pathways Explorer
+`;
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `career-reflection-${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showMessage('Reflection exported successfully!');
+        }
+
+        // Clear reflection
+        function clearReflection() {
+            if (confirm('Are you sure you want to clear your reflection? This cannot be undone.')) {
+                document.getElementById('reflection-textarea').value = '';
+                localStorage.removeItem('dac300:v1:tx-rda:w2:career-explorer');
+                showMessage('Reflection cleared.');
+            }
+        }
+
+        // Show success/warning message
+        function showMessage(text, type = 'success') {
+            const messageDiv = document.getElementById('success-message');
+            messageDiv.textContent = text;
+            messageDiv.className = 'success-message show';
+
+            if (type === 'warning') {
+                messageDiv.style.background = '#fef3c7';
+                messageDiv.style.color = '#92400e';
+            } else {
+                messageDiv.style.background = '#d1fae5';
+                messageDiv.style.color = '#065f46';
+            }
+
+            setTimeout(() => {
+                messageDiv.classList.remove('show');
+            }, 3000);
+        }
+
+        // Post height for iframe resize
+        function postHeight() {
+            const height = document.documentElement.scrollHeight;
+            window.parent.postMessage({ type: 'resize', height: height }, '*');
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Post height after images/fonts load
+        window.addEventListener('load', postHeight);
+    </script>
+</body>
+</html>

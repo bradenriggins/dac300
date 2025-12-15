@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mile Marker Check - Certification Knowledge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #01549e 0%, #507ABB 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px 12px 0 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .quiz-content {
+            background: white;
+            padding: 32px;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 2px solid #f8fafc;
+        }
+
+        .question:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #01549e;
+            margin-bottom: 16px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            position: relative;
+        }
+
+        .option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .option label {
+            display: block;
+            padding: 16px 20px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 16px;
+        }
+
+        .option label:hover {
+            background: #e8f1fb;
+            border-color: #507ABB;
+        }
+
+        .option input[type="radio"]:focus + label {
+            outline: 3px solid #507ABB;
+            outline-offset: 2px;
+        }
+
+        .option input[type="radio"]:checked + label {
+            background: #e8f1fb;
+            border-color: #01549e;
+            font-weight: 600;
+        }
+
+        .option.correct label {
+            background: #d1fae5;
+            border-color: #10b981;
+            color: #065f46;
+        }
+
+        .option.incorrect label {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+
+        .feedback {
+            margin-top: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+
+        .feedback.incorrect {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+
+        .summary {
+            display: none;
+            background: linear-gradient(135deg, #be5510 0%, #cb6015 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .summary.show {
+            display: block;
+        }
+
+        .summary h2 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .summary p {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .summary .message {
+            font-size: 16px;
+            margin-top: 16px;
+            opacity: 0.95;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 12px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .quiz-content {
+                padding: 20px;
+            }
+
+            .question-text {
+                font-size: 16px;
+            }
+
+            .option label {
+                padding: 12px 16px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mile Marker Check</h1>
+            <p>Test your knowledge of Texas RDA certification requirements</p>
+        </div>
+
+        <div class="quiz-content">
+            <!-- Question 1 -->
+            <div class="question" data-question="1" data-correct="B">
+                <div class="question-text">1. What is the minimum passing score for the Texas RDA exam?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q1a" name="q1" value="A">
+                        <label for="q1a">A) 60%</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1b" name="q1" value="B">
+                        <label for="q1b">B) 70%</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1c" name="q1" value="C">
+                        <label for="q1c">C) 80%</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q1d" name="q1" value="D">
+                        <label for="q1d">D) 90%</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question" data-question="2" data-correct="B">
+                <div class="question-text">2. How long must you wait between exam attempts after failing twice?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q2a" name="q2" value="A">
+                        <label for="q2a">A) 30 days</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q2b" name="q2" value="B">
+                        <label for="q2b">B) 45 days</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q2c" name="q2" value="C">
+                        <label for="q2c">C) 60 days</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q2d" name="q2" value="D">
+                        <label for="q2d">D) 90 days</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question" data-question="3" data-correct="C">
+                <div class="question-text">3. Which certification allows you to perform expanded duties in Texas?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q3a" name="q3" value="A">
+                        <label for="q3a">A) RDA</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q3b" name="q3" value="B">
+                        <label for="q3b">B) CDA</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q3c" name="q3" value="C">
+                        <label for="q3c">C) EFDA</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q3d" name="q3" value="D">
+                        <label for="q3d">D) All of the above</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question" data-question="4" data-correct="B">
+                <div class="question-text">4. What type of BLS certification is required for Texas RDA?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" id="q4a" name="q4" value="A">
+                        <label for="q4a">A) Online certification</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q4b" name="q4" value="B">
+                        <label for="q4b">B) Hands-on certification</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q4c" name="q4" value="C">
+                        <label for="q4c">C) Either type</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="q4d" name="q4" value="D">
+                        <label for="q4d">D) BLS not required</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="summary">
+                <h2>Quiz Complete!</h2>
+                <p class="score"></p>
+                <p class="message"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = document.querySelectorAll('.question');
+        const summary = document.querySelector('.summary');
+        let answeredCount = 0;
+        let correctCount = 0;
+
+        questions.forEach(question => {
+            const radios = question.querySelectorAll('input[type="radio"]');
+            const correctAnswer = question.dataset.correct;
+            const feedback = question.querySelector('.feedback');
+            const options = question.querySelectorAll('.option');
+
+            radios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.dataset.answered) return;
+
+                    // Mark as answered
+                    radios.forEach(r => r.dataset.answered = 'true');
+                    answeredCount++;
+
+                    const selectedValue = this.value;
+                    const isCorrect = selectedValue === correctAnswer;
+
+                    if (isCorrect) {
+                        correctCount++;
+                    }
+
+                    // Show feedback on options
+                    options.forEach(option => {
+                        const optionRadio = option.querySelector('input[type="radio"]');
+                        if (optionRadio.value === correctAnswer) {
+                            option.classList.add('correct');
+                        } else if (optionRadio.checked) {
+                            option.classList.add('incorrect');
+                        }
+                    });
+
+                    // Show feedback message
+                    if (isCorrect) {
+                        feedback.className = 'feedback correct show';
+                        feedback.textContent = 'Correct! Well done!';
+                    } else {
+                        feedback.className = 'feedback incorrect show';
+                        feedback.textContent = 'Not quite. The correct answer is highlighted above.';
+                    }
+
+                    // Check if all questions answered
+                    if (answeredCount === questions.length) {
+                        showSummary();
+                    }
+
+                    postHeight();
+                });
+            });
+        });
+
+        function showSummary() {
+            const score = document.querySelector('.summary .score');
+            const message = document.querySelector('.summary .message');
+            const percentage = Math.round((correctCount / questions.length) * 100);
+
+            score.textContent = `You got ${correctCount} out of ${questions.length} correct (${percentage}%)`;
+
+            if (percentage === 100) {
+                message.textContent = 'Perfect score! You have excellent knowledge of Texas RDA certification requirements!';
+            } else if (percentage >= 75) {
+                message.textContent = 'Great job! You have a solid understanding of the certification requirements.';
+            } else if (percentage >= 50) {
+                message.textContent = 'Good effort! Review the areas you missed to strengthen your knowledge.';
+            } else {
+                message.textContent = 'Keep studying! Review the certification requirements and try again.';
+            }
+
+            summary.classList.add('show');
+            postHeight();
+        }
+
+        function postHeight() {
+            const height = document.documentElement.scrollHeight;
+            window.parent.postMessage({ type: 'resize', height: height }, '*');
+        }
+
+        // Initial height post
+        window.addEventListener('load', postHeight);
+        window.addEventListener('resize', postHeight);
+    </script>
+</body>
+</html>
