@@ -163,49 +163,136 @@
             color: #991b1b;
         }
 
+        /* Hide inline feedback - using modal instead */
         .feedback {
-            margin-top: 20px;
-            padding: 16px 20px;
-            border-radius: 10px;
-            font-size: 16px;
-            display: none;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .feedback.show {
-            display: block;
-        }
-
-        .feedback.correct {
-            background: #d1fae5;
-            color: #065f46;
-            border-left: 4px solid #10b981;
-        }
-
-        .feedback.incorrect {
-            background: #fee2e2;
-            color: #991b1b;
-            border-left: 4px solid #ef4444;
+            display: none !important;
         }
 
         .button-container {
-            margin-top: 28px;
-            display: none;
+            display: none !important;
         }
 
-        .button-container.show {
+        /* Feedback Modal Styles */
+        .feedback-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .feedback-modal-overlay.show {
+            display: flex;
+            animation: fadeInModal 0.2s ease;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .feedback-modal {
+            background: white;
+            border-radius: 20px;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .feedback-modal-header {
+            padding: 28px 28px 20px;
+            text-align: center;
+        }
+
+        .feedback-modal-header.correct {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .feedback-modal-header.incorrect {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .feedback-modal-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
             display: block;
+        }
+
+        .feedback-modal-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .feedback-modal-subtitle {
+            font-size: 15px;
+            opacity: 0.95;
+        }
+
+        .feedback-modal-body {
+            padding: 24px 28px 28px;
+            text-align: center;
+        }
+
+        .feedback-modal-message {
+            font-size: 15px;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .feedback-modal-btn {
+            padding: 14px 36px;
+            font-size: 15px;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .feedback-modal-btn.next {
+            background: linear-gradient(135deg, #01549e 0%, #0d6ebd 100%);
+            color: white;
+        }
+
+        .feedback-modal-btn.next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(1, 84, 158, 0.4);
+        }
+
+        .feedback-modal-btn.retry {
+            background: linear-gradient(135deg, #be5510 0%, #d35f14 100%);
+            color: white;
+        }
+
+        .feedback-modal-btn.retry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(190, 85, 16, 0.4);
         }
 
         .btn {
@@ -510,6 +597,21 @@
         </div>
     </div>
 
+    <!-- Feedback Modal -->
+    <div class="feedback-modal-overlay" id="feedbackModal">
+        <div class="feedback-modal">
+            <div class="feedback-modal-header" id="feedbackHeader">
+                <span class="feedback-modal-icon" id="feedbackIcon">✓</span>
+                <h2 class="feedback-modal-title" id="feedbackTitle">Correct!</h2>
+                <p class="feedback-modal-subtitle" id="feedbackSubtitle">Great job!</p>
+            </div>
+            <div class="feedback-modal-body">
+                <p class="feedback-modal-message" id="feedbackMessage">You got it right!</p>
+                <button class="feedback-modal-btn" id="feedbackBtn">Next Question →</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let currentQuestionIndex = 0;
         let correctCount = 0;
@@ -519,19 +621,74 @@
         // Initialize progress
         updateProgress();
 
+        // Modal elements
+        const feedbackModal = document.getElementById('feedbackModal');
+        const feedbackHeader = document.getElementById('feedbackHeader');
+        const feedbackIcon = document.getElementById('feedbackIcon');
+        const feedbackTitle = document.getElementById('feedbackTitle');
+        const feedbackSubtitle = document.getElementById('feedbackSubtitle');
+        const feedbackMessage = document.getElementById('feedbackMessage');
+        const feedbackBtn = document.getElementById('feedbackBtn');
+
+        let lastAnswerCorrect = false;
+        let isLastQuestion = false;
+
+        function showFeedbackModal(isCorrect, isLast) {
+            lastAnswerCorrect = isCorrect;
+            isLastQuestion = isLast;
+
+            if (isCorrect) {
+                feedbackHeader.className = 'feedback-modal-header correct';
+                feedbackIcon.textContent = '✓';
+                feedbackTitle.textContent = 'Correct!';
+                feedbackSubtitle.textContent = 'Great job!';
+                feedbackMessage.textContent = 'You got it right. Keep up the excellent work!';
+                feedbackBtn.textContent = isLast ? 'See Results →' : 'Next Question →';
+                feedbackBtn.className = 'feedback-modal-btn next';
+            } else {
+                feedbackHeader.className = 'feedback-modal-header incorrect';
+                feedbackIcon.textContent = '✗';
+                feedbackTitle.textContent = 'Not Quite!';
+                feedbackSubtitle.textContent = 'Give it another try';
+                feedbackMessage.textContent = 'That\'s not the correct answer. The right answer is highlighted. Would you like to try again?';
+                feedbackBtn.textContent = 'Try Again';
+                feedbackBtn.className = 'feedback-modal-btn retry';
+            }
+
+            feedbackModal.classList.add('show');
+        }
+
+        function hideFeedbackModal() {
+            feedbackModal.classList.remove('show');
+        }
+
+        feedbackBtn.addEventListener('click', function() {
+            hideFeedbackModal();
+
+            if (lastAnswerCorrect) {
+                if (isLastQuestion) {
+                    showCompletion();
+                } else {
+                    nextQuestion();
+                }
+            } else {
+                retryQuestion();
+            }
+        });
+
         // Add event listeners to all radio buttons
         document.querySelectorAll('.question-container').forEach((container, index) => {
             const radios = container.querySelectorAll('input[type="radio"]');
             radios.forEach(radio => {
                 radio.addEventListener('change', function() {
                     if (!currentQuestionAnswered) {
-                        handleAnswer(container);
+                        handleAnswer(container, index);
                     }
                 });
             });
         });
 
-        function handleAnswer(container) {
+        function handleAnswer(container, questionIndex) {
             const selectedRadio = container.querySelector('input[type="radio"]:checked');
             if (!selectedRadio) return;
 
@@ -555,26 +712,15 @@
                 }
             });
 
-            // Show feedback message
-            const feedback = container.querySelector('.feedback');
-            const buttonContainer = container.querySelector('.button-container');
-            const nextBtn = buttonContainer.querySelector('.btn-next');
-            const retryBtn = buttonContainer.querySelector('.btn-retry');
-
             if (isCorrect) {
                 correctCount++;
-                feedback.className = 'feedback correct show';
-                feedback.textContent = '✓ Correct! Excellent work!';
-                nextBtn.style.display = 'block';
-                retryBtn.style.display = 'none';
-            } else {
-                feedback.className = 'feedback incorrect show';
-                feedback.textContent = '✗ Not quite right. The correct answer is highlighted above.';
-                nextBtn.style.display = 'none';
-                retryBtn.style.display = 'block';
             }
 
-            buttonContainer.classList.add('show');
+            // Show feedback modal after short delay
+            setTimeout(() => {
+                showFeedbackModal(isCorrect, questionIndex === totalQuestions - 1);
+            }, 400);
+
             postHeight();
         }
 
@@ -582,8 +728,6 @@
             const container = document.querySelector('.question-container.active');
             const radios = container.querySelectorAll('input[type="radio"]');
             const options = container.querySelectorAll('.option');
-            const feedback = container.querySelector('.feedback');
-            const buttonContainer = container.querySelector('.button-container');
 
             // Re-enable radios
             radios.forEach(r => {
@@ -595,10 +739,6 @@
             options.forEach(option => {
                 option.classList.remove('correct', 'incorrect');
             });
-
-            // Hide feedback and buttons
-            feedback.classList.remove('show');
-            buttonContainer.classList.remove('show');
 
             currentQuestionAnswered = false;
             postHeight();
