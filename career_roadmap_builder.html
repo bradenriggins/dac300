@@ -1400,7 +1400,7 @@
 
             // Helper: Draw section header
             function drawSectionHeader(icon, title, subtitle) {
-                checkPageBreak(30);
+                checkPageBreak(40);
 
                 // Title - orange
                 currentPage.drawText(title, {
@@ -1410,7 +1410,7 @@
                     font: fontBold,
                     color: colors.secondary
                 });
-                y -= 15;
+                y -= 16;
 
                 // Subtitle
                 currentPage.drawText(subtitle, {
@@ -1420,7 +1420,7 @@
                     font: fontNormal,
                     color: colors.muted
                 });
-                y -= 12;
+                y -= 8;
 
                 // Thin horizontal rule - light gray
                 currentPage.drawLine({
@@ -1429,14 +1429,14 @@
                     thickness: 0.5,
                     color: rgb(200/255, 200/255, 200/255)
                 });
-                y -= 10;
+                y -= 15;
             }
 
             // Helper: Draw field label and content
             function drawField(label, content, indent = 0) {
                 if (!content || !content.trim()) return;
 
-                checkPageBreak(20);
+                checkPageBreak(25);
 
                 // Label
                 currentPage.drawText(label, {
@@ -1446,11 +1446,11 @@
                     font: fontBold,
                     color: colors.primary
                 });
-                y -= 12;
+                y -= 14;
 
                 // Content
                 addWrappedText(content.trim(), margin + indent, 10, fontNormal, colors.text, contentWidth - indent);
-                y -= 8;
+                y -= 12;
             }
 
             // Helper: Draw numbered list
