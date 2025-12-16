@@ -201,6 +201,7 @@
             display: grid;
             gap: 6px;
             font-size: 14px;
+            margin: 0;
         }
 
         .detail-row {
@@ -211,10 +212,12 @@
         .detail-label {
             font-weight: 600;
             color: #666;
+            margin: 0;
         }
 
         .detail-value {
             color: #333;
+            margin: 0;
         }
 
         .tips-section {
@@ -460,14 +463,6 @@
     <script>
         let contacts = [];
 
-        // Load contacts from localStorage on page load
-        window.addEventListener('load', function() {
-            loadContacts();
-            postHeight();
-        });
-
-        window.addEventListener('resize', postHeight);
-
         function loadContacts() {
             const saved = localStorage.getItem('dac300:v1:tx-rda:w2:network-builder');
             if (saved) {
@@ -652,14 +647,16 @@
             window.parent.postMessage({ type: 'resize', height: height }, '*');
         }
 
-        // Allow Enter key to submit form
-        document.querySelectorAll('#contact-name, #contact-role, #relationship-type, #action-item, #due-date').forEach(input => {
-            input.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    addContact();
-                }
-            });
+        // Form submission handler
+        document.querySelector('.contact-form').addEventListener('submit', addContact);
+
+        // Load contacts and setup
+        window.addEventListener('load', function() {
+            loadContacts();
+            postHeight();
         });
+
+        window.addEventListener('resize', postHeight);
     </script>
 </body>
 </html>
