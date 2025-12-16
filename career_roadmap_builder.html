@@ -1345,16 +1345,52 @@
 
                 const sectionElement = document.getElementById(`section-${section}`);
                 const inputs = sectionElement.querySelectorAll('input[type="text"], textarea');
+                let actionSteps = [];
+                let resourcesText = '';
+                let obstaclesText = '';
+                let goalText = '';
 
                 inputs.forEach(input => {
                     const label = sectionElement.querySelector(`label[for="${input.id}"]`);
-                    if (label && input.value.trim()) {
+
+                    // Check if this is an action step (uses aria-label instead of label element)
+                    if (input.id.includes('-action')) {
+                        if (input.value.trim()) {
+                            const stepNum = input.id.slice(-1);
+                            actionSteps.push(`${stepNum}. ${input.value.trim()}`);
+                        }
+                    } else if (input.id.includes('-resources') && input.value.trim()) {
+                        resourcesText = input.value.trim();
+                    } else if (input.id.includes('-obstacles') && input.value.trim()) {
+                        obstaclesText = input.value.trim();
+                    } else if (label && input.value.trim()) {
                         const labelText = label.textContent.replace('*', '').trim();
                         text += labelText + '\n';
                         text += '-'.repeat(labelText.length) + '\n';
                         text += input.value.trim() + '\n\n';
                     }
                 });
+
+                // Add action steps after goals
+                if (actionSteps.length > 0) {
+                    text += 'Action Steps\n';
+                    text += '-'.repeat(12) + '\n';
+                    text += actionSteps.join('\n') + '\n\n';
+                }
+
+                // Add resources
+                if (resourcesText) {
+                    text += 'Resources and Support Needed\n';
+                    text += '-'.repeat(28) + '\n';
+                    text += resourcesText + '\n\n';
+                }
+
+                // Add obstacles
+                if (obstaclesText) {
+                    text += 'Potential Obstacles and Solutions\n';
+                    text += '-'.repeat(34) + '\n';
+                    text += obstaclesText + '\n\n';
+                }
             });
 
             text += '\n' + '='.repeat(50) + '\n';
