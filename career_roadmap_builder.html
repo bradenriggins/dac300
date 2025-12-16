@@ -1300,12 +1300,160 @@
             }, 3000);
         }
 
-        // Export as PDF (using browser print)
+        // Export as PDF using jsPDF
         function exportAsPDF() {
-            showSuccess('Opening print dialog...');
-            setTimeout(() => {
-                window.print();
-            }, 500);
+            // Load jsPDF dynamically if not already loaded
+            if (typeof window.jspdf === 'undefined') {
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+                script.onload = () => generatePDF();
+                script.onerror = () => {
+                    alert('Could not load PDF library. Please try Export as Text instead.');
+                };
+                document.head.appendChild(script);
+            } else {
+                generatePDF();
+            }
+        }
+
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const margin = 20;
+            const maxWidth = pageWidth - (margin * 2);
+            let y = 20;
+
+            // Helper to add text with word wrap
+            function addText(text, fontSize, isBold, color) {
+                doc.setFontSize(fontSize);
+                doc.setFont('helvetica', isBold ? 'bold' : 'normal');
+                if (color) doc.setTextColor(color[0], color[1], color[2]);
+                else doc.setTextColor(0, 0, 0);
+
+                const lines = doc.splitTextToSize(text, maxWidth);
+                lines.forEach(line => {
+                    if (y > 270) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    doc.text(line, margin, y);
+                    y += fontSize * 0.5;
+                });
+                y += 2;
+            }
+
+            function addSection(title, indent) {
+                if (y > 250) {
+                    doc.addPage();
+                    y = 20;
+                }
+                y += 4;
+                addText(title, 11, true, [1, 84, 158]);
+                y += 2;
+            }
+
+            // Title
+            doc.setFontSize(22);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(1, 84, 158);
+            doc.text('My Career Roadmap', pageWidth / 2, y, { align: 'center' });
+            y += 10;
+
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100, 100, 100);
+            doc.text('RDA Journey - Career Planning', pageWidth / 2, y, { align: 'center' });
+            y += 15;
+
+            // Draw line
+            doc.setDrawColor(1, 84, 158);
+            doc.setLineWidth(0.5);
+            doc.line(margin, y, pageWidth - margin, y);
+            y += 10;
+
+            const sectionTitles = {
+                start: 'STARTING POINT - Where I Am Today',
+                mile1: 'MILE MARKER 1: 3 MONTHS',
+                mile2: 'MILE MARKER 2: 1 YEAR',
+                mile3: 'MILE MARKER 3: 3 YEARS',
+                destination: 'DESTINATION: 5+ YEARS'
+            };
+
+            sections.forEach(section => {
+                const sectionElement = document.getElementById(`section-${section}`);
+                const inputs = sectionElement.querySelectorAll('input[type="text"], textarea');
+
+                // Section title
+                if (y > 240) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(203, 96, 21);
+                doc.text(sectionTitles[section], margin, y);
+                y += 8;
+
+                let actionSteps = [];
+                let resourcesText = '';
+                let obstaclesText = '';
+
+                inputs.forEach(input => {
+                    const label = sectionElement.querySelector(`label[for="${input.id}"]`);
+
+                    if (input.id.includes('-action')) {
+                        if (input.value.trim()) {
+                            const stepNum = input.id.slice(-1);
+                            actionSteps.push(`${stepNum}. ${input.value.trim()}`);
+                        }
+                    } else if (input.id.includes('-resources') && input.value.trim()) {
+                        resourcesText = input.value.trim();
+                    } else if (input.id.includes('-obstacles') && input.value.trim()) {
+                        obstaclesText = input.value.trim();
+                    } else if (label && input.value.trim()) {
+                        const labelText = label.textContent.replace('*', '').trim();
+                        addSection(labelText);
+                        addText(input.value.trim(), 10, false);
+                    }
+                });
+
+                if (actionSteps.length > 0) {
+                    addSection('Action Steps');
+                    actionSteps.forEach(step => {
+                        addText(step, 10, false);
+                    });
+                }
+
+                if (resourcesText) {
+                    addSection('Resources and Support Needed');
+                    addText(resourcesText, 10, false);
+                }
+
+                if (obstaclesText) {
+                    addSection('Potential Obstacles and Solutions');
+                    addText(obstaclesText, 10, false);
+                }
+
+                y += 8;
+            });
+
+            // Footer
+            if (y > 270) {
+                doc.addPage();
+                y = 20;
+            }
+            y += 5;
+            doc.setDrawColor(1, 84, 158);
+            doc.line(margin, y, pageWidth - margin, y);
+            y += 8;
+            doc.setFontSize(9);
+            doc.setTextColor(100, 100, 100);
+            doc.text('Generated: ' + new Date().toLocaleString(), margin, y);
+
+            doc.save('my-career-roadmap.pdf');
+            showSuccess('PDF downloaded!');
         }
 
         // Export as text file
