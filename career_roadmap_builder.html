@@ -1300,6 +1300,9 @@
             }, 3000);
         }
 
+        // CHCP Logo as base64
+        const CHCP_LOGO = 'data:image/png;base64,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';
+
         // Export as PDF using jsPDF
         function exportAsPDF() {
             // Load jsPDF dynamically if not already loaded
@@ -1321,80 +1324,198 @@
             const doc = new jsPDF();
 
             const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
             const margin = 20;
-            const maxWidth = pageWidth - (margin * 2);
+            const contentWidth = pageWidth - (margin * 2);
             let y = 20;
 
-            // Helper to add text with word wrap
-            function addText(text, fontSize, isBold, color) {
-                doc.setFontSize(fontSize);
-                doc.setFont('helvetica', isBold ? 'bold' : 'normal');
-                if (color) doc.setTextColor(color[0], color[1], color[2]);
-                else doc.setTextColor(0, 0, 0);
+            // Colors
+            const colors = {
+                primary: [1, 84, 158],      // #01549e
+                secondary: [203, 96, 21],   // #cb6015
+                text: [51, 51, 51],         // #333
+                muted: [100, 116, 139],     // #64748b
+                light: [226, 232, 240]      // #e2e8f0
+            };
 
-                const lines = doc.splitTextToSize(text, maxWidth);
+            // Check for page break
+            function checkPageBreak(neededSpace) {
+                if (y + neededSpace > pageHeight - 25) {
+                    doc.addPage();
+                    y = 25;
+                    return true;
+                }
+                return false;
+            }
+
+            // Add wrapped text and return new Y position
+            function addWrappedText(text, x, fontSize, fontStyle, color, maxWidth) {
+                doc.setFontSize(fontSize);
+                doc.setFont('helvetica', fontStyle);
+                doc.setTextColor(color[0], color[1], color[2]);
+
+                const lines = doc.splitTextToSize(text, maxWidth || contentWidth);
+                const lineHeight = fontSize * 0.45;
+
                 lines.forEach(line => {
-                    if (y > 270) {
-                        doc.addPage();
-                        y = 20;
-                    }
-                    doc.text(line, margin, y);
-                    y += fontSize * 0.5;
+                    checkPageBreak(lineHeight + 2);
+                    doc.text(line, x, y);
+                    y += lineHeight;
+                });
+                return y;
+            }
+
+            // Draw section header with icon
+            function drawSectionHeader(icon, title, subtitle) {
+                checkPageBreak(25);
+
+                // Section background
+                doc.setFillColor(248, 250, 252);
+                doc.roundedRect(margin, y - 2, contentWidth, 20, 3, 3, 'F');
+
+                // Icon circle
+                doc.setFillColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+                doc.circle(margin + 10, y + 8, 7, 'F');
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.text(icon, margin + 10, y + 10, { align: 'center' });
+
+                // Title
+                doc.setFontSize(14);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+                doc.text(title, margin + 22, y + 7);
+
+                // Subtitle
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(colors.muted[0], colors.muted[1], colors.muted[2]);
+                doc.text(subtitle, margin + 22, y + 14);
+
+                y += 26;
+            }
+
+            // Draw field label and content
+            function drawField(label, content, indent = 0) {
+                if (!content || !content.trim()) return;
+
+                checkPageBreak(20);
+
+                // Label
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+                doc.text(label, margin + indent, y);
+                y += 5;
+
+                // Content
+                addWrappedText(content.trim(), margin + indent, 10, 'normal', colors.text, contentWidth - indent);
+                y += 4;
+            }
+
+            // Draw numbered list
+            function drawNumberedList(title, items, indent = 0) {
+                if (!items || items.length === 0) return;
+
+                checkPageBreak(15);
+
+                // Title
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+                doc.text(title, margin + indent, y);
+                y += 6;
+
+                items.forEach((item, index) => {
+                    if (!item.trim()) return;
+                    checkPageBreak(12);
+
+                    // Number circle
+                    doc.setFillColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+                    doc.circle(margin + indent + 5, y - 1.5, 4, 'F');
+                    doc.setFontSize(8);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setTextColor(255, 255, 255);
+                    doc.text(String(index + 1), margin + indent + 5, y, { align: 'center' });
+
+                    // Item text
+                    doc.setFontSize(10);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
+                    const lines = doc.splitTextToSize(item.trim(), contentWidth - indent - 15);
+                    lines.forEach((line, lineIndex) => {
+                        if (lineIndex > 0) checkPageBreak(5);
+                        doc.text(line, margin + indent + 12, y);
+                        y += 5;
+                    });
+                    y += 2;
                 });
                 y += 2;
             }
 
-            function addSection(title, indent) {
-                if (y > 250) {
-                    doc.addPage();
-                    y = 20;
-                }
-                y += 4;
-                addText(title, 11, true, [1, 84, 158]);
-                y += 2;
+            // === HEADER ===
+            // Add logo on right
+            try {
+                doc.addImage(CHCP_LOGO, 'PNG', pageWidth - margin - 40, y - 5, 40, 22);
+            } catch (e) {
+                console.log('Could not add logo:', e);
             }
 
-            // Title
-            doc.setFontSize(22);
+            // Title - left aligned
+            doc.setFontSize(24);
             doc.setFont('helvetica', 'bold');
-            doc.setTextColor(1, 84, 158);
-            doc.text('My Career Roadmap', pageWidth / 2, y, { align: 'center' });
-            y += 10;
+            doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+            doc.text('My Career Roadmap', margin, y + 5);
 
+            // Subtitle
             doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
-            doc.setTextColor(100, 100, 100);
-            doc.text('RDA Journey - Career Planning', pageWidth / 2, y, { align: 'center' });
-            y += 15;
+            doc.setTextColor(colors.muted[0], colors.muted[1], colors.muted[2]);
+            doc.text('RDA Journey - Career Planning', margin, y + 13);
+            y += 22;
 
-            // Draw line
-            doc.setDrawColor(1, 84, 158);
-            doc.setLineWidth(0.5);
+            // Header line
+            doc.setDrawColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+            doc.setLineWidth(1);
             doc.line(margin, y, pageWidth - margin, y);
+            y += 12;
+
+            // Progress info
+            const percentage = calculateCompletion();
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(colors.muted[0], colors.muted[1], colors.muted[2]);
+            doc.text('Progress: ', margin, y);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
+            doc.text(percentage + '% Complete', margin + 18, y);
             y += 10;
 
-            const sectionTitles = {
-                start: 'STARTING POINT - Where I Am Today',
-                mile1: 'MILE MARKER 1: 3 MONTHS',
-                mile2: 'MILE MARKER 2: 1 YEAR',
-                mile3: 'MILE MARKER 3: 3 YEARS',
-                destination: 'DESTINATION: 5+ YEARS'
+            // === SECTIONS ===
+            const sectionData = {
+                start: { icon: '📍', title: 'Starting Point', subtitle: 'Where you are today' },
+                mile1: { icon: '1', title: 'Mile Marker 1: 3 Months', subtitle: 'RDA certification and immediate goals' },
+                mile2: { icon: '2', title: 'Mile Marker 2: 1 Year', subtitle: 'First job and gaining experience' },
+                mile3: { icon: '3', title: 'Mile Marker 3: 3 Years', subtitle: 'Career development and specialization' },
+                destination: { icon: '🏆', title: 'Destination: 5+ Years', subtitle: 'Your long-term vision' }
             };
 
             sections.forEach(section => {
                 const sectionElement = document.getElementById(`section-${section}`);
                 const inputs = sectionElement.querySelectorAll('input[type="text"], textarea');
+                const info = sectionData[section];
 
-                // Section title
-                if (y > 240) {
-                    doc.addPage();
-                    y = 20;
-                }
-                doc.setFontSize(14);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(203, 96, 21);
-                doc.text(sectionTitles[section], margin, y);
-                y += 8;
+                // Check if section has any content
+                let hasContent = false;
+                inputs.forEach(input => {
+                    if (input.value.trim()) hasContent = true;
+                });
+
+                if (!hasContent) return;
+
+                // Section header
+                drawSectionHeader(info.icon, info.title, info.subtitle);
 
                 let actionSteps = [];
                 let resourcesText = '';
@@ -1405,8 +1526,7 @@
 
                     if (input.id.includes('-action')) {
                         if (input.value.trim()) {
-                            const stepNum = input.id.slice(-1);
-                            actionSteps.push(`${stepNum}. ${input.value.trim()}`);
+                            actionSteps.push(input.value.trim());
                         }
                     } else if (input.id.includes('-resources') && input.value.trim()) {
                         resourcesText = input.value.trim();
@@ -1414,44 +1534,47 @@
                         obstaclesText = input.value.trim();
                     } else if (label && input.value.trim()) {
                         const labelText = label.textContent.replace('*', '').trim();
-                        addSection(labelText);
-                        addText(input.value.trim(), 10, false);
+                        drawField(labelText, input.value.trim());
                     }
                 });
 
+                // Action steps as numbered list
                 if (actionSteps.length > 0) {
-                    addSection('Action Steps');
-                    actionSteps.forEach(step => {
-                        addText(step, 10, false);
-                    });
+                    drawNumberedList('Action Steps', actionSteps);
                 }
 
+                // Resources and obstacles in two columns if both exist
                 if (resourcesText) {
-                    addSection('Resources and Support Needed');
-                    addText(resourcesText, 10, false);
+                    drawField('Resources & Support Needed', resourcesText);
                 }
-
                 if (obstaclesText) {
-                    addSection('Potential Obstacles and Solutions');
-                    addText(obstaclesText, 10, false);
+                    drawField('Potential Obstacles & Solutions', obstaclesText);
                 }
 
-                y += 8;
+                y += 6;
             });
 
-            // Footer
-            if (y > 270) {
-                doc.addPage();
-                y = 20;
-            }
+            // === FOOTER ===
+            checkPageBreak(20);
             y += 5;
-            doc.setDrawColor(1, 84, 158);
+            doc.setDrawColor(colors.light[0], colors.light[1], colors.light[2]);
+            doc.setLineWidth(0.5);
             doc.line(margin, y, pageWidth - margin, y);
             y += 8;
-            doc.setFontSize(9);
-            doc.setTextColor(100, 100, 100);
-            doc.text('Generated: ' + new Date().toLocaleString(), margin, y);
 
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(colors.muted[0], colors.muted[1], colors.muted[2]);
+            doc.text('Generated: ' + new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            }), margin, y);
+            doc.text('The College of Health Care Professions', pageWidth - margin, y, { align: 'right' });
+
+            // Save
             doc.save('my-career-roadmap.pdf');
             showSuccess('PDF downloaded!');
         }
