@@ -1329,7 +1329,7 @@
             const margin = 20;
             const contentWidth = pageWidth - (margin * 2);
             let currentPage = pdfDoc.addPage([pageWidth, pageHeight]);
-            let y = pageHeight - 20; // Start from top
+            let y = pageHeight - 50; // Start from top with padding
 
             // Load fonts
             const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
@@ -1513,7 +1513,7 @@
                 const logoWidth = 50;
                 const logoHeight = logoWidth / (logoImage.width / logoImage.height);
                 const logoX = pageWidth - margin - logoWidth;
-                const logoY = pageHeight - 20 - logoHeight;
+                const logoY = pageHeight - 50 - logoHeight;
 
                 currentPage.drawImage(logoImage, {
                     x: logoX,
