@@ -38,6 +38,27 @@
  padding: 20px 16px 40px;
  }
 
+ .header {
+ background: linear-gradient(135deg, #01549e 0%, #507ABB 100%);
+ color: white;
+ padding: 24px 32px;
+ border-radius: 12px;
+ text-align: left;
+ margin-bottom: 24px;
+ box-shadow: 0 4px 12px rgba(1, 84, 158, 0.2);
+ }
+
+ .header h1 {
+ font-size: 28px;
+ margin-bottom: 8px;
+ font-weight: 700;
+ }
+
+ .header p {
+ font-size: 15px;
+ opacity: 0.95;
+ }
+
  h2 {
  color: var(--blue-primary);
  font-size: 1.5rem;
@@ -416,8 +437,10 @@
 </head>
 <body>
  <div class="wrap">
- <h2>Week 1 Milestones & Time Budget</h2>
- <p class="subtitle">Plan your study time and track your progress</p>
+ <div class="header">
+ <h1>Week 1 Milestones & Time Budget</h1>
+ <p>Plan your study time and track your progress</p>
+ </div>
 
  <hr class="divider">
 

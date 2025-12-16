@@ -16,6 +16,9 @@
  html,body{height:100%}
  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";background:var(--bg);color:var(--text);line-height:1.45}
  .wrap{max-width:980px;margin:0 auto;padding:20px 16px 40px}
+ .header{background:linear-gradient(135deg, #01549e 0%, #507ABB 100%);color:white;padding:24px 32px;border-radius:12px;text-align:left;margin-bottom:24px;box-shadow:0 4px 12px rgba(1, 84, 158, 0.2)}
+ .header h1{font-size:28px;margin-bottom:8px;font-weight:700}
+ .header p{font-size:15px;opacity:0.95}
  h2{margin:0 0 6px 0;font-size:1.6rem;color:var(--blue-primary);letter-spacing:.2px}
  .sub{color:var(--muted);margin:0 0 12px 0;font-size:.98rem}
  hr.divider{border-width:2px;border-color:var(--blue-secondary);padding-left:72px;margin:14px 0 18px}
@@ -57,8 +60,10 @@
 </head>
 <body>
  <div class="wrap">
- <h2>Sterilization Flow Auditor</h2>
- <hr class="divider">
+ <div class="header">
+ <h1>Sterilization Flow Auditor</h1>
+ <p>Practice instrument processing steps and identify protocol breaches</p>
+ </div>
  <div class="note" role="note">
  <strong>Instructions:</strong> Arrange the instrument processing steps in the correct order, then identify the best fix for the breach scenario. Click <em>Check answers</em> to see how you did. You can also use the Move up and Move down buttons for keyboard control.
  </div>
