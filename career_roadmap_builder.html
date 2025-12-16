@@ -1365,35 +1365,23 @@
                 return y;
             }
 
-            // Draw section header with icon
+            // Draw section header - simple, no fancy graphics
             function drawSectionHeader(icon, title, subtitle) {
-                checkPageBreak(25);
-
-                // Section background
-                doc.setFillColor(248, 250, 252);
-                doc.roundedRect(margin, y - 2, contentWidth, 20, 3, 3, 'F');
-
-                // Icon circle
-                doc.setFillColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-                doc.circle(margin + 10, y + 8, 7, 'F');
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(255, 255, 255);
-                doc.text(icon, margin + 10, y + 10, { align: 'center' });
+                checkPageBreak(20);
 
                 // Title
                 doc.setFontSize(14);
                 doc.setFont('helvetica', 'bold');
                 doc.setTextColor(colors.primary[0], colors.primary[1], colors.primary[2]);
-                doc.text(title, margin + 22, y + 7);
+                doc.text(title, margin, y);
 
                 // Subtitle
                 doc.setFontSize(9);
                 doc.setFont('helvetica', 'normal');
                 doc.setTextColor(colors.muted[0], colors.muted[1], colors.muted[2]);
-                doc.text(subtitle, margin + 22, y + 14);
+                doc.text(subtitle, margin, y + 6);
 
-                y += 26;
+                y += 14;
             }
 
             // Draw field label and content
@@ -1414,7 +1402,7 @@
                 y += 4;
             }
 
-            // Draw numbered list
+            // Draw numbered list - simple format: "1. item"
             function drawNumberedList(title, items, indent = 0) {
                 if (!items || items.length === 0) return;
 
@@ -1431,22 +1419,21 @@
                     if (!item.trim()) return;
                     checkPageBreak(12);
 
-                    // Number circle
-                    doc.setFillColor(colors.secondary[0], colors.secondary[1], colors.secondary[2]);
-                    doc.circle(margin + indent + 5, y - 1.5, 4, 'F');
-                    doc.setFontSize(8);
-                    doc.setFont('helvetica', 'bold');
-                    doc.setTextColor(255, 255, 255);
-                    doc.text(String(index + 1), margin + indent + 5, y, { align: 'center' });
-
-                    // Item text
+                    // Simple numbered format: "1. item"
                     doc.setFontSize(10);
                     doc.setFont('helvetica', 'normal');
                     doc.setTextColor(colors.text[0], colors.text[1], colors.text[2]);
-                    const lines = doc.splitTextToSize(item.trim(), contentWidth - indent - 15);
+
+                    const numberText = `${index + 1}. `;
+                    const lines = doc.splitTextToSize(item.trim(), contentWidth - indent - 10);
+
                     lines.forEach((line, lineIndex) => {
                         if (lineIndex > 0) checkPageBreak(5);
-                        doc.text(line, margin + indent + 12, y);
+                        if (lineIndex === 0) {
+                            doc.text(numberText + line, margin + indent, y);
+                        } else {
+                            doc.text(line, margin + indent + 10, y);
+                        }
                         y += 5;
                     });
                     y += 2;
@@ -1455,11 +1442,15 @@
             }
 
             // === HEADER ===
-            // Add logo on right
+            // Add logo on right - positioned in top right corner
             try {
-                doc.addImage(CHCP_LOGO, 'PNG', pageWidth - margin - 40, y - 5, 40, 22);
+                const logoWidth = 40;
+                const logoHeight = 22;
+                const logoX = pageWidth - margin - logoWidth;
+                const logoY = 15; // Fixed position in header area
+                doc.addImage(CHCP_LOGO, 'PNG', logoX, logoY, logoWidth, logoHeight);
             } catch (e) {
-                console.log('Could not add logo:', e);
+                console.error('Could not add logo:', e);
             }
 
             // Title - left aligned
@@ -1494,11 +1485,11 @@
 
             // === SECTIONS ===
             const sectionData = {
-                start: { icon: '📍', title: 'Starting Point', subtitle: 'Where you are today' },
+                start: { icon: 'START', title: 'Starting Point', subtitle: 'Where you are today' },
                 mile1: { icon: '1', title: 'Mile Marker 1: 3 Months', subtitle: 'RDA certification and immediate goals' },
                 mile2: { icon: '2', title: 'Mile Marker 2: 1 Year', subtitle: 'First job and gaining experience' },
                 mile3: { icon: '3', title: 'Mile Marker 3: 3 Years', subtitle: 'Career development and specialization' },
-                destination: { icon: '🏆', title: 'Destination: 5+ Years', subtitle: 'Your long-term vision' }
+                destination: { icon: 'GOAL', title: 'Destination: 5+ Years', subtitle: 'Your long-term vision' }
             };
 
             sections.forEach(section => {
