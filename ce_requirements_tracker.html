@@ -161,7 +161,8 @@
         }
 
         .hours-input:focus {
-            outline: none;
+            outline: 3px solid #507ABB;
+            outline-offset: 2px;
             border-color: #507ABB;
         }
 
@@ -316,6 +317,18 @@
             left: 0;
         }
 
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         @media (max-width: 640px) {
             body {
                 padding: 12px;
@@ -341,43 +354,44 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header class="header" role="banner">
             <h1>Texas RDA CE Requirements</h1>
             <p>Track your continuing education hours for certification renewal</p>
-        </div>
+        </header>
 
-        <div class="requirements-overview">
-            <h2>Renewal Requirements at a Glance</h2>
-            <div class="requirement-items">
-                <div class="requirement-item highlight">
-                    <div class="requirement-number">12</div>
+        <section class="requirements-overview" aria-labelledby="requirements-heading">
+            <h2 id="requirements-heading">Renewal Requirements at a Glance</h2>
+            <div class="requirement-items" role="list">
+                <div class="requirement-item highlight" role="listitem">
+                    <div class="requirement-number" aria-label="12 CE hours required">12</div>
                     <div class="requirement-label">CE Hours Required</div>
                 </div>
-                <div class="requirement-item">
-                    <div class="requirement-number">2</div>
+                <div class="requirement-item" role="listitem">
+                    <div class="requirement-number" aria-label="2 year renewal cycle">2</div>
                     <div class="requirement-label">Year Renewal Cycle</div>
                 </div>
-                <div class="requirement-item">
-                    <div class="requirement-number">4</div>
+                <div class="requirement-item" role="listitem">
+                    <div class="requirement-number" aria-label="4 years to keep records">4</div>
                     <div class="requirement-label">Years to Keep Records</div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="tracker-section">
-            <h2>Plan Your CE Hours</h2>
+        <section class="tracker-section" aria-labelledby="tracker-heading">
+            <h2 id="tracker-heading">Plan Your CE Hours</h2>
             <p>Enter your planned CE hours in each category to see if you'll meet the 12-hour requirement:</p>
 
-            <div class="ce-categories">
+            <div class="ce-categories" role="group" aria-label="CE Categories">
                 <div class="ce-category">
                     <div class="ce-category-header">
                         <div class="ce-category-name">
-                            <span class="icon">🦠</span>
+                            <span class="icon" role="img" aria-label="Infection control icon">🦠</span>
                             Infection Control
                         </div>
                         <div class="ce-category-hours">
-                            <input type="number" class="hours-input" id="infection" min="0" max="12" value="0">
-                            <span class="hours-label">hours</span>
+                            <label for="infection" class="sr-only">Infection Control hours</label>
+                            <input type="number" class="hours-input" id="infection" min="0" max="12" value="0" aria-label="Infection Control hours">
+                            <span class="hours-label" aria-hidden="true">hours</span>
                         </div>
                     </div>
                     <div class="ce-category-desc">OSHA, sterilization, PPE, and infection prevention courses</div>
@@ -386,12 +400,13 @@
                 <div class="ce-category">
                     <div class="ce-category-header">
                         <div class="ce-category-name">
-                            <span class="icon">📷</span>
+                            <span class="icon" role="img" aria-label="Radiology icon">📷</span>
                             Radiology
                         </div>
                         <div class="ce-category-hours">
-                            <input type="number" class="hours-input" id="radiology" min="0" max="12" value="0">
-                            <span class="hours-label">hours</span>
+                            <label for="radiology" class="sr-only">Radiology hours</label>
+                            <input type="number" class="hours-input" id="radiology" min="0" max="12" value="0" aria-label="Radiology hours">
+                            <span class="hours-label" aria-hidden="true">hours</span>
                         </div>
                     </div>
                     <div class="ce-category-desc">X-ray safety, digital radiography, and imaging techniques</div>
@@ -400,12 +415,13 @@
                 <div class="ce-category">
                     <div class="ce-category-header">
                         <div class="ce-category-name">
-                            <span class="icon">⚖️</span>
+                            <span class="icon" role="img" aria-label="Jurisprudence icon">⚖️</span>
                             Jurisprudence
                         </div>
                         <div class="ce-category-hours">
-                            <input type="number" class="hours-input" id="jurisprudence" min="0" max="12" value="0">
-                            <span class="hours-label">hours</span>
+                            <label for="jurisprudence" class="sr-only">Jurisprudence hours</label>
+                            <input type="number" class="hours-input" id="jurisprudence" min="0" max="12" value="0" aria-label="Jurisprudence hours">
+                            <span class="hours-label" aria-hidden="true">hours</span>
                         </div>
                     </div>
                     <div class="ce-category-desc">Texas dental laws, ethics, and HIPAA compliance</div>
@@ -414,47 +430,48 @@
                 <div class="ce-category">
                     <div class="ce-category-header">
                         <div class="ce-category-name">
-                            <span class="icon">🎓</span>
+                            <span class="icon" role="img" aria-label="General education icon">🎓</span>
                             General / Clinical
                         </div>
                         <div class="ce-category-hours">
-                            <input type="number" class="hours-input" id="general" min="0" max="12" value="0">
-                            <span class="hours-label">hours</span>
+                            <label for="general" class="sr-only">General / Clinical hours</label>
+                            <input type="number" class="hours-input" id="general" min="0" max="12" value="0" aria-label="General / Clinical hours">
+                            <span class="hours-label" aria-hidden="true">hours</span>
                         </div>
                     </div>
                     <div class="ce-category-desc">Clinical skills, materials, patient communication, and specialty topics</div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="progress-section">
+        <section class="progress-section" aria-labelledby="progress-heading">
             <div class="progress-header">
-                <h2>Your CE Progress</h2>
-                <div class="progress-total incomplete" id="totalHours">0 / 12 hours</div>
+                <h2 id="progress-heading">Your CE Progress</h2>
+                <div class="progress-total incomplete" id="totalHours" aria-live="polite" aria-atomic="true">0 / 12 hours</div>
             </div>
 
             <div class="progress-bar-container">
-                <div class="progress-bar-track">
+                <div class="progress-bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="CE hours progress">
                     <div class="progress-bar-fill" id="progressFill" style="width: 0%">
-                        <span class="progress-bar-text" id="progressText">0%</span>
+                        <span class="progress-bar-text" id="progressText" aria-hidden="true">0%</span>
                     </div>
                 </div>
             </div>
 
-            <div class="status-message info" id="statusMessage">
+            <div class="status-message info" id="statusMessage" role="status" aria-live="polite">
                 Enter your planned CE hours above to track your progress toward the 12-hour requirement.
             </div>
 
-            <div class="tips-section">
-                <h3>CE Planning Tips</h3>
+            <aside class="tips-section" aria-labelledby="tips-heading">
+                <h3 id="tips-heading">CE Planning Tips</h3>
                 <ul>
-                    <li>Spread CE across the 2-year cycle - don't wait until the last minute!</li>
-                    <li>Mix in free CE from CDC TRAIN and manufacturer webinars</li>
-                    <li>Choose topics that align with your career goals</li>
-                    <li>Remember: CPR must be hands-on (online not accepted)</li>
+                    <li><span class="sr-only">Tip:</span>Spread CE across the 2-year cycle - don't wait until the last minute!</li>
+                    <li><span class="sr-only">Tip:</span>Mix in free CE from CDC TRAIN and manufacturer webinars</li>
+                    <li><span class="sr-only">Tip:</span>Choose topics that align with your career goals</li>
+                    <li><span class="sr-only">Tip:</span>Remember: CPR must be hands-on (online not accepted)</li>
                 </ul>
-            </div>
-        </div>
+            </aside>
+        </section>
     </div>
 
     <script>
@@ -476,6 +493,10 @@
             totalDisplay.textContent = `${total} / ${REQUIRED_HOURS} hours`;
             progressFill.style.width = percentage + '%';
             progressText.textContent = Math.round(percentage) + '%';
+
+            // Update progressbar aria attributes
+            const progressBar = document.querySelector('.progress-bar-track');
+            progressBar.setAttribute('aria-valuenow', Math.round(percentage));
 
             // Update colors based on progress
             if (total >= REQUIRED_HOURS) {

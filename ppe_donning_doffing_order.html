@@ -110,8 +110,20 @@
  font-weight:600;
  color:var(--blue-primary);
  cursor:pointer;
+ transition:all 0.2s ease;
  }
- .seg button[aria-pressed="true"]{
+ .seg button:hover:not([aria-selected="true"]){
+ background:rgba(1, 84, 158, 0.1);
+ }
+ .seg button:focus{
+ outline:3px solid var(--blue-secondary);
+ outline-offset:2px;
+ }
+ .seg button:focus-visible{
+ outline:3px solid var(--blue-secondary);
+ outline-offset:2px;
+ }
+ .seg button[aria-selected="true"]{
  background:var(--card);
  box-shadow:0 1px 0 rgba(0,0,0,.04), inset 0 0 0 1px var(--ring);
  }
@@ -173,6 +185,19 @@
  padding:10px 12px;
  font-weight:600;
  cursor:pointer;
+ transition:all 0.2s ease;
+ }
+ .btn:hover:not(:disabled){
+ opacity:0.9;
+ transform:translateY(-1px);
+ }
+ .btn:focus{
+ outline:3px solid var(--blue-secondary);
+ outline-offset:2px;
+ }
+ .btn:focus-visible{
+ outline:3px solid var(--blue-secondary);
+ outline-offset:2px;
  }
  .btn.secondary{
  background:#f4f7fc;
@@ -234,50 +259,51 @@
 </head>
 <body>
  <div class="wrap">
- <div class="header">
+ <header class="header" role="banner">
  <h1>PPE Donning and Doffing Order</h1>
  <p>Practice the correct sequence for putting on and removing personal protective equipment</p>
- </div>
- <div class="note" role="note">
+ </header>
+ <div class="note" role="note" aria-label="Instructions">
  <strong>Instructions:</strong> First choose whether you're practicing Donning (putting on) or Doffing (taking off) PPE. Drag the steps into the correct order, then click <em>Check order</em> to see how you did. You can also use the Move up and Move down buttons for keyboard control.
  </div>
 
- <div class="panel">
+ <main class="panel">
  <section class="card board" aria-labelledby="boardTitle">
- <div class="modebar" role="group" aria-label="Mode">
- <div class="seg" role="tablist" aria-label="Select mode">
- <button id="btnDon" role="tab" aria-selected="true" aria-pressed="true">Donning</button>
- <button id="btnDof" role="tab" aria-selected="false" aria-pressed="false">Doffing</button>
+ <div class="modebar" role="group" aria-label="Mode selection">
+ <div class="seg" role="tablist" aria-label="Select practice mode">
+ <button id="btnDon" role="tab" aria-selected="true" aria-controls="list" tabindex="0">Donning</button>
+ <button id="btnDof" role="tab" aria-selected="false" aria-controls="list" tabindex="-1">Doffing</button>
  </div>
  </div>
 
- <h3 id="boardTitle" style="color:var(--blue-primary); margin:4px 0 8px 0; font-size:1.1rem;">Arrange the steps</h3>
- <ul id="list" class="list" aria-describedby="kbdHelp" aria-live="polite"></ul>
+ <h2 id="boardTitle" style="color:var(--blue-primary); margin:4px 0 8px 0; font-size:1.1rem;">Arrange the steps</h2>
+ <ul id="list" class="list" role="list" aria-describedby="kbdHelp" aria-live="polite" aria-label="Reorderable list of PPE steps"></ul>
  <div class="actions">
- <button class="btn" id="checkBtn">Check order</button>
- <button class="btn secondary" id="resetBtn">Reset</button>
- <button class="btn" id="copyBtn" style="display:none;">Copy summary</button>
+ <button class="btn" id="checkBtn" aria-describedby="checkBtnDesc">Check order</button>
+ <span id="checkBtnDesc" class="sr-only">Check your answer for the correct PPE order</span>
+ <button class="btn secondary" id="resetBtn" aria-label="Reset the exercise to start over">Reset</button>
+ <button class="btn" id="copyBtn" style="display:none;" aria-label="Copy summary of your answers to clipboard">Copy summary</button>
  </div>
  <p id="kbdHelp" class="keyhelp">Keyboard: Tab to a step, then use the Move up or Move down buttons to reorder. Drag and drop is also supported.</p>
  </section>
 
- <aside class="sidebar">
- <div class="infocard">
- <h4>Score</h4>
- <div class="score"><span id="scoreVal">–</span></div>
+ <aside class="sidebar" role="complementary" aria-label="Score and feedback">
+ <div class="infocard" role="region" aria-labelledby="scoreHeading">
+ <h3 id="scoreHeading">Score</h3>
+ <div class="score" aria-live="polite" aria-atomic="true"><span id="scoreVal" aria-label="Current score">–</span></div>
  </div>
- <div class="infocard">
- <h4>Feedback</h4>
- <div id="feedback" class="rationale">Choose a mode and arrange the steps. When you check your order, the first incorrect step will include a short explanation and the fix.</div>
+ <div class="infocard" role="region" aria-labelledby="feedbackHeading">
+ <h3 id="feedbackHeading">Feedback</h3>
+ <div id="feedback" class="rationale" aria-live="polite" aria-atomic="true">Choose a mode and arrange the steps. When you check your order, the first incorrect step will include a short explanation and the fix.</div>
  </div>
- <div class="infocard">
- <h4>Reference order</h4>
+ <div class="infocard" role="region" aria-labelledby="referenceHeading">
+ <h3 id="referenceHeading">Reference order</h3>
  <div id="reference" style="font-size:.95rem; color:#22344c;">Donning: Gown → Mask or respirator → Goggles or face shield → Gloves<br>Doffing: Gloves → Goggles or face shield → Gown → Mask or respirator</div>
  </div>
  </aside>
- </div>
+ </main>
 
- <div id="live" class="sr-only" aria-live="polite"></div>
+ <div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
  </div>
 
 <script>
@@ -316,34 +342,38 @@
 
  function setMode(mode){
  state.mode = mode;
- btnDon.setAttribute('aria-pressed', mode==='donning');
- btnDof.setAttribute('aria-pressed', mode==='doffing');
  btnDon.setAttribute('aria-selected', mode==='donning');
  btnDof.setAttribute('aria-selected', mode==='doffing');
+ btnDon.setAttribute('tabindex', mode==='donning' ? '0' : '-1');
+ btnDof.setAttribute('tabindex', mode==='doffing' ? '0' : '-1');
  renderList();
  feedbackEl.innerHTML = 'Arrange the steps, then select <em>Check order</em>. The first incorrect step will include a short explanation and the fix.';
  scoreVal.textContent = '–';
  state.score = null;
  copyBtn.style.display = 'none';
+ live.textContent = `Switched to ${mode} mode.`;
  }
 
  function renderList(){
  listEl.innerHTML = '';
  const items = DATA[state.mode].map(x=>({...x}));
  state.order = items.map(x=>x.id);
- for (const item of items){
+ for (let i = 0; i < items.length; i++){
+ const item = items[i];
  const li = document.createElement('li');
  li.className = 'item';
  li.setAttribute('draggable','true');
+ li.setAttribute('role', 'listitem');
+ li.setAttribute('aria-label', `${item.label}, position ${i+1} of ${items.length}`);
  li.dataset.id = item.id;
  li.innerHTML = `
  <div>
  <div style="font-weight:700">${escapeHTML(item.label)}</div>
- <div style="font-size:.9rem;color:#38506e">Step</div>
+ <div style="font-size:.9rem;color:#38506e" aria-hidden="true">Step</div>
  </div>
- <div class="handle" aria-label="Reorder controls">
- <button type="button" class="up" aria-label="Move up">Move up</button>
- <button type="button" class="down" aria-label="Move down">Move down</button>
+ <div class="handle" role="group" aria-label="Reorder controls for ${escapeHTML(item.label)}">
+ <button type="button" class="up" aria-label="Move ${escapeHTML(item.label)} up">Move up</button>
+ <button type="button" class="down" aria-label="Move ${escapeHTML(item.label)} down">Move down</button>
  </div>
  `;
  listEl.appendChild(li);
@@ -509,8 +539,23 @@
 
  // Keyboard move buttons
  listEl.querySelectorAll('.item').forEach(li => {
- li.querySelector('.up').addEventListener('click', ()=> move(li.dataset.id, -1));
- li.querySelector('.down').addEventListener('click', ()=> move(li.dataset.id, +1));
+ const upBtn = li.querySelector('.up');
+ const downBtn = li.querySelector('.down');
+ upBtn.addEventListener('click', ()=> move(li.dataset.id, -1));
+ downBtn.addEventListener('click', ()=> move(li.dataset.id, +1));
+ // Keyboard support for Enter and Space
+ upBtn.addEventListener('keydown', (e)=> {
+ if (e.key === 'Enter' || e.key === ' ') {
+ e.preventDefault();
+ move(li.dataset.id, -1);
+ }
+ });
+ downBtn.addEventListener('keydown', (e)=> {
+ if (e.key === 'Enter' || e.key === ' ') {
+ e.preventDefault();
+ move(li.dataset.id, +1);
+ }
+ });
  });
  }
 
@@ -574,6 +619,23 @@
  // Wire controls
  btnDon.addEventListener('click', ()=> setMode('donning'));
  btnDof.addEventListener('click', ()=> setMode('doffing'));
+
+ // Keyboard navigation for tabs (arrow keys)
+ btnDon.addEventListener('keydown', (e)=> {
+ if (e.key === 'ArrowRight') {
+ e.preventDefault();
+ setMode('doffing');
+ btnDof.focus();
+ }
+ });
+ btnDof.addEventListener('keydown', (e)=> {
+ if (e.key === 'ArrowLeft') {
+ e.preventDefault();
+ setMode('donning');
+ btnDon.focus();
+ }
+ });
+
  checkBtn.addEventListener('click', checkOrder);
  resetBtn.addEventListener('click', resetList);
  copyBtn.addEventListener('click', copySummary);

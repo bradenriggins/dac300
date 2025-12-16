@@ -247,6 +247,28 @@
             background: rgba(255,255,255,0.3);
         }
 
+        .reset-btn:focus {
+            outline: 3px solid white;
+            outline-offset: 2px;
+        }
+
+        .checklist-item:focus {
+            outline: 3px solid #0077b5;
+            outline-offset: 2px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         @media (max-width: 640px) {
             body {
                 padding: 12px;
@@ -272,61 +294,62 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header class="header" role="banner">
             <h1>LinkedIn Profile Checklist</h1>
             <p>Build a professional profile that stands out to dental employers</p>
-        </div>
+        </header>
 
-        <div class="progress-overview">
+        <section class="progress-overview" aria-labelledby="progress-heading">
             <div class="progress-stats">
+                <h2 id="progress-heading" class="sr-only">Overall Progress</h2>
                 <span class="progress-label">Profile Strength</span>
-                <span class="progress-percent" id="progressPercent">0%</span>
+                <span class="progress-percent" id="progressPercent" aria-live="polite">0%</span>
             </div>
-            <div class="progress-bar">
+            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Profile strength progress">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
             <div class="strength-label">
-                <span id="strengthLabel">Getting Started - Check off items as you complete them</span>
+                <span id="strengthLabel" role="status" aria-live="polite">Getting Started - Check off items as you complete them</span>
             </div>
-        </div>
+        </section>
 
-        <div class="checklist-section" data-section="basics">
+        <section class="checklist-section" data-section="basics" aria-labelledby="basics-heading">
             <div class="section-header">
-                <span class="section-icon">👤</span>
-                <span class="section-title">Profile Basics</span>
-                <span class="section-progress" id="basicsProgress">0/4</span>
+                <span class="section-icon" role="img" aria-label="Profile basics">👤</span>
+                <h2 class="section-title" id="basics-heading">Profile Basics</h2>
+                <span class="section-progress" id="basicsProgress" aria-live="polite">0/4</span>
             </div>
-            <div class="checklist-items">
-                <div class="checklist-item" data-item="photo">
-                    <div class="checkbox">
-                        <span class="checkbox-icon">✓</span>
+            <div class="checklist-items" role="list">
+                <div class="checklist-item" data-item="photo" role="listitem" tabindex="0" aria-label="Professional Photo - not completed">
+                    <div class="checkbox" role="checkbox" aria-checked="false">
+                        <span class="checkbox-icon" aria-hidden="true">✓</span>
                     </div>
                     <div class="item-content">
                         <div class="item-title">Professional Photo</div>
                         <div class="item-tip">Clear headshot, neutral background, professional attire</div>
                     </div>
                 </div>
-                <div class="checklist-item" data-item="headline">
-                    <div class="checkbox">
-                        <span class="checkbox-icon">✓</span>
+                <div class="checklist-item" data-item="headline" role="listitem" tabindex="0" aria-label="Custom Headline - not completed">
+                    <div class="checkbox" role="checkbox" aria-checked="false">
+                        <span class="checkbox-icon" aria-hidden="true">✓</span>
                     </div>
                     <div class="item-content">
                         <div class="item-title">Custom Headline</div>
                         <div class="item-tip">Beyond job title - "RDA | Patient Care Advocate | Radiography Specialist"</div>
                     </div>
                 </div>
-                <div class="checklist-item" data-item="location">
-                    <div class="checkbox">
-                        <span class="checkbox-icon">✓</span>
+                <div class="checklist-item" data-item="location" role="listitem" tabindex="0" aria-label="Location Added - not completed">
+                    <div class="checkbox" role="checkbox" aria-checked="false">
+                        <span class="checkbox-icon" aria-hidden="true">✓</span>
                     </div>
                     <div class="item-content">
                         <div class="item-title">Location Added</div>
                         <div class="item-tip">City and state help employers find local candidates</div>
                     </div>
                 </div>
-                <div class="checklist-item" data-item="contact">
-                    <div class="checkbox">
-                        <span class="checkbox-icon">✓</span>
+                <div class="checklist-item" data-item="contact" role="listitem" tabindex="0" aria-label="Contact Info Updated - not completed">
+                    <div class="checkbox" role="checkbox" aria-checked="false">
+                        <span class="checkbox-icon" aria-hidden="true">✓</span>
                     </div>
                     <div class="item-content">
                         <div class="item-title">Contact Info Updated</div>
@@ -334,13 +357,13 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="checklist-section" data-section="content">
+        <section class="checklist-section" data-section="content" aria-labelledby="content-heading">
             <div class="section-header">
-                <span class="section-icon">📝</span>
-                <span class="section-title">Content & Experience</span>
-                <span class="section-progress" id="contentProgress">0/4</span>
+                <span class="section-icon" role="img" aria-label="Content and experience">📝</span>
+                <h2 class="section-title" id="content-heading">Content & Experience</h2>
+                <span class="section-progress" id="contentProgress" aria-live="polite">0/4</span>
             </div>
             <div class="checklist-items">
                 <div class="checklist-item" data-item="summary">

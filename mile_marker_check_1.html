@@ -166,6 +166,10 @@
             flex-direction: column;
             gap: 16px;
             margin-bottom: 32px;
+            border: none;
+            padding: 0;
+            margin-left: 0;
+            margin-right: 0;
         }
 
         .option-wrapper {
@@ -665,220 +669,237 @@
                 flex-direction: column;
             }
         }
+
+        /* Screen reader only text */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
     </style>
 </head>
 <body>
     <div class="quiz-container">
-        <div class="header">
+        <header class="header" role="banner">
             <h1>Mile Marker Check</h1>
             <p>Test your knowledge of Texas RDA certification requirements</p>
-        </div>
+        </header>
 
-        <div class="progress-bar-container">
+        <div class="progress-bar-container" role="region" aria-label="Quiz progress">
             <div class="progress-label">
-                <span class="progress-text" id="progress-text">Question 1 of 4</span>
-                <span class="progress-steps" id="progress-steps">Step 1/4</span>
+                <span class="progress-text" id="progress-text" aria-live="polite">Question 1 of 4</span>
+                <span class="progress-steps" id="progress-steps" aria-live="polite">Step 1/4</span>
             </div>
-            <div class="progress-bar">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Quiz progress">
                 <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
             </div>
         </div>
 
-        <div class="quiz-content">
+        <main class="quiz-content" role="main">
             <!-- Question 1 -->
-            <div class="question-container active" data-question="1" data-correct="B">
-                <div class="question-number">Question 1</div>
-                <div class="question-text">What is the minimum passing score for the Texas RDA exam?</div>
-                <div class="answer-options">
+            <div class="question-container active" data-question="1" data-correct="B" role="group" aria-labelledby="q1-text">
+                <div class="question-number" aria-label="Question number">Question 1</div>
+                <h2 class="question-text" id="q1-text">What is the minimum passing score for the Texas RDA exam?</h2>
+                <fieldset class="answer-options" aria-required="true">
+                    <legend class="sr-only">Select your answer</legend>
                     <div class="option-wrapper">
-                        <input type="radio" id="q1a" name="q1" value="A">
+                        <input type="radio" id="q1a" name="q1" value="A" aria-label="Option A: 60 percent">
                         <label for="q1a" class="option-label">
-                            <span class="option-letter">A</span>
+                            <span class="option-letter" aria-hidden="true">A</span>
                             <span>60%</span>
                         </label>
                     </div>
                     <div class="option-wrapper">
-                        <input type="radio" id="q1b" name="q1" value="B">
+                        <input type="radio" id="q1b" name="q1" value="B" aria-label="Option B: 70 percent">
                         <label for="q1b" class="option-label">
-                            <span class="option-letter">B</span>
+                            <span class="option-letter" aria-hidden="true">B</span>
                             <span>70%</span>
                         </label>
                     </div>
                     <div class="option-wrapper">
-                        <input type="radio" id="q1c" name="q1" value="C">
+                        <input type="radio" id="q1c" name="q1" value="C" aria-label="Option C: 80 percent">
                         <label for="q1c" class="option-label">
-                            <span class="option-letter">C</span>
+                            <span class="option-letter" aria-hidden="true">C</span>
                             <span>80%</span>
                         </label>
                     </div>
                     <div class="option-wrapper">
-                        <input type="radio" id="q1d" name="q1" value="D">
+                        <input type="radio" id="q1d" name="q1" value="D" aria-label="Option D: 90 percent">
                         <label for="q1d" class="option-label">
-                            <span class="option-letter">D</span>
+                            <span class="option-letter" aria-hidden="true">D</span>
                             <span>90%</span>
                         </label>
                     </div>
-                </div>
-                <div class="feedback-message"></div>
+                </fieldset>
+                <div class="feedback-message" role="status" aria-live="polite"></div>
                 <div class="action-buttons">
-                    <button class="btn btn-try-again" onclick="tryAgain(1)">Try Again</button>
-                    <button class="btn btn-next" onclick="nextQuestion()">Next Question →</button>
+                    <button class="btn btn-try-again" onclick="tryAgain(1)" aria-label="Try this question again">Try Again</button>
+                    <button class="btn btn-next" onclick="nextQuestion()" aria-label="Continue to next question">Next Question →</button>
                 </div>
             </div>
 
             <!-- Question 2 -->
-            <div class="question-container" data-question="2" data-correct="B">
-                <div class="question-number">Question 2</div>
-                <div class="question-text">How long must you wait between exam attempts after failing twice?</div>
-                <div class="answer-options">
+            <div class="question-container" data-question="2" data-correct="B" role="group" aria-labelledby="q2-text">
+                <div class="question-number" aria-label="Question number">Question 2</div>
+                <h2 class="question-text" id="q2-text">How long must you wait between exam attempts after failing twice?</h2>
+                <fieldset class="answer-options" aria-required="true">
+                    <legend class="sr-only">Select your answer</legend>
                     <div class="option-wrapper">
-                        <input type="radio" id="q2a" name="q2" value="A">
+                        <input type="radio" id="q2a" name="q2" value="A" aria-label="Option A: 30 days">
                         <label for="q2a" class="option-label">
-                            <span class="option-letter">A</span>
+                            <span class="option-letter" aria-hidden="true">A</span>
                             <span>30 days</span>
                         </label>
                     </div>
                     <div class="option-wrapper">
-                        <input type="radio" id="q2b" name="q2" value="B">
+                        <input type="radio" id="q2b" name="q2" value="B" aria-label="Option B: 45 days">
                         <label for="q2b" class="option-label">
-                            <span class="option-letter">B</span>
+                            <span class="option-letter" aria-hidden="true">B</span>
                             <span>45 days</span>
                         </label>
                     </div>
                     <div class="option-wrapper">
-                        <input type="radio" id="q2c" name="q2" value="C">
+                        <input type="radio" id="q2c" name="q2" value="C" aria-label="Option C: 60 days">
                         <label for="q2c" class="option-label">
-                            <span class="option-letter">C</span>
+                            <span class="option-letter" aria-hidden="true">C</span>
                             <span>60 days</span>
                         </label>
                     </div>
                     <div class="option-wrapper">
-                        <input type="radio" id="q2d" name="q2" value="D">
+                        <input type="radio" id="q2d" name="q2" value="D" aria-label="Option D: 90 days">
                         <label for="q2d" class="option-label">
-                            <span class="option-letter">D</span>
+                            <span class="option-letter" aria-hidden="true">D</span>
                             <span>90 days</span>
                         </label>
                     </div>
-                </div>
-                <div class="feedback-message"></div>
+                </fieldset>
+                <div class="feedback-message" role="status" aria-live="polite"></div>
                 <div class="action-buttons">
-                    <button class="btn btn-try-again" onclick="tryAgain(2)">Try Again</button>
-                    <button class="btn btn-next" onclick="nextQuestion()">Next Question →</button>
+                    <button class="btn btn-try-again" onclick="tryAgain(2)" aria-label="Try this question again">Try Again</button>
+                    <button class="btn btn-next" onclick="nextQuestion()" aria-label="Continue to next question">Next Question →</button>
                 </div>
             </div>
 
             <!-- Question 3 -->
-            <div class="question-container" data-question="3" data-correct="C">
-                <div class="question-number">Question 3</div>
-                <div class="question-text">Which certification allows you to perform expanded duties in Texas?</div>
-                <div class="answer-options">
+            <div class="question-container" data-question="3" data-correct="C" role="group" aria-labelledby="q3-text">
+                <div class="question-number" aria-label="Question number">Question 3</div>
+                <h2 class="question-text" id="q3-text">Which certification allows you to perform expanded duties in Texas?</h2>
+                <fieldset class="answer-options" aria-required="true">
+                    <legend class="sr-only">Select your answer</legend>
                     <div class="option-wrapper">
-                        <input type="radio" id="q3a" name="q3" value="A">
+                        <input type="radio" id="q3a" name="q3" value="A" aria-label="Option A: RDA">
                         <label for="q3a" class="option-label">
-                            <span class="option-letter">A</span>
+                            <span class="option-letter" aria-hidden="true">A</span>
                             <span>RDA</span>
                         </label>
                     </div>
                     <div class="option-wrapper">
-                        <input type="radio" id="q3b" name="q3" value="B">
+                        <input type="radio" id="q3b" name="q3" value="B" aria-label="Option B: CDA">
                         <label for="q3b" class="option-label">
-                            <span class="option-letter">B</span>
+                            <span class="option-letter" aria-hidden="true">B</span>
                             <span>CDA</span>
                         </label>
                     </div>
                     <div class="option-wrapper">
-                        <input type="radio" id="q3c" name="q3" value="C">
+                        <input type="radio" id="q3c" name="q3" value="C" aria-label="Option C: EFDA">
                         <label for="q3c" class="option-label">
-                            <span class="option-letter">C</span>
+                            <span class="option-letter" aria-hidden="true">C</span>
                             <span>EFDA</span>
                         </label>
                     </div>
                     <div class="option-wrapper">
-                        <input type="radio" id="q3d" name="q3" value="D">
+                        <input type="radio" id="q3d" name="q3" value="D" aria-label="Option D: All of the above">
                         <label for="q3d" class="option-label">
-                            <span class="option-letter">D</span>
+                            <span class="option-letter" aria-hidden="true">D</span>
                             <span>All of the above</span>
                         </label>
                     </div>
-                </div>
-                <div class="feedback-message"></div>
+                </fieldset>
+                <div class="feedback-message" role="status" aria-live="polite"></div>
                 <div class="action-buttons">
-                    <button class="btn btn-try-again" onclick="tryAgain(3)">Try Again</button>
-                    <button class="btn btn-next" onclick="nextQuestion()">Next Question →</button>
+                    <button class="btn btn-try-again" onclick="tryAgain(3)" aria-label="Try this question again">Try Again</button>
+                    <button class="btn btn-next" onclick="nextQuestion()" aria-label="Continue to next question">Next Question →</button>
                 </div>
             </div>
 
             <!-- Question 4 -->
-            <div class="question-container" data-question="4" data-correct="B">
-                <div class="question-number">Question 4</div>
-                <div class="question-text">What type of BLS certification is required for Texas RDA?</div>
-                <div class="answer-options">
+            <div class="question-container" data-question="4" data-correct="B" role="group" aria-labelledby="q4-text">
+                <div class="question-number" aria-label="Question number">Question 4</div>
+                <h2 class="question-text" id="q4-text">What type of BLS certification is required for Texas RDA?</h2>
+                <fieldset class="answer-options" aria-required="true">
+                    <legend class="sr-only">Select your answer</legend>
                     <div class="option-wrapper">
-                        <input type="radio" id="q4a" name="q4" value="A">
+                        <input type="radio" id="q4a" name="q4" value="A" aria-label="Option A: Online certification">
                         <label for="q4a" class="option-label">
-                            <span class="option-letter">A</span>
+                            <span class="option-letter" aria-hidden="true">A</span>
                             <span>Online certification</span>
                         </label>
                     </div>
                     <div class="option-wrapper">
-                        <input type="radio" id="q4b" name="q4" value="B">
+                        <input type="radio" id="q4b" name="q4" value="B" aria-label="Option B: Hands-on certification">
                         <label for="q4b" class="option-label">
-                            <span class="option-letter">B</span>
+                            <span class="option-letter" aria-hidden="true">B</span>
                             <span>Hands-on certification</span>
                         </label>
                     </div>
                     <div class="option-wrapper">
-                        <input type="radio" id="q4c" name="q4" value="C">
+                        <input type="radio" id="q4c" name="q4" value="C" aria-label="Option C: Either type">
                         <label for="q4c" class="option-label">
-                            <span class="option-letter">C</span>
+                            <span class="option-letter" aria-hidden="true">C</span>
                             <span>Either type</span>
                         </label>
                     </div>
                     <div class="option-wrapper">
-                        <input type="radio" id="q4d" name="q4" value="D">
+                        <input type="radio" id="q4d" name="q4" value="D" aria-label="Option D: BLS not required">
                         <label for="q4d" class="option-label">
-                            <span class="option-letter">D</span>
+                            <span class="option-letter" aria-hidden="true">D</span>
                             <span>BLS not required</span>
                         </label>
                     </div>
-                </div>
-                <div class="feedback-message"></div>
+                </fieldset>
+                <div class="feedback-message" role="status" aria-live="polite"></div>
                 <div class="action-buttons">
-                    <button class="btn btn-try-again" onclick="tryAgain(4)">Try Again</button>
-                    <button class="btn btn-next" onclick="showResults()">View Results →</button>
+                    <button class="btn btn-try-again" onclick="tryAgain(4)" aria-label="Try this question again">Try Again</button>
+                    <button class="btn btn-next" onclick="showResults()" aria-label="View quiz results">View Results →</button>
                 </div>
             </div>
 
             <!-- Results Screen -->
-            <div class="results-screen">
+            <div class="results-screen" role="region" aria-labelledby="results-title" aria-live="polite">
                 <div class="results-card">
                     <div class="results-content">
-                        <div class="completion-icon">🎉</div>
-                        <h2 class="results-title">Quiz Complete!</h2>
-                        <div class="score-display" id="score-display"></div>
+                        <div class="completion-icon" role="img" aria-label="Celebration">🎉</div>
+                        <h2 class="results-title" id="results-title">Quiz Complete!</h2>
+                        <div class="score-display" id="score-display" aria-label="Your score"></div>
                         <p class="score-percentage" id="score-percentage"></p>
-                        <div class="stat-badges">
-                            <div class="stat-badge" id="correct-badge"></div>
-                            <div class="stat-badge" id="incorrect-badge"></div>
+                        <div class="stat-badges" role="region" aria-label="Score breakdown">
+                            <div class="stat-badge" id="correct-badge" aria-label="Correct answers"></div>
+                            <div class="stat-badge" id="incorrect-badge" aria-label="Incorrect answers"></div>
                         </div>
                         <p class="results-message" id="results-message"></p>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 
     <!-- Feedback Modal -->
-    <div class="feedback-modal-overlay" id="feedbackModal">
+    <div class="feedback-modal-overlay" id="feedbackModal" role="dialog" aria-modal="true" aria-labelledby="feedbackTitle" aria-describedby="feedbackMessage">
         <div class="feedback-modal">
             <div class="feedback-modal-header" id="feedbackHeader">
-                <span class="feedback-modal-icon" id="feedbackIcon">✓</span>
+                <span class="feedback-modal-icon" id="feedbackIcon" role="img" aria-label="Result icon">✓</span>
                 <h2 class="feedback-modal-title" id="feedbackTitle">Correct!</h2>
                 <p class="feedback-modal-subtitle" id="feedbackSubtitle">Great job!</p>
             </div>
             <div class="feedback-modal-body">
                 <p class="feedback-modal-message" id="feedbackMessage">You got it right. Keep up the excellent work!</p>
-                <button class="feedback-modal-btn" id="feedbackBtn">Next Question →</button>
+                <button class="feedback-modal-btn" id="feedbackBtn" aria-label="Close feedback and continue">Next Question →</button>
             </div>
         </div>
     </div>
@@ -948,6 +969,28 @@
                 tryAgain(currentQuestionNum);
             }
         });
+
+        // Modal accessibility: Escape key to close
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && feedbackModal.classList.contains('show')) {
+                feedbackBtn.click();
+            }
+        });
+
+        // Trap focus in modal when open
+        feedbackModal.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab' && feedbackModal.classList.contains('show')) {
+                e.preventDefault();
+                feedbackBtn.focus();
+            }
+        });
+
+        // Focus modal button when modal opens
+        const originalShowFeedbackModal = showFeedbackModal;
+        showFeedbackModal = function(isCorrect, questionNum) {
+            originalShowFeedbackModal(isCorrect, questionNum);
+            setTimeout(() => feedbackBtn.focus(), 100);
+        };
 
         // Set up event listeners for each question
         questions.forEach((question, index) => {
@@ -1044,7 +1087,12 @@
 
         function updateProgress() {
             const progressPercent = ((currentQuestionIndex) / totalQuestions) * 100;
-            document.getElementById('progress-fill').style.width = progressPercent + '%';
+            const progressBar = document.getElementById('progress-fill');
+            const progressBarContainer = progressBar.parentElement;
+
+            progressBar.style.width = progressPercent + '%';
+            progressBarContainer.setAttribute('aria-valuenow', progressPercent);
+
             document.getElementById('progress-text').textContent = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
             document.getElementById('progress-steps').textContent = `Step ${currentQuestionIndex + 1}/${totalQuestions}`;
         }

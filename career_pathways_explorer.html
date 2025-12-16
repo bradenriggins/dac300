@@ -117,6 +117,11 @@
             outline-offset: 2px;
         }
 
+        .pathway-card:focus-visible {
+            outline: 3px solid #be5510;
+            outline-offset: 2px;
+        }
+
         .card-icon {
             position: absolute;
             top: 15px;
@@ -631,36 +636,37 @@
             <p>Discover Your Future in Dental Assisting - From RDA Certification to Specialized Career Paths</p>
         </header>
 
-        <div class="stats-banner">
+        <div class="stats-banner" role="region" aria-label="Career statistics">
             <div class="stat-card">
-                <span class="stat-number">8</span>
+                <span class="stat-number" aria-label="Eight career pathways">8</span>
                 <div class="stat-label">Career Pathways</div>
             </div>
             <div class="stat-card">
-                <span class="stat-number">1</span>
+                <span class="stat-number" aria-label="One RDA certification">1</span>
                 <div class="stat-label">RDA Certification</div>
             </div>
             <div class="stat-card">
-                <span class="stat-number">∞</span>
+                <span class="stat-number" aria-label="Unlimited opportunities">∞</span>
                 <div class="stat-label">Opportunities</div>
             </div>
         </div>
 
         <div class="quick-guide" role="complementary" aria-label="Quick guide">
             <div class="guide-item">
-                <span class="icon">👆</span>
+                <span class="icon" aria-hidden="true">👆</span>
                 <span>Click any card to explore</span>
             </div>
             <div class="guide-item">
-                <span class="icon">📋</span>
+                <span class="icon" aria-hidden="true">📋</span>
                 <span>View certifications & requirements</span>
             </div>
             <div class="guide-item">
-                <span class="icon">💭</span>
+                <span class="icon" aria-hidden="true">💭</span>
                 <span>Reflect on your career goals</span>
             </div>
         </div>
 
+        <main>
         <section aria-labelledby="pathways-heading">
             <h2 id="pathways-heading" class="sr-only">Career Pathways</h2>
             <div class="pathways-grid" role="list">
@@ -670,7 +676,7 @@
 
         <section class="reflection-section" aria-labelledby="reflection-heading">
             <h2 id="reflection-heading">
-                <span>💭</span>
+                <span aria-hidden="true">💭</span>
                 <span>Personal Career Reflection</span>
             </h2>
 
@@ -701,6 +707,7 @@
 
             <div class="success-message" id="success-message" role="alert" aria-live="polite"></div>
         </section>
+        </main>
     </div>
 
     <!-- Modal Container -->
@@ -910,16 +917,16 @@
                 card.dataset.index = index;
 
                 card.innerHTML = `
-                    <div class="card-icon">${pathway.icon}</div>
+                    <div class="card-icon" aria-hidden="true">${pathway.icon}</div>
                     <div class="card-header">
                         <h3>${pathway.title}</h3>
                         <div class="card-specialty">${pathway.subtitle}</div>
                     </div>
                     <div class="card-preview">
                         <p>${pathway.preview}</p>
-                        <div class="card-cta">
+                        <div class="card-cta" aria-hidden="true">
                             <span>Explore pathway</span>
-                            <span aria-hidden="true">→</span>
+                            <span>→</span>
                         </div>
                     </div>
                 `;
@@ -1012,24 +1019,24 @@
             modalBody.innerHTML = `
                 <div class="detail-grid">
                     <div class="detail-section">
-                        <h4><span class="emoji">📋</span> Overview</h4>
+                        <h4><span class="emoji" aria-hidden="true">📋</span> Overview</h4>
                         <p>${pathway.description}</p>
                     </div>
 
                     <div class="detail-section">
-                        <h4><span class="emoji">🎓</span> Certifications & Training</h4>
+                        <h4><span class="emoji" aria-hidden="true">🎓</span> Certifications & Training</h4>
                         <ul>
                             ${pathway.certifications.map(cert => `<li>${cert}</li>`).join('')}
                         </ul>
                     </div>
 
                     <div class="detail-section">
-                        <h4><span class="emoji">☀️</span> A Day in the Life</h4>
+                        <h4><span class="emoji" aria-hidden="true">☀️</span> A Day in the Life</h4>
                         <p>${pathway.dayInLife}</p>
                     </div>
 
                     <div class="detail-section">
-                        <h4><span class="emoji">🚀</span> How to Get There</h4>
+                        <h4><span class="emoji" aria-hidden="true">🚀</span> How to Get There</h4>
                         <ul>
                             ${pathway.howToGetThere.map(step => `<li>${step}</li>`).join('')}
                         </ul>

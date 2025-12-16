@@ -360,6 +360,28 @@
  color: var(--muted);
  }
 
+ .sr-only {
+ position: absolute;
+ width: 1px;
+ height: 1px;
+ padding: 0;
+ margin: -1px;
+ overflow: hidden;
+ clip: rect(0, 0, 0, 0);
+ white-space: nowrap;
+ border: 0;
+ }
+
+ .resource-link:focus {
+ outline: 3px solid var(--blue-secondary);
+ outline-offset: 2px;
+ }
+
+ summary:focus {
+ outline: 3px solid var(--blue-secondary);
+ outline-offset: 2px;
+ }
+
  @media (max-width: 640px) {
  .tabs {
  gap: 2px;
@@ -377,30 +399,33 @@
 </head>
 <body>
  <div class="wrap">
- <div class="header">
+ <header class="header">
  <h1>Certification Domains & Study Aids</h1>
  <p>Your comprehensive resource center for Texas RDA exam preparation</p>
- </div>
+ </header>
 
  <!-- Score Integration Banner -->
- <div id="scoreBanner"></div>
+ <div id="scoreBanner" role="region" aria-label="Assessment scores"></div>
 
  <!-- Tab Navigation -->
- <div class="tabs" role="tablist" aria-label="Resource categories">
- <button class="tab" role="tab" aria-selected="true" aria-controls="panel-domains" id="tab-domains">Exam Domains</button>
- <button class="tab" role="tab" aria-selected="false" aria-controls="panel-study" id="tab-study">Study Resources</button>
- <button class="tab" role="tab" aria-selected="false" aria-controls="panel-practice" id="tab-practice">Practice & Review</button>
- <button class="tab" role="tab" aria-selected="false" aria-controls="panel-official" id="tab-official">Official Resources</button>
+ <nav aria-label="Resource categories">
+ <div class="tabs" role="tablist">
+ <button class="tab" role="tab" aria-selected="true" aria-controls="panel-domains" id="tab-domains" tabindex="0">Exam Domains</button>
+ <button class="tab" role="tab" aria-selected="false" aria-controls="panel-study" id="tab-study" tabindex="-1">Study Resources</button>
+ <button class="tab" role="tab" aria-selected="false" aria-controls="panel-practice" id="tab-practice" tabindex="-1">Practice & Review</button>
+ <button class="tab" role="tab" aria-selected="false" aria-controls="panel-official" id="tab-official" tabindex="-1">Official Resources</button>
  </div>
+ </nav>
 
  <!-- Panel: Exam Domains -->
- <div class="panel active" id="panel-domains" role="tabpanel" aria-labelledby="tab-domains">
- <div class="tip-box">
+ <main>
+ <div class="panel active" id="panel-domains" role="tabpanel" aria-labelledby="tab-domains" tabindex="0">
+ <div class="tip-box" role="note" aria-label="Study tip">
  <strong>Tip:</strong> The Texas RDA exam covers three main domains. Focus your study time based on your self-assessment results from the previous activity.
  </div>
 
- <div class="card domain-card jurisprudence">
- <h3>1. Jurisprudence (Texas Dental Practice Act)</h3>
+ <section class="card domain-card jurisprudence" aria-labelledby="domain-1-heading">
+ <h3 id="domain-1-heading">1. Jurisprudence (Texas Dental Practice Act)</h3>
  <p>Understanding Texas dental laws, regulations, and ethical standards is essential for legal practice as an RDA.</p>
  <h4>Key Topics</h4>
  <ul>
@@ -416,10 +441,10 @@
  <span class="tag orange">Ethics</span>
  <span class="tag orange">Scope of Practice</span>
  </div>
- </div>
+ </section>
 
- <div class="card domain-card infection">
- <h3>2. Infection Control</h3>
+ <section class="card domain-card infection" aria-labelledby="domain-2-heading">
+ <h3 id="domain-2-heading">2. Infection Control</h3>
  <p>Protecting patients and healthcare workers through proper infection prevention protocols is a core competency.</p>
  <h4>Key Topics</h4>
  <ul>
@@ -435,10 +460,10 @@
  <span class="tag teal">Sterilization</span>
  <span class="tag teal">OSHA</span>
  </div>
- </div>
+ </section>
 
- <div class="card domain-card radiology">
- <h3>3. Radiology</h3>
+ <section class="card domain-card radiology" aria-labelledby="domain-3-heading">
+ <h3 id="domain-3-heading">3. Radiology</h3>
  <p>Producing diagnostic quality radiographs while minimizing radiation exposure requires technical skill and safety knowledge.</p>
  <h4>Key Topics</h4>
  <ul>
@@ -454,19 +479,19 @@
  <span class="tag">Safety</span>
  <span class="tag">Digital Imaging</span>
  </div>
- </div>
+ </section>
  </div>
 
  <!-- Panel: Study Resources -->
- <div class="panel" id="panel-study" role="tabpanel" aria-labelledby="tab-study">
- <div class="tip-box">
+ <div class="panel" id="panel-study" role="tabpanel" aria-labelledby="tab-study" tabindex="0">
+ <div class="tip-box" role="note" aria-label="Study strategy">
  <strong>Study Strategy:</strong> Use multiple resource types - read, watch, quiz yourself, and practice hands-on when possible.
  </div>
 
  <h3 style="color: var(--blue-primary); margin-bottom: 14px;">Recommended Study Materials</h3>
 
- <details open>
- <summary>Textbook Resources</summary>
+ <details open aria-labelledby="textbook-resources-heading">
+ <summary id="textbook-resources-heading">Textbook Resources</summary>
  <div class="details-content">
  <p><strong>Dental Assisting: A Comprehensive Approach (7th Edition)</strong></p>
  <ul>
@@ -479,19 +504,19 @@
  </div>
  </details>
 
- <details>
- <summary>Online Learning Platforms</summary>
+ <details aria-labelledby="online-platforms-heading">
+ <summary id="online-platforms-heading">Online Learning Platforms</summary>
  <div class="details-content">
  <div class="resource-grid">
- <a href="https://www.dentalcare.com/" target="_blank" class="resource-link">
- <div class="resource-icon">📚</div>
+ <a href="https://www.dentalcare.com/" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="Colgate Dental Care - Free CE courses on infection control and clinical topics - Opens in new window">
+ <div class="resource-icon" aria-hidden="true">📚</div>
  <div class="resource-info">
  <h4>Colgate Dental Care</h4>
  <p>Free CE courses on infection control and clinical topics</p>
  </div>
  </a>
- <a href="https://www.cdc.gov/oralhealth/infectioncontrol/" target="_blank" class="resource-link">
- <div class="resource-icon">🏥</div>
+ <a href="https://www.cdc.gov/oralhealth/infectioncontrol/" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="CDC Oral Health - Official infection control guidelines and resources - Opens in new window">
+ <div class="resource-icon" aria-hidden="true">🏥</div>
  <div class="resource-info">
  <h4>CDC Oral Health</h4>
  <p>Official infection control guidelines and resources</p>
@@ -501,8 +526,8 @@
  </div>
  </details>
 
- <details>
- <summary>Video Learning</summary>
+ <details aria-labelledby="video-learning-heading">
+ <summary id="video-learning-heading">Video Learning</summary>
  <div class="details-content">
  <p>Visual learning can reinforce complex procedures and concepts:</p>
  <ul>
@@ -513,8 +538,8 @@
  </div>
  </details>
 
- <details>
- <summary>Flashcard Sets</summary>
+ <details aria-labelledby="flashcard-sets-heading">
+ <summary id="flashcard-sets-heading">Flashcard Sets</summary>
  <div class="details-content">
  <p>Quizlet sets are embedded throughout your course lessons. Use them for:</p>
  <ul>
@@ -528,62 +553,62 @@
  </div>
 
  <!-- Panel: Practice & Review -->
- <div class="panel" id="panel-practice" role="tabpanel" aria-labelledby="tab-practice">
- <div class="tip-box">
+ <div class="panel" id="panel-practice" role="tabpanel" aria-labelledby="tab-practice" tabindex="0">
+ <div class="tip-box" role="note" aria-label="Practice tip">
  <strong>Practice Makes Progress:</strong> Active recall and spaced repetition are the most effective study methods.
  </div>
 
  <h3 style="color: var(--blue-primary); margin-bottom: 14px;">Practice Strategies</h3>
 
- <div class="card">
- <h3>Self-Testing Techniques</h3>
+ <section class="card" aria-labelledby="self-testing-heading">
+ <h3 id="self-testing-heading">Self-Testing Techniques</h3>
  <ul>
  <li><strong>Teach-back method:</strong> Explain concepts aloud as if teaching someone else</li>
  <li><strong>Practice questions:</strong> Work through end-of-chapter questions</li>
  <li><strong>Scenario-based thinking:</strong> "What would I do if..."</li>
  <li><strong>Timed quizzes:</strong> Build speed and confidence under time pressure</li>
  </ul>
- </div>
+ </section>
 
- <div class="card">
- <h3>Hands-On Practice (During Externship)</h3>
+ <section class="card" aria-labelledby="hands-on-heading">
+ <h3 id="hands-on-heading">Hands-On Practice (During Externship)</h3>
  <ul>
  <li><strong>Infection Control:</strong> Practice PPE donning/doffing sequence daily</li>
  <li><strong>Sterilization:</strong> Walk through instrument processing steps</li>
  <li><strong>Radiology:</strong> Observe and practice positioning techniques</li>
  <li><strong>Documentation:</strong> Review how records are maintained</li>
  </ul>
- </div>
+ </section>
 
- <div class="card">
- <h3>Weekly Review Schedule</h3>
+ <section class="card" aria-labelledby="weekly-schedule-heading">
+ <h3 id="weekly-schedule-heading">Weekly Review Schedule</h3>
  <p>Consider this study pattern:</p>
  <ul>
  <li><strong>Monday-Wednesday:</strong> Focus on one domain (e.g., Jurisprudence)</li>
  <li><strong>Thursday-Friday:</strong> Focus on second domain (e.g., Infection Control)</li>
  <li><strong>Weekend:</strong> Mixed review and practice questions</li>
  </ul>
- </div>
+ </section>
  </div>
 
  <!-- Panel: Official Resources -->
- <div class="panel" id="panel-official" role="tabpanel" aria-labelledby="tab-official">
- <div class="tip-box">
+ <div class="panel" id="panel-official" role="tabpanel" aria-labelledby="tab-official" tabindex="0">
+ <div class="tip-box" role="note" aria-label="Important notice">
  <strong>Important:</strong> Always refer to official Texas SBDE resources for the most current regulations.
  </div>
 
  <h3 style="color: var(--blue-primary); margin-bottom: 14px;">Texas State Board of Dental Examiners</h3>
 
  <div class="resource-grid">
- <a href="https://www.tsbde.texas.gov/" target="_blank" class="resource-link">
- <div class="resource-icon">🏛️</div>
+ <a href="https://www.tsbde.texas.gov/" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="TSBDE Official Website - Main portal for all Texas dental regulations and licensing - Opens in new window">
+ <div class="resource-icon" aria-hidden="true">🏛️</div>
  <div class="resource-info">
  <h4>TSBDE Official Website</h4>
  <p>Main portal for all Texas dental regulations and licensing</p>
  </div>
  </a>
- <a href="https://www.tsbde.texas.gov/78i6bc5/dental-assistant-registration" target="_blank" class="resource-link">
- <div class="resource-icon">📋</div>
+ <a href="https://www.tsbde.texas.gov/78i6bc5/dental-assistant-registration" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="RDA Registration Info - Requirements, applications, and renewal information - Opens in new window">
+ <div class="resource-icon" aria-hidden="true">📋</div>
  <div class="resource-info">
  <h4>RDA Registration Info</h4>
  <p>Requirements, applications, and renewal information</p>
@@ -593,28 +618,28 @@
 
  <h3 style="color: var(--blue-primary); margin: 20px 0 14px;">Exam Information</h3>
 
- <div class="card">
- <h3>Texas RDA Exam Overview</h3>
+ <section class="card" aria-labelledby="exam-overview-heading">
+ <h3 id="exam-overview-heading">Texas RDA Exam Overview</h3>
  <ul>
  <li><strong>Format:</strong> Computer-based multiple choice</li>
  <li><strong>Sections:</strong> Jurisprudence, Infection Control, Radiology</li>
  <li><strong>Passing Score:</strong> Check current TSBDE requirements</li>
  <li><strong>Retake Policy:</strong> Review TSBDE guidelines for retake waiting periods</li>
  </ul>
- </div>
+ </section>
 
  <h3 style="color: var(--blue-primary); margin: 20px 0 14px;">Professional Organizations</h3>
 
  <div class="resource-grid">
- <a href="https://www.danb.org/" target="_blank" class="resource-link">
- <div class="resource-icon">⭐</div>
+ <a href="https://www.danb.org/" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="DANB - Dental Assisting National Board - National certification info - Opens in new window">
+ <div class="resource-icon" aria-hidden="true">⭐</div>
  <div class="resource-info">
  <h4>DANB</h4>
  <p>Dental Assisting National Board - National certification info</p>
  </div>
  </a>
- <a href="https://www.ada.org/" target="_blank" class="resource-link">
- <div class="resource-icon">🦷</div>
+ <a href="https://www.ada.org/" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="ADA - American Dental Association - Industry standards and guidelines - Opens in new window">
+ <div class="resource-icon" aria-hidden="true">🦷</div>
  <div class="resource-info">
  <h4>ADA</h4>
  <p>American Dental Association - Industry standards and guidelines</p>
@@ -622,10 +647,12 @@
  </a>
  </div>
  </div>
+ </main>
 
- <div class="footer-note">
+ <footer class="footer-note" role="contentinfo">
  <strong>Remember:</strong> This resource hub is your starting point. Bookmark pages you find helpful, and return here whenever you need to find study materials or official information. Your externship supervisor can also point you to additional resources specific to your practice setting.
- </div>
+ </footer>
+
  </div>
 
  <script>
@@ -633,18 +660,48 @@
  const tabs = document.querySelectorAll('.tab');
  const panels = document.querySelectorAll('.panel');
 
- tabs.forEach(tab => {
- tab.addEventListener('click', () => {
+ function activateTab(tab) {
  // Deselect all tabs
- tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+ tabs.forEach(t => {
+ t.setAttribute('aria-selected', 'false');
+ t.setAttribute('tabindex', '-1');
+ });
  // Hide all panels
  panels.forEach(p => p.classList.remove('active'));
 
  // Select clicked tab
  tab.setAttribute('aria-selected', 'true');
+ tab.setAttribute('tabindex', '0');
+ tab.focus();
  // Show corresponding panel
  const panelId = tab.getAttribute('aria-controls');
  document.getElementById(panelId).classList.add('active');
+ }
+
+ tabs.forEach(tab => {
+ tab.addEventListener('click', () => {
+ activateTab(tab);
+ });
+
+ // Keyboard navigation for tabs
+ tab.addEventListener('keydown', (e) => {
+ let index = Array.from(tabs).indexOf(tab);
+
+ if (e.key === 'ArrowRight') {
+ e.preventDefault();
+ index = (index + 1) % tabs.length;
+ activateTab(tabs[index]);
+ } else if (e.key === 'ArrowLeft') {
+ e.preventDefault();
+ index = (index - 1 + tabs.length) % tabs.length;
+ activateTab(tabs[index]);
+ } else if (e.key === 'Home') {
+ e.preventDefault();
+ activateTab(tabs[0]);
+ } else if (e.key === 'End') {
+ e.preventDefault();
+ activateTab(tabs[tabs.length - 1]);
+ }
  });
  });
 

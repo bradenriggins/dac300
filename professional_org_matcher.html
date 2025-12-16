@@ -270,6 +270,28 @@
             transform: translateY(-2px);
         }
 
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .option-card:focus {
+            outline: 3px solid #507ABB;
+            outline-offset: 2px;
+        }
+
+        .restart-btn:focus {
+            outline: 3px solid #507ABB;
+            outline-offset: 2px;
+        }
+
         @media (max-width: 640px) {
             body {
                 padding: 12px;
@@ -304,40 +326,41 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header class="header">
             <h1>Find Your Professional Organization</h1>
             <p>Answer a few questions to discover which organizations best fit your needs</p>
-        </div>
+        </header>
 
-        <div class="quiz-container">
-            <div class="progress-indicator">
-                <div class="progress-dot active" data-step="1"></div>
-                <div class="progress-dot" data-step="2"></div>
-                <div class="progress-dot" data-step="3"></div>
-                <div class="progress-dot" data-step="4"></div>
+        <main class="quiz-container" role="main">
+            <div class="progress-indicator" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" aria-label="Question progress">
+                <span class="sr-only">Question 1 of 4</span>
+                <div class="progress-dot active" data-step="1" aria-label="Question 1 active"></div>
+                <div class="progress-dot" data-step="2" aria-label="Question 2 not started"></div>
+                <div class="progress-dot" data-step="3" aria-label="Question 3 not started"></div>
+                <div class="progress-dot" data-step="4" aria-label="Question 4 not started"></div>
             </div>
 
             <!-- Question 1 -->
-            <div class="question-slide active" data-question="1">
-                <div class="question-text">What's your primary goal for joining a professional organization?</div>
-                <div class="options-grid">
-                    <div class="option-card" data-value="certification" data-danb="3" data-adaa="1" data-tda="1">
-                        <div class="option-icon">🏆</div>
+            <div class="question-slide active" data-question="1" role="region" aria-labelledby="question-1-text">
+                <h2 id="question-1-text" class="question-text">What's your primary goal for joining a professional organization?</h2>
+                <div class="options-grid" role="group" aria-label="Answer options">
+                    <div class="option-card" data-value="certification" data-danb="3" data-adaa="1" data-tda="1" role="button" tabindex="0" aria-label="National Certification - Earn credentials recognized across states">
+                        <div class="option-icon" aria-hidden="true">🏆</div>
                         <div class="option-label">National Certification</div>
                         <div class="option-desc">Earn credentials recognized across states</div>
                     </div>
-                    <div class="option-card" data-value="networking" data-danb="1" data-adaa="3" data-tda="2">
-                        <div class="option-icon">🤝</div>
+                    <div class="option-card" data-value="networking" data-danb="1" data-adaa="3" data-tda="2" role="button" tabindex="0" aria-label="Networking - Connect with other dental assistants">
+                        <div class="option-icon" aria-hidden="true">🤝</div>
                         <div class="option-label">Networking</div>
                         <div class="option-desc">Connect with other dental assistants</div>
                     </div>
-                    <div class="option-card" data-value="ce" data-danb="2" data-adaa="2" data-tda="3">
-                        <div class="option-icon">📚</div>
+                    <div class="option-card" data-value="ce" data-danb="2" data-adaa="2" data-tda="3" role="button" tabindex="0" aria-label="Continuing Education - Access quality CE courses and resources">
+                        <div class="option-icon" aria-hidden="true">📚</div>
                         <div class="option-label">Continuing Education</div>
                         <div class="option-desc">Access quality CE courses and resources</div>
                     </div>
-                    <div class="option-card" data-value="local" data-danb="1" data-adaa="2" data-tda="3">
-                        <div class="option-icon">📍</div>
+                    <div class="option-card" data-value="local" data-danb="1" data-adaa="2" data-tda="3" role="button" tabindex="0" aria-label="Local Resources - Texas-specific info and events">
+                        <div class="option-icon" aria-hidden="true">📍</div>
                         <div class="option-label">Local Resources</div>
                         <div class="option-desc">Texas-specific info and events</div>
                     </div>
@@ -345,26 +368,26 @@
             </div>
 
             <!-- Question 2 -->
-            <div class="question-slide" data-question="2">
-                <div class="question-text">How do you prefer to learn?</div>
-                <div class="options-grid">
-                    <div class="option-card" data-value="online" data-danb="3" data-adaa="2" data-tda="2">
-                        <div class="option-icon">💻</div>
+            <div class="question-slide" data-question="2" role="region" aria-labelledby="question-2-text">
+                <h2 id="question-2-text" class="question-text">How do you prefer to learn?</h2>
+                <div class="options-grid" role="group" aria-label="Answer options">
+                    <div class="option-card" data-value="online" data-danb="3" data-adaa="2" data-tda="2" role="button" tabindex="0" aria-label="Online Courses - Self-paced webinars and modules">
+                        <div class="option-icon" aria-hidden="true">💻</div>
                         <div class="option-label">Online Courses</div>
                         <div class="option-desc">Self-paced webinars and modules</div>
                     </div>
-                    <div class="option-card" data-value="conference" data-danb="2" data-adaa="3" data-tda="3">
-                        <div class="option-icon">🎤</div>
+                    <div class="option-card" data-value="conference" data-danb="2" data-adaa="3" data-tda="3" role="button" tabindex="0" aria-label="Conferences - In-person events and workshops">
+                        <div class="option-icon" aria-hidden="true">🎤</div>
                         <div class="option-label">Conferences</div>
                         <div class="option-desc">In-person events and workshops</div>
                     </div>
-                    <div class="option-card" data-value="publications" data-danb="2" data-adaa="3" data-tda="1">
-                        <div class="option-icon">📰</div>
+                    <div class="option-card" data-value="publications" data-danb="2" data-adaa="3" data-tda="1" role="button" tabindex="0" aria-label="Publications - Journals and newsletters">
+                        <div class="option-icon" aria-hidden="true">📰</div>
                         <div class="option-label">Publications</div>
                         <div class="option-desc">Journals and newsletters</div>
                     </div>
-                    <div class="option-card" data-value="mixed" data-danb="2" data-adaa="2" data-tda="2">
-                        <div class="option-icon">🔄</div>
+                    <div class="option-card" data-value="mixed" data-danb="2" data-adaa="2" data-tda="2" role="button" tabindex="0" aria-label="Mix of Everything - Variety of learning formats">
+                        <div class="option-icon" aria-hidden="true">🔄</div>
                         <div class="option-label">Mix of Everything</div>
                         <div class="option-desc">Variety of learning formats</div>
                     </div>
@@ -372,26 +395,26 @@
             </div>
 
             <!-- Question 3 -->
-            <div class="question-slide" data-question="3">
-                <div class="question-text">What's most important to you in your career right now?</div>
-                <div class="options-grid">
-                    <div class="option-card" data-value="credentials" data-danb="3" data-adaa="1" data-tda="1">
-                        <div class="option-icon">📜</div>
+            <div class="question-slide" data-question="3" role="region" aria-labelledby="question-3-text">
+                <h2 id="question-3-text" class="question-text">What's most important to you in your career right now?</h2>
+                <div class="options-grid" role="group" aria-label="Answer options">
+                    <div class="option-card" data-value="credentials" data-danb="3" data-adaa="1" data-tda="1" role="button" tabindex="0" aria-label="Building Credentials - Adding certifications to my resume">
+                        <div class="option-icon" aria-hidden="true">📜</div>
                         <div class="option-label">Building Credentials</div>
                         <div class="option-desc">Adding certifications to my resume</div>
                     </div>
-                    <div class="option-card" data-value="community" data-danb="1" data-adaa="3" data-tda="2">
-                        <div class="option-icon">👥</div>
+                    <div class="option-card" data-value="community" data-danb="1" data-adaa="3" data-tda="2" role="button" tabindex="0" aria-label="Finding Community - Connecting with peers who understand">
+                        <div class="option-icon" aria-hidden="true">👥</div>
                         <div class="option-label">Finding Community</div>
                         <div class="option-desc">Connecting with peers who understand</div>
                     </div>
-                    <div class="option-card" data-value="advocacy" data-danb="1" data-adaa="3" data-tda="2">
-                        <div class="option-icon">📢</div>
+                    <div class="option-card" data-value="advocacy" data-danb="1" data-adaa="3" data-tda="2" role="button" tabindex="0" aria-label="Professional Voice - Advocating for the profession">
+                        <div class="option-icon" aria-hidden="true">📢</div>
                         <div class="option-label">Professional Voice</div>
                         <div class="option-desc">Advocating for the profession</div>
                     </div>
-                    <div class="option-card" data-value="laws" data-danb="1" data-adaa="1" data-tda="3">
-                        <div class="option-icon">⚖️</div>
+                    <div class="option-card" data-value="laws" data-danb="1" data-adaa="1" data-tda="3" role="button" tabindex="0" aria-label="Staying Current on Laws - Texas regulations and updates">
+                        <div class="option-icon" aria-hidden="true">⚖️</div>
                         <div class="option-label">Staying Current on Laws</div>
                         <div class="option-desc">Texas regulations and updates</div>
                     </div>
@@ -399,26 +422,26 @@
             </div>
 
             <!-- Question 4 -->
-            <div class="question-slide" data-question="4">
-                <div class="question-text">What's your budget situation for professional memberships?</div>
-                <div class="options-grid">
-                    <div class="option-card" data-value="student" data-danb="2" data-adaa="3" data-tda="2">
-                        <div class="option-icon">🎓</div>
+            <div class="question-slide" data-question="4" role="region" aria-labelledby="question-4-text">
+                <h2 id="question-4-text" class="question-text">What's your budget situation for professional memberships?</h2>
+                <div class="options-grid" role="group" aria-label="Answer options">
+                    <div class="option-card" data-value="student" data-danb="2" data-adaa="3" data-tda="2" role="button" tabindex="0" aria-label="Student Budget - Looking for student discounts">
+                        <div class="option-icon" aria-hidden="true">🎓</div>
                         <div class="option-label">Student Budget</div>
                         <div class="option-desc">Looking for student discounts</div>
                     </div>
-                    <div class="option-card" data-value="moderate" data-danb="2" data-adaa="2" data-tda="2">
-                        <div class="option-icon">💰</div>
+                    <div class="option-card" data-value="moderate" data-danb="2" data-adaa="2" data-tda="2" role="button" tabindex="0" aria-label="Moderate - Can invest in my development">
+                        <div class="option-icon" aria-hidden="true">💰</div>
                         <div class="option-label">Moderate</div>
                         <div class="option-desc">Can invest in my development</div>
                     </div>
-                    <div class="option-card" data-value="employer" data-danb="3" data-adaa="2" data-tda="2">
-                        <div class="option-icon">🏢</div>
+                    <div class="option-card" data-value="employer" data-danb="3" data-adaa="2" data-tda="2" role="button" tabindex="0" aria-label="Employer Sponsored - My practice may cover it">
+                        <div class="option-icon" aria-hidden="true">🏢</div>
                         <div class="option-label">Employer Sponsored</div>
                         <div class="option-desc">My practice may cover it</div>
                     </div>
-                    <div class="option-card" data-value="free" data-danb="1" data-adaa="1" data-tda="2">
-                        <div class="option-icon">🆓</div>
+                    <div class="option-card" data-value="free" data-danb="1" data-adaa="1" data-tda="2" role="button" tabindex="0" aria-label="Free Options First - Starting with free resources">
+                        <div class="option-icon" aria-hidden="true">🆓</div>
                         <div class="option-label">Free Options First</div>
                         <div class="option-desc">Starting with free resources</div>
                     </div>
@@ -426,19 +449,19 @@
             </div>
 
             <!-- Results -->
-            <div class="results-container">
+            <div class="results-container" role="region" aria-live="polite" aria-label="Quiz results">
                 <div class="results-header">
                     <h2>Your Organization Matches</h2>
                     <p>Based on your answers, here are your recommended professional organizations:</p>
                 </div>
 
-                <div class="org-results" id="orgResults">
+                <div class="org-results" id="orgResults" role="list">
                     <!-- Results populated by JavaScript -->
                 </div>
 
-                <button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button>
+                <button class="restart-btn" onclick="restartQuiz()" aria-label="Restart quiz to retake">Take Quiz Again</button>
             </div>
-        </div>
+        </main>
     </div>
 
     <script>
@@ -471,26 +494,42 @@
             }
         };
 
+        function handleCardSelection(card) {
+            // Add scores
+            scores.danb += parseInt(card.dataset.danb) || 0;
+            scores.adaa += parseInt(card.dataset.adaa) || 0;
+            scores.tda += parseInt(card.dataset.tda) || 0;
+
+            // Mark current dot as completed
+            dots[currentQuestion - 1].classList.remove('active');
+            dots[currentQuestion - 1].classList.add('completed');
+
+            // Update aria-label for the completed dot
+            dots[currentQuestion - 1].setAttribute('aria-label', `Question ${currentQuestion} completed`);
+
+            // Move to next question or show results
+            if (currentQuestion < 4) {
+                currentQuestion++;
+                updateSlide();
+            } else {
+                showResults();
+            }
+
+            postHeight();
+        }
+
         document.querySelectorAll('.option-card').forEach(card => {
+            // Click handler
             card.addEventListener('click', function() {
-                // Add scores
-                scores.danb += parseInt(this.dataset.danb) || 0;
-                scores.adaa += parseInt(this.dataset.adaa) || 0;
-                scores.tda += parseInt(this.dataset.tda) || 0;
+                handleCardSelection(this);
+            });
 
-                // Mark current dot as completed
-                dots[currentQuestion - 1].classList.remove('active');
-                dots[currentQuestion - 1].classList.add('completed');
-
-                // Move to next question or show results
-                if (currentQuestion < 4) {
-                    currentQuestion++;
-                    updateSlide();
-                } else {
-                    showResults();
+            // Keyboard handler for Enter and Space
+            card.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleCardSelection(this);
                 }
-
-                postHeight();
             });
         });
 
@@ -501,10 +540,20 @@
             dots.forEach((dot, index) => {
                 if (index === currentQuestion - 1) {
                     dot.classList.add('active');
+                    if (!dot.classList.contains('completed')) {
+                        dot.setAttribute('aria-label', `Question ${index + 1} active`);
+                    }
                 } else {
                     dot.classList.remove('active');
                 }
             });
+
+            // Update progress bar aria attributes
+            const progressIndicator = document.querySelector('.progress-indicator');
+            progressIndicator.setAttribute('aria-valuenow', currentQuestion);
+
+            const srOnly = progressIndicator.querySelector('.sr-only');
+            srOnly.textContent = `Question ${currentQuestion} of 4`;
         }
 
         function showResults() {
@@ -521,16 +570,16 @@
                 const isTopMatch = index === 0;
 
                 return `
-                    <div class="org-card ${isTopMatch ? 'top-match' : ''}">
-                        <div class="org-rank">${index + 1}</div>
+                    <div class="org-card ${isTopMatch ? 'top-match' : ''}" role="listitem" aria-label="${isTopMatch ? 'Best match: ' : 'Match ' + (index + 1) + ': '}${org.name}">
+                        <div class="org-rank" aria-hidden="true">${index + 1}</div>
                         <div class="org-info">
                             <div class="org-name">${org.name}</div>
                             <div class="org-tagline">${org.tagline}</div>
-                            <div class="org-benefits">
-                                ${org.benefits.map(b => `<span class="benefit-tag">${b}</span>`).join('')}
+                            <div class="org-benefits" role="list" aria-label="Benefits">
+                                ${org.benefits.map(b => `<span class="benefit-tag" role="listitem">${b}</span>`).join('')}
                             </div>
                         </div>
-                        ${isTopMatch ? '<span class="match-badge">Best Match</span>' : ''}
+                        ${isTopMatch ? '<span class="match-badge" aria-label="This is your best match">Best Match</span>' : ''}
                     </div>
                 `;
             }).join('');
@@ -542,12 +591,19 @@
             currentQuestion = 1;
             scores = { danb: 0, adaa: 0, tda: 0 };
 
-            document.querySelector('.progress-indicator').style.display = 'flex';
+            const progressIndicator = document.querySelector('.progress-indicator');
+            progressIndicator.style.display = 'flex';
+            progressIndicator.setAttribute('aria-valuenow', 1);
             resultsContainer.classList.remove('active');
 
             dots.forEach((dot, index) => {
                 dot.classList.remove('completed', 'active');
-                if (index === 0) dot.classList.add('active');
+                if (index === 0) {
+                    dot.classList.add('active');
+                    dot.setAttribute('aria-label', 'Question 1 active');
+                } else {
+                    dot.setAttribute('aria-label', `Question ${index + 1} not started`);
+                }
             });
 
             updateSlide();

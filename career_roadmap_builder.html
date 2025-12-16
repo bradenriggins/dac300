@@ -660,29 +660,29 @@
                 </div>
 
                 <div class="milestone" data-milestone="start">
-                    <div class="milestone-marker" id="marker-start">
+                    <div class="milestone-marker" id="marker-start" aria-label="Starting point milestone">
                         <span aria-hidden="true">&#x1F4CD;</span>
                     </div>
                     <div class="milestone-label">Starting Point</div>
                 </div>
 
                 <div class="milestone" data-milestone="mile1">
-                    <div class="milestone-marker" id="marker-mile1">1</div>
+                    <div class="milestone-marker" id="marker-mile1" aria-label="3 months milestone">1</div>
                     <div class="milestone-label">3 Months</div>
                 </div>
 
                 <div class="milestone" data-milestone="mile2">
-                    <div class="milestone-marker" id="marker-mile2">2</div>
+                    <div class="milestone-marker" id="marker-mile2" aria-label="1 year milestone">2</div>
                     <div class="milestone-label">1 Year</div>
                 </div>
 
                 <div class="milestone" data-milestone="mile3">
-                    <div class="milestone-marker" id="marker-mile3">3</div>
+                    <div class="milestone-marker" id="marker-mile3" aria-label="3 years milestone">3</div>
                     <div class="milestone-label">3 Years</div>
                 </div>
 
                 <div class="milestone" data-milestone="destination">
-                    <div class="milestone-marker" id="marker-destination">
+                    <div class="milestone-marker" id="marker-destination" aria-label="Destination 5 plus years milestone">
                         <span aria-hidden="true">&#x1F3C6;</span>
                     </div>
                     <div class="milestone-label">5+ Years</div>
@@ -691,11 +691,12 @@
         </div>
 
         <!-- Starting Point Section -->
-        <section class="section-card" id="section-start" data-section="start">
+        <main>
+        <section class="section-card" id="section-start" data-section="start" aria-labelledby="section-title-start">
             <div class="section-header">
                 <div class="section-icon" aria-hidden="true">&#x1F4CD;</div>
                 <div class="section-title-group">
-                    <h2 class="section-title">Starting Point</h2>
+                    <h2 class="section-title" id="section-title-start">Starting Point</h2>
                     <p class="section-subtitle">Where you are today</p>
                 </div>
             </div>
@@ -744,11 +745,11 @@
         </section>
 
         <!-- Mile Marker 1: 3 Months -->
-        <section class="section-card" id="section-mile1" data-section="mile1">
+        <section class="section-card" id="section-mile1" data-section="mile1" aria-labelledby="section-title-mile1">
             <div class="section-header">
                 <div class="section-icon" aria-hidden="true">1</div>
                 <div class="section-title-group">
-                    <h2 class="section-title">Mile Marker 1: 3 Months</h2>
+                    <h2 class="section-title" id="section-title-mile1">Mile Marker 1: 3 Months</h2>
                     <p class="section-subtitle">RDA certification and immediate goals</p>
                 </div>
             </div>
@@ -825,11 +826,11 @@
         </section>
 
         <!-- Mile Marker 2: 1 Year -->
-        <section class="section-card" id="section-mile2" data-section="mile2">
+        <section class="section-card" id="section-mile2" data-section="mile2" aria-labelledby="section-title-mile2">
             <div class="section-header">
                 <div class="section-icon" aria-hidden="true">2</div>
                 <div class="section-title-group">
-                    <h2 class="section-title">Mile Marker 2: 1 Year</h2>
+                    <h2 class="section-title" id="section-title-mile2">Mile Marker 2: 1 Year</h2>
                     <p class="section-subtitle">First job and gaining experience</p>
                 </div>
             </div>
@@ -906,11 +907,11 @@
         </section>
 
         <!-- Mile Marker 3: 3 Years -->
-        <section class="section-card" id="section-mile3" data-section="mile3">
+        <section class="section-card" id="section-mile3" data-section="mile3" aria-labelledby="section-title-mile3">
             <div class="section-header">
                 <div class="section-icon" aria-hidden="true">3</div>
                 <div class="section-title-group">
-                    <h2 class="section-title">Mile Marker 3: 3 Years</h2>
+                    <h2 class="section-title" id="section-title-mile3">Mile Marker 3: 3 Years</h2>
                     <p class="section-subtitle">Career development and specialization</p>
                 </div>
             </div>
@@ -987,11 +988,11 @@
         </section>
 
         <!-- Destination: 5+ Years -->
-        <section class="section-card" id="section-destination" data-section="destination">
+        <section class="section-card" id="section-destination" data-section="destination" aria-labelledby="section-title-destination">
             <div class="section-header">
                 <div class="section-icon" aria-hidden="true">&#x1F3C6;</div>
                 <div class="section-title-group">
-                    <h2 class="section-title">Destination: 5+ Years</h2>
+                    <h2 class="section-title" id="section-title-destination">Destination: 5+ Years</h2>
                     <p class="section-subtitle">Your long-term vision</p>
                 </div>
             </div>
@@ -1066,6 +1067,7 @@
                 </div>
             </div>
         </section>
+        </main>
 
         <!-- Action Buttons -->
         <div class="action-buttons" role="group" aria-label="Roadmap actions">
@@ -1090,12 +1092,12 @@
             <div class="modal-header">
                 <h2 id="modalTitle">Clear Your Roadmap?</h2>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="modalBody">
                 <p>Are you sure you want to clear all your roadmap data? This action cannot be undone.</p>
             </div>
             <div class="modal-actions">
-                <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmClearBtn">Yes, Clear Everything</button>
+                <button type="button" class="btn btn-outline" id="cancelBtn" aria-label="Cancel and close modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmClearBtn" aria-label="Confirm clear all roadmap data">Yes, Clear Everything</button>
             </div>
         </div>
     </div>
@@ -1778,12 +1780,41 @@
         // Show clear confirmation modal
         function showClearModal() {
             confirmModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Setup focus trap
+            const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+            const modalContent = document.querySelector('.modal-content');
+            const focusableElements = modalContent.querySelectorAll(focusableSelectors);
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            // Trap focus
+            const trapFocus = (e) => {
+                if (e.key !== 'Tab') return;
+                if (e.shiftKey) {
+                    if (document.activeElement === firstElement) {
+                        lastElement.focus();
+                        e.preventDefault();
+                    }
+                } else {
+                    if (document.activeElement === lastElement) {
+                        firstElement.focus();
+                        e.preventDefault();
+                    }
+                }
+            };
+
+            modalContent.addEventListener('keydown', trapFocus);
+            confirmModal.dataset.trapListener = 'active';
+
             document.getElementById('confirmClearBtn').focus();
         }
 
         // Hide clear confirmation modal
         function hideClearModal() {
             confirmModal.classList.remove('active');
+            document.body.style.overflow = '';
             document.getElementById('clearBtn').focus();
         }
 

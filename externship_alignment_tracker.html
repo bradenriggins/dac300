@@ -362,6 +362,39 @@
       border-color: var(--blue-secondary);
     }
 
+    .btn:focus {
+      outline: 3px solid var(--blue-primary);
+      outline-offset: 2px;
+    }
+
+    .notes-btn:focus {
+      outline: 3px solid var(--blue-secondary);
+      outline-offset: 2px;
+    }
+
+    .checkbox-wrap input[type="checkbox"]:focus {
+      outline: 3px solid var(--blue-primary);
+      outline-offset: 2px;
+    }
+
+    .notes-area textarea:focus {
+      outline: 3px solid var(--blue-secondary);
+      outline-offset: 2px;
+      border-color: var(--blue-secondary);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     /* Footer */
     .footer-note {
       margin-top: 20px;
@@ -390,52 +423,52 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="header">
+    <header class="header" role="banner">
       <h1>Externship Practice Opportunities</h1>
       <p>Connect your clinical experience with exam preparation</p>
-    </div>
+    </header>
 
-    <div class="intro-card">
-      <h3>Make the Most of Your Externship</h3>
+    <section class="intro-card" aria-labelledby="intro-heading">
+      <h3 id="intro-heading">Make the Most of Your Externship</h3>
       <p>Your externship is the perfect opportunity to see exam concepts in action. Use this tracker to identify practice opportunities and build confidence through real-world experience. Check off items as you observe or practice them during your externship.</p>
-    </div>
+    </section>
 
     <!-- Progress Section -->
-    <div class="progress-section">
+    <section class="progress-section" aria-labelledby="progress-heading">
       <div class="progress-header">
-        <h3>Your Progress</h3>
-        <span class="progress-pct" id="progressPct">0%</span>
+        <h3 id="progress-heading">Your Progress</h3>
+        <span class="progress-pct" id="progressPct" aria-live="polite">0%</span>
       </div>
-      <div class="progress-bar">
+      <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Overall progress">
         <div class="progress-fill" id="progressFill" style="width: 0%"></div>
       </div>
-      <div class="progress-domains">
-        <div class="progress-domain">
-          <div class="count" id="jurCount">0/5</div>
+      <div class="progress-domains" role="list" aria-label="Progress by domain">
+        <div class="progress-domain" role="listitem">
+          <div class="count" id="jurCount" aria-label="Jurisprudence progress">0/5</div>
           <div class="label">Jurisprudence</div>
         </div>
-        <div class="progress-domain">
-          <div class="count" id="infCount">0/6</div>
+        <div class="progress-domain" role="listitem">
+          <div class="count" id="infCount" aria-label="Infection Control progress">0/6</div>
           <div class="label">Infection Control</div>
         </div>
-        <div class="progress-domain">
-          <div class="count" id="radCount">0/5</div>
+        <div class="progress-domain" role="listitem">
+          <div class="count" id="radCount" aria-label="Radiology progress">0/5</div>
           <div class="label">Radiology</div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="tip-box">
+    <aside class="tip-box" role="note" aria-label="Usage instructions">
       <strong>How to Use:</strong> Check the box when you've observed or practiced each skill. Click "Add Notes" to record specific examples or questions to follow up on.
-    </div>
+    </aside>
 
     <!-- Jurisprudence Section -->
-    <div class="domain-section" data-domain="jur">
+    <section class="domain-section" data-domain="jur" aria-labelledby="jur-heading">
       <div class="domain-header jurisprudence">
-        <h3>Jurisprudence Opportunities</h3>
-        <span class="domain-badge" id="jurBadge">0 of 5</span>
+        <h3 id="jur-heading">Jurisprudence Opportunities</h3>
+        <span class="domain-badge" id="jurBadge" aria-live="polite">0 of 5</span>
       </div>
-      <ul class="opportunity-list">
+      <ul class="opportunity-list" role="list">
         <li class="opportunity-item" data-id="jur1">
           <div class="checkbox-wrap">
             <input type="checkbox" id="jur1" aria-label="Observe scope of practice boundaries">
@@ -448,10 +481,11 @@
               <span class="mini-tag ask">Ask Questions</span>
             </div>
             <div class="notes-area" id="notes-jur1">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-jur1" class="sr-only">Notes for Observe Scope of Practice Boundaries</label>
+              <textarea id="textarea-jur1" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('jur1')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('jur1')" aria-expanded="false" aria-controls="notes-jur1">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="jur2">
           <div class="checkbox-wrap">
@@ -464,10 +498,11 @@
               <span class="mini-tag observe">Observe</span>
             </div>
             <div class="notes-area" id="notes-jur2">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-jur2" class="sr-only">Notes for Review Patient Consent Processes</label>
+              <textarea id="textarea-jur2" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('jur2')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('jur2')" aria-expanded="false" aria-controls="notes-jur2">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="jur3">
           <div class="checkbox-wrap">
@@ -481,10 +516,11 @@
               <span class="mini-tag ask">Ask Questions</span>
             </div>
             <div class="notes-area" id="notes-jur3">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-jur3" class="sr-only">Notes for Observe Record Keeping Practices</label>
+              <textarea id="textarea-jur3" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('jur3')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('jur3')" aria-expanded="false" aria-controls="notes-jur3">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="jur4">
           <div class="checkbox-wrap">
@@ -497,10 +533,11 @@
               <span class="mini-tag ask">Ask Questions</span>
             </div>
             <div class="notes-area" id="notes-jur4">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-jur4" class="sr-only">Notes for Ask About HIPAA Compliance</label>
+              <textarea id="textarea-jur4" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('jur4')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('jur4')" aria-expanded="false" aria-controls="notes-jur4">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="jur5">
           <div class="checkbox-wrap">
@@ -513,21 +550,22 @@
               <span class="mini-tag ask">Ask Questions</span>
             </div>
             <div class="notes-area" id="notes-jur5">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-jur5" class="sr-only">Notes for Learn About CE Requirements</label>
+              <textarea id="textarea-jur5" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('jur5')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('jur5')" aria-expanded="false" aria-controls="notes-jur5">Add Notes</button>
         </li>
       </ul>
-    </div>
+    </section>
 
     <!-- Infection Control Section -->
-    <div class="domain-section" data-domain="inf">
+    <section class="domain-section" data-domain="inf" aria-labelledby="inf-heading">
       <div class="domain-header infection">
-        <h3>Infection Control Opportunities</h3>
-        <span class="domain-badge" id="infBadge">0 of 6</span>
+        <h3 id="inf-heading">Infection Control Opportunities</h3>
+        <span class="domain-badge" id="infBadge" aria-live="polite">0 of 6</span>
       </div>
-      <ul class="opportunity-list">
+      <ul class="opportunity-list" role="list">
         <li class="opportunity-item" data-id="inf1">
           <div class="checkbox-wrap">
             <input type="checkbox" id="inf1" aria-label="Practice PPE donning and doffing">
@@ -539,10 +577,11 @@
               <span class="mini-tag practice">Hands-On Practice</span>
             </div>
             <div class="notes-area" id="notes-inf1">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-inf1" class="sr-only">Notes for Practice PPE Donning and Doffing</label>
+              <textarea id="textarea-inf1" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('inf1')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('inf1')" aria-expanded="false" aria-controls="notes-inf1">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="inf2">
           <div class="checkbox-wrap">
@@ -556,10 +595,11 @@
               <span class="mini-tag observe">Observe</span>
             </div>
             <div class="notes-area" id="notes-inf2">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-inf2" class="sr-only">Notes for Walk Through Instrument Sterilization</label>
+              <textarea id="textarea-inf2" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('inf2')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('inf2')" aria-expanded="false" aria-controls="notes-inf2">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="inf3">
           <div class="checkbox-wrap">
@@ -573,10 +613,11 @@
               <span class="mini-tag practice">Hands-On Practice</span>
             </div>
             <div class="notes-area" id="notes-inf3">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-inf3" class="sr-only">Notes for Observe Operatory Turnover</label>
+              <textarea id="textarea-inf3" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('inf3')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('inf3')" aria-expanded="false" aria-controls="notes-inf3">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="inf4">
           <div class="checkbox-wrap">
@@ -590,10 +631,11 @@
               <span class="mini-tag ask">Ask Questions</span>
             </div>
             <div class="notes-area" id="notes-inf4">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-inf4" class="sr-only">Notes for Review Sharps Handling Protocol</label>
+              <textarea id="textarea-inf4" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('inf4')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('inf4')" aria-expanded="false" aria-controls="notes-inf4">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="inf5">
           <div class="checkbox-wrap">
@@ -607,10 +649,11 @@
               <span class="mini-tag observe">Observe</span>
             </div>
             <div class="notes-area" id="notes-inf5">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-inf5" class="sr-only">Notes for Check Sterilization Monitoring</label>
+              <textarea id="textarea-inf5" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('inf5')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('inf5')" aria-expanded="false" aria-controls="notes-inf5">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="inf6">
           <div class="checkbox-wrap">
@@ -623,21 +666,22 @@
               <span class="mini-tag practice">Hands-On Practice</span>
             </div>
             <div class="notes-area" id="notes-inf6">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-inf6" class="sr-only">Notes for Practice Hand Hygiene Technique</label>
+              <textarea id="textarea-inf6" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('inf6')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('inf6')" aria-expanded="false" aria-controls="notes-inf6">Add Notes</button>
         </li>
       </ul>
-    </div>
+    </section>
 
     <!-- Radiology Section -->
-    <div class="domain-section" data-domain="rad">
+    <section class="domain-section" data-domain="rad" aria-labelledby="rad-heading">
       <div class="domain-header radiology">
-        <h3>Radiology Opportunities</h3>
-        <span class="domain-badge" id="radBadge">0 of 5</span>
+        <h3 id="rad-heading">Radiology Opportunities</h3>
+        <span class="domain-badge" id="radBadge" aria-live="polite">0 of 5</span>
       </div>
-      <ul class="opportunity-list">
+      <ul class="opportunity-list" role="list">
         <li class="opportunity-item" data-id="rad1">
           <div class="checkbox-wrap">
             <input type="checkbox" id="rad1" aria-label="Observe patient positioning">
@@ -649,10 +693,11 @@
               <span class="mini-tag observe">Observe</span>
             </div>
             <div class="notes-area" id="notes-rad1">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-rad1" class="sr-only">Notes for Observe Patient Positioning</label>
+              <textarea id="textarea-rad1" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('rad1')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('rad1')" aria-expanded="false" aria-controls="notes-rad1">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="rad2">
           <div class="checkbox-wrap">
@@ -666,10 +711,11 @@
               <span class="mini-tag ask">Ask Questions</span>
             </div>
             <div class="notes-area" id="notes-rad2">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-rad2" class="sr-only">Notes for Review Radiation Safety Practices</label>
+              <textarea id="textarea-rad2" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('rad2')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('rad2')" aria-expanded="false" aria-controls="notes-rad2">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="rad3">
           <div class="checkbox-wrap">
@@ -683,10 +729,11 @@
               <span class="mini-tag observe">Observe</span>
             </div>
             <div class="notes-area" id="notes-rad3">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-rad3" class="sr-only">Notes for Explore Digital Imaging Software</label>
+              <textarea id="textarea-rad3" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('rad3')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('rad3')" aria-expanded="false" aria-controls="notes-rad3">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="rad4">
           <div class="checkbox-wrap">
@@ -700,10 +747,11 @@
               <span class="mini-tag ask">Ask Questions</span>
             </div>
             <div class="notes-area" id="notes-rad4">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-rad4" class="sr-only">Notes for Identify Anatomical Landmarks</label>
+              <textarea id="textarea-rad4" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('rad4')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('rad4')" aria-expanded="false" aria-controls="notes-rad4">Add Notes</button>
         </li>
         <li class="opportunity-item" data-id="rad5">
           <div class="checkbox-wrap">
@@ -717,20 +765,21 @@
               <span class="mini-tag observe">Observe</span>
             </div>
             <div class="notes-area" id="notes-rad5">
-              <textarea placeholder="Your notes..."></textarea>
+              <label for="textarea-rad5" class="sr-only">Notes for Learn About Common Errors</label>
+              <textarea id="textarea-rad5" placeholder="Your notes..."></textarea>
             </div>
           </div>
-          <button class="notes-btn" onclick="toggleNotes('rad5')">Add Notes</button>
+          <button class="notes-btn" onclick="toggleNotes('rad5')" aria-expanded="false" aria-controls="notes-rad5">Add Notes</button>
         </li>
       </ul>
+    </section>
+
+    <div class="actions" role="group" aria-label="Action buttons">
+      <button class="btn" id="exportBtn" aria-label="Export your progress to a text file">Export Progress</button>
+      <button class="btn secondary" id="resetBtn" aria-label="Reset all progress and notes">Reset All</button>
     </div>
 
-    <div class="actions">
-      <button class="btn" id="exportBtn">Export Progress</button>
-      <button class="btn secondary" id="resetBtn">Reset All</button>
-    </div>
-
-    <div class="footer-note">
+    <aside class="footer-note" role="note">
       <strong>Remember:</strong> Your externship supervisor is a valuable resource. Don't hesitate to ask questions! Most dental professionals are happy to explain what they're doing and why. Your curiosity shows professionalism and eagerness to learn.
     </div>
   </div>
@@ -746,7 +795,11 @@
 
     function toggleNotes(id) {
       const area = document.getElementById('notes-' + id);
-      area.classList.toggle('show');
+      const button = document.querySelector(`button[aria-controls="notes-${id}"]`);
+      const isExpanded = area.classList.toggle('show');
+      if (button) {
+        button.setAttribute('aria-expanded', isExpanded);
+      }
       postHeight();
     }
 
@@ -776,6 +829,12 @@
       const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
       document.getElementById('progressPct').textContent = pct + '%';
       document.getElementById('progressFill').style.width = pct + '%';
+
+      // Update progressbar aria attributes
+      const progressBar = document.querySelector('.progress-bar');
+      if (progressBar) {
+        progressBar.setAttribute('aria-valuenow', pct);
+      }
 
       document.getElementById('jurCount').textContent = counts.jur.checked + '/' + counts.jur.total;
       document.getElementById('infCount').textContent = counts.inf.checked + '/' + counts.inf.total;

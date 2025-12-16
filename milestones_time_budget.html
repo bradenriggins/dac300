@@ -433,247 +433,269 @@
  grid-template-columns: 1fr;
  }
  }
+
+ /* Screen reader only text */
+ .sr-only {
+ position: absolute;
+ width: 1px;
+ height: 1px;
+ padding: 0;
+ margin: -1px;
+ overflow: hidden;
+ clip: rect(0, 0, 0, 0);
+ white-space: nowrap;
+ border: 0;
+ }
  </style>
 </head>
 <body>
  <div class="wrap">
- <div class="header">
+ <header class="header" role="banner">
  <h1>Week 1 Milestones & Time Budget</h1>
  <p>Plan your study time and track your progress</p>
- </div>
+ </header>
 
- <hr class="divider">
+ <hr class="divider" role="separator">
 
  <!-- Milestones Track -->
- <h3 class="section-header">
- <span class="icon">🎯</span>
+ <h2 class="section-header">
+ <span class="icon" role="img" aria-label="Target">🎯</span>
  Week 1 Milestones
- </h3>
+ </h2>
 
- <div class="milestone-track">
- <div class="milestone complete" data-milestone="1">
- <div class="milestone-dot">✓</div>
+ <nav class="milestone-track" role="navigation" aria-label="Week 1 milestone progress">
+ <div class="milestone complete" data-milestone="1" role="button" tabindex="0" aria-label="Milestone 1.1 Overview - Completed">
+ <div class="milestone-dot" aria-hidden="true">✓</div>
  <div class="milestone-label">1.1 Overview</div>
  </div>
- <div class="milestone complete" data-milestone="2">
- <div class="milestone-dot">✓</div>
+ <div class="milestone complete" data-milestone="2" role="button" tabindex="0" aria-label="Milestone 1.2 Introduction - Completed">
+ <div class="milestone-dot" aria-hidden="true">✓</div>
  <div class="milestone-label">1.2 Introduction</div>
  </div>
- <div class="milestone complete" data-milestone="3">
- <div class="milestone-dot">✓</div>
+ <div class="milestone complete" data-milestone="3" role="button" tabindex="0" aria-label="Milestone 1.3 Self-Assessment - Completed">
+ <div class="milestone-dot" aria-hidden="true">✓</div>
  <div class="milestone-label">1.3 Self-Assessment</div>
  </div>
- <div class="milestone complete" data-milestone="4">
- <div class="milestone-dot">✓</div>
+ <div class="milestone complete" data-milestone="4" role="button" tabindex="0" aria-label="Milestone 1.4 RYG Plan - Completed">
+ <div class="milestone-dot" aria-hidden="true">✓</div>
  <div class="milestone-label">1.4 RYG Plan</div>
  </div>
- <div class="milestone complete" data-milestone="5">
- <div class="milestone-dot">✓</div>
+ <div class="milestone complete" data-milestone="5" role="button" tabindex="0" aria-label="Milestone 1.5 Resource Hub - Completed">
+ <div class="milestone-dot" aria-hidden="true">✓</div>
  <div class="milestone-label">1.5 Resource Hub</div>
  </div>
- <div class="milestone complete" data-milestone="6">
- <div class="milestone-dot">✓</div>
+ <div class="milestone complete" data-milestone="6" role="button" tabindex="0" aria-label="Milestone 1.6 Externship - Completed">
+ <div class="milestone-dot" aria-hidden="true">✓</div>
  <div class="milestone-label">1.6 Externship</div>
  </div>
- <div class="milestone current" data-milestone="7">
- <div class="milestone-dot">7</div>
+ <div class="milestone current" data-milestone="7" role="button" tabindex="0" aria-label="Milestone 1.7 Time Budget - Current" aria-current="step">
+ <div class="milestone-dot" aria-hidden="true">7</div>
  <div class="milestone-label">1.7 Time Budget</div>
  </div>
- <div class="milestone" data-milestone="8">
- <div class="milestone-dot">8</div>
+ <div class="milestone" data-milestone="8" role="button" tabindex="0" aria-label="Milestone 1.8 Checklist - Not started">
+ <div class="milestone-dot" aria-hidden="true">8</div>
  <div class="milestone-label">1.8 Checklist</div>
  </div>
- </div>
+ </nav>
 
  <div class="tip-box">
  <strong>Almost there!</strong> You've completed the self-assessment, created your RYG micro-plan, explored resources, and connected your externship to exam prep. Now set your time budget and you'll be ready to wrap up Week 1!
  </div>
 
- <hr class="divider orange">
+ <hr class="divider orange" role="separator">
 
  <!-- Time Budget Calculator -->
- <h3 class="section-header">
- <span class="icon">⏰</span>
+ <h2 class="section-header">
+ <span class="icon" role="img" aria-label="Clock">⏰</span>
  Time Budget Calculator
- </h3>
+ </h2>
 
- <div class="card">
- <h3>Your Available Study Time</h3>
+ <main role="main">
+ <section class="card" aria-labelledby="time-calc-heading">
+ <h3 id="time-calc-heading">Your Available Study Time</h3>
  <p style="color: var(--muted); margin-bottom: 16px;">Enter your typical weekly schedule to calculate how much time you can dedicate to exam prep alongside your externship.</p>
 
+ <form aria-label="Time budget calculator">
  <div class="time-input-group">
  <div>
  <label for="externshipHours">Externship hours per week</label>
- <div class="hint">Your clinical training hours</div>
+ <div class="hint" id="externship-hint">Your clinical training hours</div>
  </div>
  <div class="time-input">
- <input type="number" id="externshipHours" value="20" min="0" max="60">
- <span>hrs</span>
+ <input type="number" id="externshipHours" value="20" min="0" max="60" aria-describedby="externship-hint">
+ <span aria-hidden="true">hrs</span>
+ <span class="sr-only">hours per week</span>
  </div>
  </div>
 
  <div class="time-input-group">
  <div>
  <label for="workHours">Work/job hours per week</label>
- <div class="hint">Outside employment</div>
+ <div class="hint" id="work-hint">Outside employment</div>
  </div>
  <div class="time-input">
- <input type="number" id="workHours" value="0" min="0" max="60">
- <span>hrs</span>
+ <input type="number" id="workHours" value="0" min="0" max="60" aria-describedby="work-hint">
+ <span aria-hidden="true">hrs</span>
+ <span class="sr-only">hours per week</span>
  </div>
  </div>
 
  <div class="time-input-group">
  <div>
  <label for="familyHours">Family/personal commitments</label>
- <div class="hint">Caregiving, appointments, etc.</div>
+ <div class="hint" id="family-hint">Caregiving, appointments, etc.</div>
  </div>
  <div class="time-input">
- <input type="number" id="familyHours" value="10" min="0" max="60">
- <span>hrs</span>
+ <input type="number" id="familyHours" value="10" min="0" max="60" aria-describedby="family-hint">
+ <span aria-hidden="true">hrs</span>
+ <span class="sr-only">hours per week</span>
  </div>
  </div>
 
  <div class="time-input-group">
  <div>
  <label for="sleepHours">Sleep per night</label>
- <div class="hint">Recommended: 7-9 hours</div>
+ <div class="hint" id="sleep-hint">Recommended: 7-9 hours</div>
  </div>
  <div class="time-input">
- <input type="number" id="sleepHours" value="7" min="4" max="12">
- <span>hrs</span>
+ <input type="number" id="sleepHours" value="7" min="4" max="12" aria-describedby="sleep-hint">
+ <span aria-hidden="true">hrs</span>
+ <span class="sr-only">hours per night</span>
  </div>
  </div>
- </div>
+ </form>
+ </section>
 
- <div class="budget-results" id="budgetResults">
- <h3>Your Study Budget</h3>
+ <section class="budget-results" id="budgetResults" aria-labelledby="budget-heading" aria-live="polite">
+ <h3 id="budget-heading">Your Study Budget</h3>
  <div class="budget-grid">
  <div class="budget-item">
- <div class="value" id="totalAvailable">--</div>
+ <div class="value" id="totalAvailable" aria-label="Total available hours per week">--</div>
  <div class="label">Total available hrs/week</div>
  </div>
  <div class="budget-item">
- <div class="value" id="studyTime">--</div>
+ <div class="value" id="studyTime" aria-label="Suggested study hours">--</div>
  <div class="label">Suggested study hrs</div>
  </div>
  <div class="budget-item">
- <div class="value" id="dailyStudy">--</div>
+ <div class="value" id="dailyStudy" aria-label="Per day average">--</div>
  <div class="label">Per day (avg)</div>
  </div>
  </div>
- <div class="budget-warning" id="budgetMessage"></div>
- </div>
+ <div class="budget-warning" id="budgetMessage" role="status"></div>
+ </section>
 
- <hr class="divider orange">
+ <hr class="divider orange" role="separator">
 
  <!-- Suggested Schedule -->
- <h3 class="section-header">
- <span class="icon">📅</span>
+ <h2 class="section-header">
+ <span class="icon" role="img" aria-label="Calendar">📅</span>
  Suggested Weekly Schedule
- </h3>
+ </h2>
 
- <div class="card">
- <h3>DAC 300 Week 1 Activities</h3>
+ <section class="card" aria-labelledby="schedule-heading">
+ <h3 id="schedule-heading">DAC 300 Week 1 Activities</h3>
  <p style="color: var(--muted); margin-bottom: 16px;">Here's a suggested breakdown of activities for Week 1. Adjust based on your personal schedule.</p>
 
- <div class="schedule-grid">
- <div class="schedule-day">
- <div class="day-name">Day 1</div>
- <div class="activity">1.1 Overview + 1.2 Introduction and Expectations</div>
- <div class="time">~20 min</div>
+ <div class="schedule-grid" role="table" aria-label="Weekly schedule">
+ <div class="schedule-day" role="row">
+ <div class="day-name" role="rowheader">Day 1</div>
+ <div class="activity" role="cell">1.1 Overview + 1.2 Introduction and Expectations</div>
+ <div class="time" role="cell">~20 min</div>
  </div>
- <div class="schedule-day">
- <div class="day-name">Day 2</div>
- <div class="activity">1.3 Self-Assessment: Texas RDA Exam Readiness</div>
- <div class="time">~15 min</div>
+ <div class="schedule-day" role="row">
+ <div class="day-name" role="rowheader">Day 2</div>
+ <div class="activity" role="cell">1.3 Self-Assessment: Texas RDA Exam Readiness</div>
+ <div class="time" role="cell">~15 min</div>
  </div>
- <div class="schedule-day">
- <div class="day-name">Day 3</div>
- <div class="activity">1.4 Activity: RYG (Red, Yellow, Green) Micro-Plan</div>
- <div class="time">~20 min</div>
+ <div class="schedule-day" role="row">
+ <div class="day-name" role="rowheader">Day 3</div>
+ <div class="activity" role="cell">1.4 Activity: RYG (Red, Yellow, Green) Micro-Plan</div>
+ <div class="time" role="cell">~20 min</div>
  </div>
- <div class="schedule-day">
- <div class="day-name">Day 4</div>
- <div class="activity">1.5 Resource Hub: Certification Domains and Study Aids</div>
- <div class="time">~15 min</div>
+ <div class="schedule-day" role="row">
+ <div class="day-name" role="rowheader">Day 4</div>
+ <div class="activity" role="cell">1.5 Resource Hub: Certification Domains and Study Aids</div>
+ <div class="time" role="cell">~15 min</div>
  </div>
- <div class="schedule-day">
- <div class="day-name">Day 5</div>
- <div class="activity">1.6 Externship Alignment: On-site Opportunities</div>
- <div class="time">~15 min</div>
+ <div class="schedule-day" role="row">
+ <div class="day-name" role="rowheader">Day 5</div>
+ <div class="activity" role="cell">1.6 Externship Alignment: On-site Opportunities</div>
+ <div class="time" role="cell">~15 min</div>
  </div>
- <div class="schedule-day">
- <div class="day-name">Day 6-7</div>
- <div class="activity">1.7 Time Budget + 1.8 Weekly Checklist</div>
- <div class="time">~20 min</div>
+ <div class="schedule-day" role="row">
+ <div class="day-name" role="rowheader">Day 6-7</div>
+ <div class="activity" role="cell">1.7 Time Budget + 1.8 Weekly Checklist</div>
+ <div class="time" role="cell">~20 min</div>
  </div>
  </div>
 
  <p style="margin-top: 16px; font-size: 0.9rem; color: var(--muted);"><strong>Total estimated time:</strong> ~105 minutes (1 hour 45 min) for Week 1 course activities</p>
- </div>
+ </section>
 
- <hr class="divider orange">
+ <hr class="divider orange" role="separator">
 
  <!-- Week 1 Checklist -->
- <h3 class="section-header">
- <span class="icon">✅</span>
+ <h2 class="section-header">
+ <span class="icon" role="img" aria-label="Checkmark">✅</span>
  Week 1 Task Checklist
- </h3>
+ </h2>
 
- <div class="card">
- <ul class="checklist" id="checklist">
+ <section class="card" aria-labelledby="checklist-heading">
+ <h3 id="checklist-heading" class="sr-only">Week 1 task checklist</h3>
+ <ul class="checklist" id="checklist" role="list">
  <li>
- <input type="checkbox" id="task1" aria-label="Complete 1.1 Week 1 Overview">
+ <input type="checkbox" id="task1">
  <label for="task1" class="task-text">1.1 Week 1 Overview</label>
- <span class="task-time">~5 min</span>
+ <span class="task-time" aria-label="Estimated time: 5 minutes">~5 min</span>
  </li>
  <li>
- <input type="checkbox" id="task2" aria-label="Complete 1.2 Course Introduction and Expectations">
+ <input type="checkbox" id="task2">
  <label for="task2" class="task-text">1.2 Course Introduction and Expectations</label>
- <span class="task-time">~10 min</span>
+ <span class="task-time" aria-label="Estimated time: 10 minutes">~10 min</span>
  </li>
  <li>
- <input type="checkbox" id="task3" aria-label="Complete 1.3 Self-Assessment: Texas RDA Exam Readiness">
+ <input type="checkbox" id="task3">
  <label for="task3" class="task-text">1.3 Self-Assessment: Texas RDA Exam Readiness</label>
- <span class="task-time">~15 min</span>
+ <span class="task-time" aria-label="Estimated time: 15 minutes">~15 min</span>
  </li>
  <li>
- <input type="checkbox" id="task4" aria-label="Complete 1.4 Activity: RYG Micro-Plan">
+ <input type="checkbox" id="task4">
  <label for="task4" class="task-text">1.4 Activity: RYG (Red, Yellow, Green) Micro-Plan</label>
- <span class="task-time">~20 min</span>
+ <span class="task-time" aria-label="Estimated time: 20 minutes">~20 min</span>
  </li>
  <li>
- <input type="checkbox" id="task5" aria-label="Complete 1.5 Resource Hub">
+ <input type="checkbox" id="task5">
  <label for="task5" class="task-text">1.5 Resource Hub: Certification Domains and Study Aids</label>
- <span class="task-time">~15 min</span>
+ <span class="task-time" aria-label="Estimated time: 15 minutes">~15 min</span>
  </li>
  <li>
- <input type="checkbox" id="task6" aria-label="Complete 1.6 Externship Alignment">
+ <input type="checkbox" id="task6">
  <label for="task6" class="task-text">1.6 Externship Alignment: On-site Opportunities for Practice</label>
- <span class="task-time">~15 min</span>
+ <span class="task-time" aria-label="Estimated time: 15 minutes">~15 min</span>
  </li>
  <li>
- <input type="checkbox" id="task7" aria-label="Complete 1.7 Time Budget calculation" checked>
+ <input type="checkbox" id="task7" checked>
  <label for="task7" class="task-text checked">1.7 Milestones and Time Budget (You are here!)</label>
- <span class="task-time">~15 min</span>
+ <span class="task-time" aria-label="Estimated time: 15 minutes">~15 min</span>
  </li>
  <li>
- <input type="checkbox" id="task8" aria-label="Complete 1.8 Weekly Checklist">
+ <input type="checkbox" id="task8">
  <label for="task8" class="task-text">1.8 Weekly Checklist</label>
- <span class="task-time">~5 min</span>
+ <span class="task-time" aria-label="Estimated time: 5 minutes">~5 min</span>
  </li>
  </ul>
- </div>
+ </section>
 
  <div class="actions">
- <button class="btn" id="exportBtn">Export My Schedule</button>
- <button class="btn secondary" id="resetBtn">Reset</button>
+ <button class="btn" id="exportBtn" aria-label="Export your schedule as a text file">Export My Schedule</button>
+ <button class="btn secondary" id="resetBtn" aria-label="Reset all time budget and checklist data">Reset</button>
  </div>
 
- <div class="footer-note">
+ <aside class="footer-note" role="note">
  <strong>Remember:</strong> This course is designed to work alongside your externship, not compete with it. The activities are intentionally low-pressure - focus on building habits and confidence rather than cramming. Consistent small efforts beat last-minute stress every time!
- </div>
+ </aside>
+ </main>
  </div>
 
  <script>
